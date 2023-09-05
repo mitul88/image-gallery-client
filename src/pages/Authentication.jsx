@@ -1,11 +1,10 @@
 import React from 'react'
-import { Link, json } from 'react-router-dom'
+import { json, redirect } from 'react-router-dom'
 import AuthForm from '../components/AuthForm'
 
 const AuthenticationPage = () => {
   return (
-    <div>
-      <Link to="/">Home</Link>
+    <div className='min-h-screen flex items-center justify-center bg-sky-950 text-white'>
       <AuthForm />
     </div>
   )
@@ -54,6 +53,8 @@ export const action = async ({request}) => {
   const expiration = new Date();
   expiration.setHours(expiration.getHours() + 1);
   localStorage.setItem('expiration', expiration.toISOString());
+
+  return redirect('/')
 }
 
 export default AuthenticationPage
