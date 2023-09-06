@@ -3,6 +3,7 @@ import HomePage from "../pages/Home";
 import RootPage from "../pages/Root";
 import AuthenticationPage, {action as authAction} from "../pages/Authentication";
 import ProfilePage from "../pages/Profile";
+import ImageDetailsPage from "../pages/ImageDetails";
 
 export const router = createBrowserRouter([
     {
@@ -17,7 +18,11 @@ export const router = createBrowserRouter([
             {
                 path: 'profile',
                 element: <ProfilePage />
-            }
+            },
+            {
+                path: 'logout',
+                element: <ImageDetailsPage />
+            },
         ]
     },
     {
