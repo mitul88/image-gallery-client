@@ -10,7 +10,10 @@ const ImageItem = () => {
             alt="" 
         />
         <div className='h-[100px] px-2'>
-            <h4 className='text-xl my-2 pointer-events-none'>Image title</h4>
+          <div className="flex flex-row justify-between items-center my-2">
+            <h4 className='text-xl pointer-events-none'>Image title</h4>
+            <p className="text-sm text-gray-400">@shahed</p>
+          </div>
             <div className="flex flex-row justify-between w-full pointer-events-none">
                 <div className='rounded-lg bg-gray-200 p-2 text-sm font-bold text-gray-500 flex flex-row items-center'><BiLike className='mr-2' /> 22</div>
                 <div className='rounded-lg bg-gray-200 p-2 text-sm font-bold text-gray-500 flex flex-row items-center'><BiCommentDetail className='mr-2' /> 8</div>
