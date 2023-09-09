@@ -8,7 +8,7 @@ const HomePage = () => {
     <div className='bg-slate-200 md:min-h-screen'>
       <HeroSection />
       <main className="container mx-auto">
-        <ImageList />
+        {/* <ImageList /> */}
       </main>
     </div>
   )
