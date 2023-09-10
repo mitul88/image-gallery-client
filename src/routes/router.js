@@ -4,6 +4,8 @@ import RootPage from "../pages/Root";
 import AuthenticationPage, {action as authAction} from "../pages/Authentication";
 import ProfilePage from "../pages/Profile";
 import ImageDetailsPage from "../pages/ImageDetails";
+import ImageGrid from "../components/ImageGrid";
+import UserInfo from "../components/UserInfo";
 
 export const router = createBrowserRouter([
     {
@@ -17,7 +19,17 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'profile',
-                element: <ProfilePage />
+                element: <ProfilePage />,
+                children: [
+                    {
+                        index: true,
+                        element: <ImageGrid />
+                    },
+                    {
+                        path: 'about',
+                        element: <UserInfo />
+                    },
+                ]
             },
             {
                 path: 'logout',

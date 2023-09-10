@@ -4,7 +4,7 @@ import { BsUpload } from "react-icons/bs";
 const ProfilePage = () => {
   return (
     <section className='bg-slate-200 pt-5 min-h-screen px-0 md:px-5 lg:px-[250px]'>
-      <div className='container mx-auto bg-white rounded-md flex flex-col'>
+      <div className='container mx-auto min-h-[800px] bg-white rounded-md flex flex-col'>
         {/* top section */}
         <div className='w-full p-5 flex flex-col md:flex-row '>
           <div className="mx-auto lg:mx-0 w-[220px] h-[220px] rounded-md">
@@ -44,12 +44,15 @@ const ProfilePage = () => {
 
           {/* bottom right */}
           <div className='mx-auto w-full lg:ml-20'>
-            <div className='w-full flex flex-row justify-around px-10 items-center border-t border-b border-gray-200 text-sm'>
-              <div className='flex flex-row justify-center items-center '>
-                <Link to="photos" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Photos</Link>
+            <div className='w-full flex flex-row px-10 items-center border-t border-b border-gray-200 text-sm'>
+              <div className='flex flex-row justify-center items-center mr-5'>
+                <Link to="" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Photos</Link>
               </div>
-              <div className='flex flex-row justify-center items-center'>
+              <div className='flex flex-row justify-center items-center mr-5'>
                 <Link to="about" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> About</Link>
+              </div>
+              <div className='flex flex-row justify-center items-center mr-5'>
+                <Link to="settings" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Settings</Link>
               </div>
             </div>
             <Outlet />
