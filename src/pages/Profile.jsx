@@ -24,7 +24,7 @@ const ProfilePage = () => {
         </div>
 
         {/* bottom section */}
-        <div className="w-full px-5 flex flex-col md:flex-row ">
+        <div className="w-full px-5 flex flex-col lg:flex-row ">
           <div className='lg:w-[250px]'>
             <div className=' mt-5'>
               <span className="text-gray-400">BIO</span> <hr className="border-[1px] text-gray-400 w-full" />
@@ -55,7 +55,9 @@ const ProfilePage = () => {
                 <Link to="settings" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Settings</Link>
               </div>
             </div>
-            <Outlet />
+            <main >
+              <Outlet />
+            </main>
           </div>
         </div>
       </div> 
