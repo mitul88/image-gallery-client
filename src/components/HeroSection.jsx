@@ -12,7 +12,7 @@ const HeroSection = () => {
                 Image <span className='text-green-500'>Gallery!</span>
             </h1>
             <h3 className="text-xl md:text-2xl text-center my-5">Image gallery helps you to showcase your photgraphy skills to the world and share your thoughts with other photographers</h3>
-            <Link className='bg-orange-500 text-white rounded-md px-5 font-bold text-sm pb-1 flex flex-row items-center'>Upload <BsUpload className='ml-2' /></Link>
+            <Link to="profile/upload" className='bg-orange-500 text-white rounded-md px-5 font-bold text-sm pb-1 flex flex-row items-center'>Upload <BsUpload className='ml-2' /></Link>
           </div>
         </div>
       </div>

@@ -6,6 +6,8 @@ import ProfilePage from "../pages/Profile";
 import ImageDetailsPage from "../pages/ImageDetails";
 import ImageGrid from "../components/ImageGrid";
 import UserInfo from "../components/UserInfo";
+import Settings from "../components/Settings";
+import UploadPhoto from "../components/UploadPhoto";
 
 export const router = createBrowserRouter([
     {
@@ -28,6 +30,14 @@ export const router = createBrowserRouter([
                     {
                         path: 'about',
                         element: <UserInfo />
+                    },
+                    {
+                        path: 'upload',
+                        element: <UploadPhoto />
+                    },
+                    {
+                        path: 'settings',
+                        element: <Settings />
                     },
                 ]
             },

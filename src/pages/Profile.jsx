@@ -19,7 +19,7 @@ const ProfilePage = () => {
             <h4 className="text-md text-blue-500 tracking-wider font-bold">Photographer</h4>
             <h4 className="text-sm text-gray-400 italic">Member since : 2022</h4>
 
-            <Link className='bg-orange-500 text-white rounded-md py-1 px-5 font-bold text-sm w-[100px] pb-1 my-5 flex flex-row items-center'>Upload<BsUpload className='ml-2' /></Link>
+            <Link to="upload" className='bg-orange-500 text-white rounded-md py-1 px-5 font-bold text-sm w-[100px] pb-1 my-5 flex flex-row items-center'>Upload<BsUpload className='ml-2' /></Link>
           </div>  
         </div>
 
@@ -44,12 +44,15 @@ const ProfilePage = () => {
 
           {/* bottom right */}
           <div className='mx-auto w-full lg:ml-20'>
-            <div className='w-full flex flex-row px-10 items-center border-t border-b border-gray-200 text-sm'>
+            <div className='w-full flex flex-row items-center border-t border-b border-gray-200 text-sm'>
               <div className='flex flex-row justify-center items-center mr-5'>
                 <Link to="" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Photos</Link>
               </div>
               <div className='flex flex-row justify-center items-center mr-5'>
                 <Link to="about" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> About</Link>
+              </div>
+              <div className='flex flex-row justify-center items-center mr-5'>
+                <Link to="upload" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Upload Photo</Link>
               </div>
               <div className='flex flex-row justify-center items-center mr-5'>
                 <Link to="settings" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Settings</Link>
