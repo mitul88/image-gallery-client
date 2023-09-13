@@ -4,10 +4,10 @@ import RootPage from "../pages/Root";
 import AuthenticationPage, {action as authAction} from "../pages/Authentication";
 import ProfilePage from "../pages/Profile";
 import ImageDetailsPage from "../pages/ImageDetails";
-import ImageGrid from "../components/ImageGrid";
-import UserInfo from "../components/UserInfo";
+import UserInfo from "../pages/UserInfo";
 import Settings from "../components/Settings";
-import UploadPhoto from "../components/UploadPhoto";
+import UploadImagePage from "../pages/UploadImage";
+import UserPhotoPage from "../pages/UserPhoto";
 
 export const router = createBrowserRouter([
     {
@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <ImageGrid />
+                        element: <UserPhotoPage />
                     },
                     {
                         path: 'about',
@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: 'upload',
-                        element: <UploadPhoto />
+                        element: <UploadImagePage />
                     },
                     {
                         path: 'settings',
