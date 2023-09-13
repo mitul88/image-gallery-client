@@ -9,8 +9,11 @@ const ImageUploader = ({onFileSelect}) => {
   
   return (
     <div>
-        <input type="file" onChange={handleFileInput} />
-        <button onClick={e => fileInput.current && fileInput.current.click()} className="">Upload</button>
+        <input
+          className='border border-gray-200 w-full rounded-md mb-3' 
+          type="file" 
+          onChange={handleFileInput} />
+        {/* <button onClick={e => fileInput.current && fileInput.current.click()} className="">Upload</button> */}
     </div>
   )
 }

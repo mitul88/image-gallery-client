@@ -17,21 +17,23 @@ const UploadImagePage = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-xl">Upload your image</h2>
+    <div className='m-5 w-96'>
+      <h2 className="text-xl text-center">Upload your image</h2>
       <form onSubmit={submitForm}>
-        <div>
+        <div className='flex flex-col'>
           <label htmlFor="image-title">Title</label>
-          <input 
+          <input
+            className='border border-gray-300 rounded-md px-5 py-2 w-full mb-3' 
             type="text" 
             id="image-title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div>
+        <div className='flex flex-col'>
           <label htmlFor="image-desc">Description</label>
-          <textarea 
+          <textarea
+            className='border border-gray-300 rounded-md px-5 py-2 w-full mb-3'  
             type="text" 
             id="image-desc"
             value={description}
@@ -39,7 +41,7 @@ const UploadImagePage = () => {
           ></textarea>
         </div>
         <ImageUploader onFileSelect={(file)=> setSelectedFile(file)} />
-        <button type='submit'>Add Photo</button>
+        <button type='submit' className='bg-orange-400 text-white rounded-md px-5 py-1'>Add Photo</button>
       </form>
     </div>
   )
