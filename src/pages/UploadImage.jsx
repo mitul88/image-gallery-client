@@ -17,7 +17,7 @@ const UploadImagePage = () => {
   };
 
   return (
-    <div className='m-5 w-96'>
+    <div className='m-5 p-5 w-96 shadow-md shadow-gray-200'>
       <h2 className="text-xl text-center">Upload your image</h2>
       <form onSubmit={submitForm}>
         <div className='flex flex-col'>
