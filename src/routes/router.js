@@ -5,7 +5,7 @@ import AuthenticationPage, {action as authAction} from "../pages/Authentication"
 import ProfilePage from "../pages/Profile";
 import ImageDetailsPage from "../pages/ImageDetails";
 import UserInfo from "../pages/UserInfo";
-import Settings from "../components/Settings";
+import Settings from "../pages/Settings";
 import UploadImagePage from "../pages/UploadImage";
 import UserPhotoPage from "../pages/UserPhoto";
 
