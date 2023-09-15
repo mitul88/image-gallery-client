@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ImageItem from '../components/ImageItem'
 import { BiLike, BiCommentDetail } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import CommentsListSection from '../components/CommentsList';
 
 const ImageDetailsPage = () => {
+  const [showCommentForm, setShowCommentForm] = useState(false);
+
+  const toggleCommentForm = () => {
+    setShowCommentForm(!showCommentForm);
+  }
+
   return (
     <section className='bg-slate-200 md:min-h-screen md:py-2 px-5'>
       <div className='container mx-auto md:mt-3 lg:h-[700px] flex flex-col lg:flex-row md:gap-5'>
@@ -35,12 +41,15 @@ const ImageDetailsPage = () => {
               <Link className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'><BiLike className='mr-2' /> Like</Link>
             </div>
             <div className='flex flex-row justify-center items-center'>
-              <Link className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'><BiCommentDetail className='mr-5' /> Comment</Link>
+              <Link 
+                className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'
+                onClick={toggleCommentForm}  
+              ><BiCommentDetail className='mr-5' /> Comment</Link>
             </div>
           </div>
 
           <div className="pl-5 pt-5">
-            <CommentsListSection />
+            <CommentsListSection toggleCommentForm={toggleCommentForm} showCommentForm={showCommentForm} />
           </div>
         </div>
       </div>
