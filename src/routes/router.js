@@ -8,12 +8,15 @@ import UserInfo from "../pages/UserInfo";
 import Settings from "../pages/Settings";
 import UploadImagePage from "../pages/UploadImage";
 import UserPhotoPage from "../pages/UserPhoto";
+import { loadToken } from "../utils/auth";
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <RootPage />,
         errorElement: <p>Error Occured</p>,
+        id: 'root',
+        loader: loadToken,
         children: [
             {
                 index: true,

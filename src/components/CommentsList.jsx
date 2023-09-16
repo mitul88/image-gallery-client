@@ -5,7 +5,7 @@ const CommentsListSection = ({showCommentForm, toggleCommentForm}) => {
   return (
     <div className='w-full max-h-[400px] overflow-x-hidden overflow-y-auto'>
         {showCommentForm && (
-            <div className="mr-3 mb-2">
+            <div className="mr-5 mb-2">
                 <CommentForm toggleCommentForm={toggleCommentForm} />
             </div>
         )}
