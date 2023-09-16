@@ -8,7 +8,8 @@ import UserInfo from "../pages/UserInfo";
 import Settings from "../pages/Settings";
 import UploadImagePage from "../pages/UploadImage";
 import UserPhotoPage from "../pages/UserPhoto";
-import { loadToken } from "../utils/auth";
+import { checkAuthLoader, loadToken } from "../utils/auth";
+import { action as logoutAction } from "../pages/Logout";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
             {
                 path: 'profile',
                 element: <ProfilePage />,
+                loader: checkAuthLoader,
                 children: [
                     {
                         index: true,
@@ -45,8 +47,12 @@ export const router = createBrowserRouter([
                 ]
             },
             {
-                path: 'logout',
+                path: 'image',
                 element: <ImageDetailsPage />
+            },
+            {
+                path: 'logout',
+                action: logoutAction
             },
         ]
     },
