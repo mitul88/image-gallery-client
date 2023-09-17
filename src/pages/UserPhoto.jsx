@@ -1,5 +1,5 @@
-import React from 'react'
-import ImageGrid from '../components/ImageGrid'
+import React from 'react';
+import ImageGrid from '../components/profile/ImageGrid';
 
 const UserPhotoPage = () => {
   return (
