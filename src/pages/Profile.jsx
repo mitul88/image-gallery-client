@@ -1,8 +1,11 @@
-import { Link, Outlet, useRouteLoaderData } from 'react-router-dom';
+import { Link, Outlet, useParams, useRouteLoaderData } from 'react-router-dom';
 
 
 const ProfilePage = () => {
   const token = useRouteLoaderData('root');
+
+  const params = useParams('userId')
+  console.log(params.userId)
 
   return (
     <section className='bg-slate-200 pt-5 min-h-screen px-0 md:px-5 lg:px-[250px]'>
