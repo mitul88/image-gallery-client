@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Link, useRouteLoaderData } from 'react-router-dom';
-import { LuLogOut } from "react-icons/lu";
 import jwtDecode from 'jwt-decode';
+import { BiLogInCircle, BiPowerOff } from "react-icons/bi";
 
 
 const MainNavigation = () => {
@@ -12,7 +12,9 @@ const MainNavigation = () => {
   
   return (
     <header className='w-full h-[80px] bg-sky-950 text-white flex justify-between items-center px-[80px]'>
-      <div className='text-2xl font-bold'>Image Gallery</div>
+      <Link to="/" className='text-2xl font-bold'>
+      Image <span className='text-green-500'>Gallery!</span>
+      </Link>
       <nav className={`flex justify-${token ? 'between' : 'end'} items-center min-w-[350px]`} style={{fontFamily: 'Quicksand'}}>
         {token && <Link to='/'>Home</Link>}
         {token && <Link to={`${decoded._id}/profile`}>Profile</Link>}
@@ -21,11 +23,11 @@ const MainNavigation = () => {
           <Form action='/logout' method='post'>
             <button 
               to='/logout'
-              className='flex flex-row items-center px-5 py-1 rounded-lg bg-red-600 md:shadow-md md:shadow-red-950  ease-in duration-150 hover:bg-red-700 tracking-wide text-md'
-            ><LuLogOut className='mr-2' />Logout</button></Form> 
+              className='flex flex-row items-center px-5 py-1 rounded-lg bg-red-600 md:shadow-md md:shadow-red-950  ease-in duration-150 hover:bg-red-700 hover:shadow-none  tracking-wide text-md'
+            ><BiPowerOff className='mr-2' />Logout</button></Form> 
             : <Link to='auth?mode=login'  
-                className='px-5 py-1 rounded-lg bg-sky-900 md:shadow-lg md:shadow-gray-900 border border-sky-900 ease-in duration-150 hover:bg-sky-900/75 tracking-widest text-lg'
-              >Signin</Link>
+                className='flex flex-row items-center px-5 py-1 rounded-lg bg-sky-900 md:shadow-lg md:shadow-gray-900 border border-sky-900 ease-in duration-150 hover:bg-sky-900/75 hover:shadow-none tracking-widest text-lg'
+              ><BiLogInCircle className='mr-2' />Signin</Link>
         }
       </nav>
     </header>

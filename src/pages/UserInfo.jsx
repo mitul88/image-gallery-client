@@ -5,7 +5,7 @@ import { FaBirthdayCake } from "react-icons/fa";
 
 const UserInfo = () => {
   return (
-    <div className='flex flex-col justify-between min-h-[200px] w-96 shadow-md shadow-gray-200  m-5 p-5'>
+    <div className='flex flex-col justify-between min-h-[200px] w-96 shadow-md shadow-gray-200  m-5 p-5' style={{fontFamily: 'Quicksand'}}>
       <div className='flex flex-row items-center text-gray-600'>
         <MdWork />
         <div>
