@@ -14,15 +14,14 @@ export const fetchRepositories = async (page=1) => {
 
 export async function fetchUser({ id, signal }) {
     const response = await fetch(`http://localhost:4000/api/user/${id}`, { signal });
-  
     if (!response.ok) {
       const error = new Error('An error occurred while fetching the user');
       error.code = response.status;
       error.info = await response.json();
       throw error;
     }
+
+    const { data } = await response.json();
   
-    const { event } = await response.json();
-  
-    return event;
+    return data;
   }

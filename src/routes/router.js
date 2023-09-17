@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/Home";
 import RootPage from "../pages/Root";
 import AuthenticationPage, {action as authAction} from "../pages/Authentication";
-import ProfilePage from "../pages/Profile";
+import ProfilePage, {loader as profileLoader} from "../pages/Profile";
 import ImageDetailsPage from "../pages/ImageDetails";
 import UserInfo from "../pages/UserInfo";
 import Settings from "../pages/Settings";
@@ -26,6 +26,8 @@ export const router = createBrowserRouter([
             {
                 path: ':userId/profile',
                 element: <ProfilePage />,
+                id:"user",
+                loader: profileLoader,
                 children: [
                     {
                         index: true,

@@ -8,7 +8,11 @@ const MainNavigation = () => {
   const token = useRouteLoaderData('root');
   
   let decoded;
-  if (token) decoded = jwtDecode(token);
+  if (token){
+    if(token != "EXPIRED") {
+      decoded = jwtDecode(token)
+    }
+  };
   
   return (
     <header className='w-full h-[80px] bg-sky-950 text-white flex justify-between items-center px-[80px]'>
@@ -17,7 +21,7 @@ const MainNavigation = () => {
       </Link>
       <nav className={`flex justify-${token ? 'between' : 'end'} items-center min-w-[350px]`} style={{fontFamily: 'Quicksand'}}>
         {token && <Link to='/'>Home</Link>}
-        {token && <Link to={`${decoded._id}/profile`}>Profile</Link>}
+        {token && <Link to={`${decoded?._id}/profile`}>Profile</Link>}
         {token && <Link to='/image'>Image</Link>}
         {token ? 
           <Form action='/logout' method='post'>
