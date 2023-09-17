@@ -1,7 +1,9 @@
-import { Link, Outlet } from 'react-router-dom';
-import { BsUpload } from "react-icons/bs";
+import { Link, Outlet, useRouteLoaderData } from 'react-router-dom';
+
 
 const ProfilePage = () => {
+  const token = useRouteLoaderData('root');
+
   return (
     <section className='bg-slate-200 pt-5 min-h-screen px-0 md:px-5 lg:px-[250px]'>
       <div className='container mx-auto min-h-[800px] bg-white rounded-md flex flex-col'>
@@ -18,8 +20,15 @@ const ProfilePage = () => {
             <h1 className="text-3xl font-bold leading-loose">Shahed Rahman</h1>
             <h4 className="text-md text-blue-500 tracking-wider font-bold">Photographer</h4>
             <h4 className="text-sm text-gray-400 italic">Member since : 2022</h4>
-
-            <Link to="upload" className='bg-orange-500 text-white rounded-md py-1 px-5 font-bold text-sm w-[100px] pb-1 my-5 flex flex-row items-center'>Upload<BsUpload className='ml-2' /></Link>
+            {token && (
+              <Link to="upload" 
+                className='bg-orange-600 shadow shadow-sky-950 shadow-md ease-in duration-150 hover:shadow-none text-white rounded-md py-1 px-5 font-semibold text-sm w-[100px] pb-1 my-5 flex flex-row items-center'
+                style={{fontFamily: 'Quicksand'}}
+              > 
+                Upload
+              </Link>
+             )
+            }
           </div>  
         </div>
 
@@ -51,12 +60,18 @@ const ProfilePage = () => {
               <div className='flex flex-row justify-center items-center mr-5'>
                 <Link to="about" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> About</Link>
               </div>
-              <div className='flex flex-row justify-center items-center mr-5'>
-                <Link to="upload" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Upload Photo</Link>
-              </div>
-              <div className='flex flex-row justify-center items-center mr-5'>
-                <Link to="settings" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Settings</Link>
-              </div>
+              {token && (
+                <div className='flex flex-row justify-center items-center mr-5'>
+                  <Link to="upload" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Upload Photo</Link>
+                </div>
+                )
+              }
+              {token && (
+                <div className='flex flex-row justify-center items-center mr-5'>
+                  <Link to="settings" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Settings</Link>
+                </div>
+                )
+              }   
             </div>
             <main >
               <Outlet />

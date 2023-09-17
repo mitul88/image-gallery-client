@@ -26,7 +26,6 @@ export const router = createBrowserRouter([
             {
                 path: 'profile',
                 element: <ProfilePage />,
-                loader: checkAuthLoader,
                 children: [
                     {
                         index: true,
@@ -38,11 +37,13 @@ export const router = createBrowserRouter([
                     },
                     {
                         path: 'upload',
-                        element: <UploadImagePage />
+                        element: <UploadImagePage />,
+                        loader: checkAuthLoader,
                     },
                     {
                         path: 'settings',
-                        element: <Settings />
+                        element: <Settings />,
+                        loader: checkAuthLoader,
                     },
                 ]
             },
