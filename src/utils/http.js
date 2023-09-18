@@ -5,11 +5,28 @@ export const queryClient = new QueryClient({
 });
 
 export const fetchRepositories = async (page=1) => {
-    console.log(page)
     const response = await fetch( 
         `https://api.github.com/search/repositories?q=topic:reactjs&per_page=30&page=${page}`
      )
      return response.json()
+}
+
+export const fetchImages = async (page=1, limit, category, user ) => {
+  console.log(user)
+  let url = `http://localhost:4000/api/image/`;
+
+  if(category && user && limit) {
+    url += '?category' + category + '&user=' + user;
+  } else if (category) {
+    url += '?category=' + category;
+  } else if (user) {
+    url += '?user=' + user;
+  } else if (limit) {
+    url += '?limit=' + limit;
+  }
+
+  const response = await fetch( url )
+   return response.json()
 }
 
 export async function fetchUser({ id, signal }) {

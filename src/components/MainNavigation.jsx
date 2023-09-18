@@ -9,7 +9,7 @@ const MainNavigation = () => {
   
   let decoded;
   if (token){
-    if(token != "EXPIRED") {
+    if(token !== "EXPIRED") {
       decoded = jwtDecode(token)
     }
   };
