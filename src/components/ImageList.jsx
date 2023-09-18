@@ -5,10 +5,9 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchImages } from '../utils/http';
 
 const ImageList = () => {
-
   const {data, hasNextPage, fetchNextPage} = useInfiniteQuery(
     {
-      queryKey: ['image'],
+      queryKey: ['images'],
       queryFn:({ pageParam = 1}) => fetchImages(pageParam),
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.data.hasNextPage ? lastPage.data.nextPage : undefined;
@@ -37,8 +36,6 @@ const ImageList = () => {
   
 
   let content;
-
-console.log(data)
 
   if(data) {
     content = (

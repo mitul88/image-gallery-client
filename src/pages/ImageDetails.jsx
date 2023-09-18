@@ -1,10 +1,20 @@
 import React, { useState } from 'react'
 import { BiLike, BiCommentDetail } from "react-icons/bi";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import CommentsListSection from '../components/imageDetails/CommentsList';
 import ImageSuggestions from '../components/imageDetails/ImageSuggestions';
+import { useQuery } from '@tanstack/react-query';
+import { fetchImage, queryClient } from '../utils/http';
 
 const ImageDetailsPage = () => {
+  const params = useParams();
+  const {data, isError, error} = useQuery({
+    queryKey: ['image-details', params.imageId],
+    queryFn: ({signal}) => fetchImage({signal, id: params.imageId})
+  })
+
+  console.log(data)
+
   const [showCommentForm, setShowCommentForm] = useState(false);
 
   const toggleCommentForm = () => {
@@ -17,21 +27,21 @@ const ImageDetailsPage = () => {
         <div className='w-full lg:w-3/4 h-full sm:rounded-md'>
           <img 
               className="h-full w-fit mx-auto sm:rounded-md" 
-              src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg" 
+              src={data.image.url} 
               alt="" 
           />
         </div>
         <div className='w-full lg:w-1/4 bg-white h-full rounded-md'>
-          <h2 className="text-3xl text-center my-5 px-5">Image Title</h2>
-          <p className="text-sm text-center tracking-widest px-5">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum sapiente ipsam consequatur perferendis temporibus vel, consequuntur quos. Error, omnis officia.</p>
+          <h2 className="text-3xl text-center my-5 px-5">{data.image.title}</h2>
+          <p className="text-sm text-center tracking-widest px-5">{data.image.desc}</p>
           
           <div className='w-full flex flex-row justify-between items-center p-5'>
             <div className='flex flex-row justify-center items-center pointer-events-none'>
               <span className='p-2 rounded-full bg-orange-600 text-white mr-2'><BiLike /></span>
-              <span className='text-gray-400'>33</span>
+              <span className='text-gray-400'>{data.likes}</span>
             </div>
             <div className='flex flex-row justify-center items-center pointer-events-none'>
-              <span className='text-gray-400'>25</span> 
+              <span className='text-gray-400'>{data.comments}</span> 
               <span className='p-2 rounded-full bg-orange-600 text-white ml-2'><BiCommentDetail /></span>
             </div>
           </div>
@@ -62,3 +72,10 @@ const ImageDetailsPage = () => {
 }
 
 export default ImageDetailsPage
+
+export const loader = ({params}) => {
+  return queryClient.fetchQuery({
+    queryKey: ['image-details', params.imageId],
+    queryFn: ({signal}) => fetchImage({signal, id: params.imageId})
+  });
+}

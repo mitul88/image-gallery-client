@@ -3,7 +3,7 @@ import HomePage from "../pages/Home";
 import RootPage from "../pages/Root";
 import AuthenticationPage, {action as authAction} from "../pages/Authentication";
 import ProfilePage, {loader as profileLoader} from "../pages/Profile";
-import ImageDetailsPage from "../pages/ImageDetails";
+import ImageDetailsPage, {loader as imageDetailsLoader} from "../pages/ImageDetails";
 import UserInfo from "../pages/UserInfo";
 import Settings from "../pages/Settings";
 import UploadImagePage from "../pages/UploadImage";
@@ -52,7 +52,8 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'image/:imageId',
-                element: <ImageDetailsPage />
+                element: <ImageDetailsPage />,
+                loader: imageDetailsLoader
             },
             {
                 path: 'logout',

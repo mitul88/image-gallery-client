@@ -11,7 +11,7 @@ export const fetchRepositories = async (page=1) => {
      return response.json()
 }
 
-export const fetchImages = async (page=1, limit, category, user ) => {
+export const fetchImages = async (page=1, limit, category, user) => {
   console.log(category)
   let url = `http://localhost:4000/api/image/?limit=12&page=${page}`;
 
@@ -29,6 +29,22 @@ export const fetchImages = async (page=1, limit, category, user ) => {
    return response.json()
 }
 
+export const fetchImage = async ({id, signal}) => {
+  const response = await fetch(`http://localhost:4000/api/image/${id}`, { signal });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while fetching the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  console.log(response.data)
+  const {data}  = await response.json();
+
+  return data;
+}
+
 export async function fetchUser({ id, signal }) {
     const response = await fetch(`http://localhost:4000/api/user/${id}`, { signal });
     if (!response.ok) {
@@ -37,7 +53,7 @@ export async function fetchUser({ id, signal }) {
       error.info = await response.json();
       throw error;
     }
-
+    
     const { data } = await response.json();
   
     return data;
