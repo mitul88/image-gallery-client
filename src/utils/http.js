@@ -39,7 +39,6 @@ export const fetchImage = async ({id, signal}) => {
     throw error;
   }
 
-  console.log(response.data)
   const {data}  = await response.json();
 
   return data;

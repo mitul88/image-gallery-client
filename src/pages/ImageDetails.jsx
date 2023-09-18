@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BiLike, BiCommentDetail } from "react-icons/bi";
-import { Link, useParams, useRouteLoaderData } from 'react-router-dom';
+import { Link, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import CommentsListSection from '../components/imageDetails/CommentsList';
 import ImageSuggestions from '../components/imageDetails/ImageSuggestions';
 import { useQuery } from '@tanstack/react-query';
@@ -9,6 +9,7 @@ import { fetchImage, queryClient } from '../utils/http';
 const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
   const params = useParams();
+  const navigate = useNavigate();
 
   const {data, isError, error} = useQuery({
     queryKey: ['image-details', params.imageId],
@@ -18,6 +19,7 @@ const ImageDetailsPage = () => {
   const [showCommentForm, setShowCommentForm] = useState(false);
 
   const toggleCommentForm = () => {
+    if(!token) navigate("/auth?mode=login")
     setShowCommentForm(!showCommentForm);
   }
 
@@ -46,19 +48,17 @@ const ImageDetailsPage = () => {
             </div>
           </div>
 
-          {token && (
-            <div className='w-full flex flex-row justify-between px-10 items-center border-t border-b border-gray-200'>
-              <div className='flex flex-row justify-center items-center '>
-                <Link className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'><BiLike className='mr-2' /> Like</Link>
-              </div>
-              <div className='flex flex-row justify-center items-center'>
-                <Link 
-                  className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'
-                  onClick={toggleCommentForm}  
-                ><BiCommentDetail className='mr-5' /> Comment</Link>
-              </div>
+          <div className='w-full flex flex-row justify-between px-10 items-center border-t border-b border-gray-200'>
+            <div className='flex flex-row justify-center items-center '>
+              <Link className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'><BiLike className='mr-2' /> Like</Link>
             </div>
-          )}
+            <div className='flex flex-row justify-center items-center'>
+              <Link 
+                className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'
+                onClick={toggleCommentForm}  
+              ><BiCommentDetail className='mr-5' /> Comment</Link>
+            </div>
+          </div>
 
           <div className="pl-5 pt-5">
             <CommentsListSection toggleCommentForm={toggleCommentForm} showCommentForm={showCommentForm} />
