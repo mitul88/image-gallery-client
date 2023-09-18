@@ -13,7 +13,7 @@ const ImageItem = ({image}) => {
               />
           <div className='h-[100px] px-2'>
             <div className="flex flex-row justify-between items-center my-2">
-              <h4 className='text-2xl tracking-widest font-bold text-gray-500  pointer-events-none'>{image.title}</h4>
+              <h4 className='text-xl tracking-widest font-bold text-gray-500  pointer-events-none'>{image.title.length > 14 ? image.title.slice(0, 14) + "..." : image.title }</h4>
               
             </div>
               <div className="flex flex-row justify-between items-center w-full pointer-events-none">

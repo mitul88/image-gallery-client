@@ -12,8 +12,8 @@ export const fetchRepositories = async (page=1) => {
 }
 
 export const fetchImages = async (page=1, limit, category, user ) => {
-  console.log(user)
-  let url = `http://localhost:4000/api/image/`;
+  console.log(category)
+  let url = `http://localhost:4000/api/image/?limit=12&page=${page}`;
 
   if(category && user && limit) {
     url += '?category' + category + '&user=' + user;

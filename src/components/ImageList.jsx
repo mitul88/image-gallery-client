@@ -9,9 +9,10 @@ const ImageList = () => {
   const {data, hasNextPage, fetchNextPage} = useInfiniteQuery(
     {
       queryKey: ['image'],
-      queryFn:({ pageParam = 1 }) => fetchImages(pageParam),
-      getNextPageParam: (lastPage, allPages) => lastPage.nextPage,
-      getPreviousPageParam: (firstPage, allPages) => firstPage.prevPage,
+      queryFn:({ pageParam = 1}) => fetchImages(pageParam),
+      getNextPageParam: (lastPage, allPages) => {
+        return lastPage.data.hasNextPage ? lastPage.data.nextPage : undefined;
+      }
     }
   );
 
@@ -20,7 +21,7 @@ const ImageList = () => {
     const onScroll = async (event) => {
       const {scrollHeight, scrollTop, clientHeight} = event.target.scrollingElement;
     
-      if(!fetching && scrollHeight - scrollTop <= clientHeight * 1.5) {
+      if(!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
         fetching = true;
         if(hasNextPage) await fetchNextPage();
         fetching = false;
