@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
                 ]
             },
             {
-                path: 'image',
+                path: 'image/:imageId',
                 element: <ImageDetailsPage />
             },
             {

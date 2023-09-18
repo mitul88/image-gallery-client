@@ -2,8 +2,7 @@ import React, { useEffect } from 'react'
 import ImageItem from './ImageItem'
 import CategoryNavigation from './CategoryNavigation'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { fetchImages } from '../utils/http'
-import ImageGridItem from './profile/ImageGridItem'
+import { fetchImages } from '../utils/http';
 
 const ImageList = () => {
 
@@ -44,7 +43,7 @@ console.log(data)
     content = (
         data.pages.map((page) => 
           page.data.docs.map((imageItem) => (
-            <ImageItem key={imageItem.id} image={imageItem}/>
+            <ImageItem key={imageItem._id} image={imageItem}/>
             )
           )
       )
