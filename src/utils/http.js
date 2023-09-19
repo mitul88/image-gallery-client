@@ -7,11 +7,11 @@ export const queryClient = new QueryClient({
 export const fetchImages = async ({pageParam=1, limit, category, user}) => {
   
   let url = `http://localhost:4000/api/image/?page=${pageParam}`;
-
+  console.log(category)
   if(category && user && limit) {
-    url += '&limit=' + limit + '&category' +  category + '&user=' + user;
+    url += '&limit=' + limit + '&category=' +  category + '&user=' + user;
   } else if(category && limit) {
-    url += '&limit=' + limit + '&category' +  category;
+    url += '&limit=' + limit + '&category=' +  category;
   } else if (category) {
     url += '&category=' + category;
   } else if (user) {
