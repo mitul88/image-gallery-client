@@ -3,7 +3,7 @@ import CommentForm from './CommentForm'
 const CommentsListSection = ({showCommentForm, toggleCommentForm}) => {
     
   return (
-    <div className='w-full max-h-[400px] overflow-x-hidden overflow-y-auto'>
+    <div className='w-full max-h-[350px] overflow-x-hidden overflow-y-auto'>
         {showCommentForm && (
             <div className="mr-5 mb-2">
                 <CommentForm toggleCommentForm={toggleCommentForm} />

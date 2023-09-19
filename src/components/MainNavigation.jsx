@@ -20,10 +20,9 @@ const MainNavigation = () => {
       <Link to="/" className='text-2xl font-bold'>
       Image <span className='text-green-500'>Gallery!</span>
       </Link>
-      <nav className={`flex justify-${token ? 'between' : 'end'} items-center min-w-[350px]`} style={{fontFamily: 'Quicksand'}}>
+      <nav className={`flex justify-${token ? 'between' : 'end'} items-center min-w-[300px]`} style={{fontFamily: 'Quicksand'}}>
         {token && <Link to='/'>Home</Link>}
         {token && <Link to={`${decoded?._id}/profile`}>Profile</Link>}
-        {token && <Link to='/image'>Image</Link>}
         {token ? 
           <Form action='/logout' method='post'>
             <button 

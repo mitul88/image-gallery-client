@@ -6,10 +6,16 @@ import ImageSuggestions from '../components/imageDetails/ImageSuggestions';
 import { useQuery } from '@tanstack/react-query';
 import { fetchImage, queryClient } from '../utils/http';
 
+import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
+
 const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
   const params = useParams();
   const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  }
 
   const {data, isError, error} = useQuery({
     queryKey: ['image-details', params.imageId],
@@ -34,6 +40,13 @@ const ImageDetailsPage = () => {
           />
         </div>
         <div className='w-full lg:w-1/4 bg-white h-full rounded-md'>
+          <div className="w-full relative">
+            <button 
+              className="absolute rounded-full bg-gray-100 w-[40px] h-[40px] top-3 left-3 p-2 text-gray-400 flex flex-col justify-center items-center"
+              onClick={goBack}
+            ><BiArrowBack /></button>
+            <button className="absolute rounded-full bg-gray-100 w-[40px] h-[40px] top-3 right-3 p-2 text-gray-400 flex flex-col justify-center items-center"><BiDotsVerticalRounded /></button>
+          </div>
           <h2 className="text-3xl text-center my-5 px-5">{data.image.title}</h2>
           <p className="text-sm text-center tracking-widest px-5">{data.image.desc}</p>
           
