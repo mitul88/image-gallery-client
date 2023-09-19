@@ -30,6 +30,7 @@ const ImageDetailsPage = () => {
   const submitComment = (formData) => {
     // sending comment data with user token
     mutate({formData, token});
+    setShowCommentForm(!showCommentForm);
   }
 
   const toggleCommentForm = () => {
@@ -83,7 +84,13 @@ const ImageDetailsPage = () => {
           )}
 
           <div className="pl-5 pt-5">
-            <CommentsListSection submitComment={submitComment} toggleCommentForm={toggleCommentForm} showCommentForm={showCommentForm} />
+            <CommentsListSection 
+              submitComment={submitComment} 
+              toggleCommentForm={toggleCommentForm} 
+              showCommentForm={showCommentForm} 
+              isCommentPending={isPending}
+              isCommentError={isCommentError}
+            />
           </div>
         </div>
       </div>

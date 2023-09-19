@@ -1,12 +1,23 @@
+import ErrorBlock from '../../ui/ErrorBlock'
 import CommentForm from './CommentForm'
-
-const CommentsListSection = ({submitComment, showCommentForm, toggleCommentForm}) => {
+                 
+const CommentsListSection = ({submitComment, showCommentForm, toggleCommentForm, isCommentPending, isCommentError}) => {
     
   return (
     <div className='w-full max-h-[400px] overflow-x-hidden overflow-y-auto'>
+        {isCommentError && (
+                <ErrorBlock
+                    title="Failed to post comment"
+                    message={isCommentError.info?.message || 'Please try again later'}
+                /> 
+        )}
         {showCommentForm && (
             <div className="mr-5 mb-2">
-                <CommentForm submitComment={submitComment} toggleCommentForm={toggleCommentForm} />
+                <CommentForm 
+                    submitComment={submitComment} 
+                    toggleCommentForm={toggleCommentForm} 
+                    isCommentPending={isCommentPending}
+                />
             </div>
         )}
         <div className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
