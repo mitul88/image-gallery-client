@@ -19,7 +19,7 @@ export const fetchCategories = async ({id, signal}) => {
 }
 
 export const fetchImages = async ({pageParam=1, limit, category, user}) => {
-  console.log('http', category)
+ 
   let url = `http://localhost:4000/api/image/?page=${pageParam}`;
   
   if(category && user && limit) {
@@ -35,7 +35,6 @@ export const fetchImages = async ({pageParam=1, limit, category, user}) => {
   }
   
   const response = await fetch( url )
-  console.log(response)
    return response.json()
 }
 
@@ -66,4 +65,26 @@ export async function fetchUser({ id, signal }) {
     const { data } = await response.json();
   
     return data;
-  }
+}
+
+export async function postComment(eventData) {
+  console.log(eventData)
+  // const response = await fetch(`http://localhost:3000/api/comment/`, {
+  //   method: 'POST',
+  //   body: JSON.stringify(eventData),
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // });
+
+  // if (!response.ok) {
+  //   const error = new Error('An error occurred while creating the event');
+  //   error.code = response.status;
+  //   error.info = await response.json();
+  //   throw error;
+  // }
+
+  // const { event } = await response.json();
+
+  // return event;
+}

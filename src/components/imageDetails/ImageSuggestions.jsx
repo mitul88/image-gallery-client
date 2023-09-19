@@ -18,7 +18,7 @@ const ImageSuggestions = ({category}) => {
 
   if(data) {
     content = data.data.docs.map(image => (
-      <ImageItem image={image} />
+      <ImageItem key={image._id} image={image} />
     ))
   }
 

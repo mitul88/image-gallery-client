@@ -1,12 +1,12 @@
 import CommentForm from './CommentForm'
 
-const CommentsListSection = ({showCommentForm, toggleCommentForm}) => {
+const CommentsListSection = ({submitComment, showCommentForm, toggleCommentForm}) => {
     
   return (
-    <div className='w-full max-h-[350px] overflow-x-hidden overflow-y-auto'>
+    <div className='w-full max-h-[400px] overflow-x-hidden overflow-y-auto'>
         {showCommentForm && (
             <div className="mr-5 mb-2">
-                <CommentForm toggleCommentForm={toggleCommentForm} />
+                <CommentForm submitComment={submitComment} toggleCommentForm={toggleCommentForm} />
             </div>
         )}
         <div className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
