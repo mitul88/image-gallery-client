@@ -4,28 +4,22 @@ export const queryClient = new QueryClient({
     defaultOptions: { queries: { suspense: true }}
 });
 
-export const fetchRepositories = async (page=1) => {
-    const response = await fetch( 
-        `https://api.github.com/search/repositories?q=topic:reactjs&per_page=30&page=${page}`
-     )
-     return response.json()
-}
-
 export const fetchImages = async ({pageParam=1, limit, category, user}) => {
-  console.log('http', category)
-  console.log('http', limit)
-  let url = `http://localhost:4000/api/image/?limit=5&page=${pageParam}`;
+  
+  let url = `http://localhost:4000/api/image/?page=${pageParam}`;
 
   if(category && user && limit) {
-    url += '?category' + category + '&user=' + user;
+    url += '&limit=' + limit + '&category' +  category + '&user=' + user;
+  } else if(category && limit) {
+    url += '&limit=' + limit + '&category' +  category;
   } else if (category) {
-    url += '?category=' + category;
+    url += '&category=' + category;
   } else if (user) {
-    url += '?user=' + user;
+    url += '&user=' + user;
   } else if (limit) {
-    url += '?limit=' + limit;
+    url += '&limit=' + limit;
   }
-
+  console.log(url)
   const response = await fetch( url )
    return response.json()
 }
