@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ImageItem from './ImageItem'
 import CategoryNavigation from './CategoryNavigation'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchImages } from '../utils/http';
 
 const ImageList = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const {data, hasNextPage, fetchNextPage} = useInfiniteQuery(
     {
       queryKey: ['images'],
@@ -31,7 +32,7 @@ const ImageList = () => {
     return () => {
       document.removeEventListener("scroll", onScroll);
     }
-  })
+  }, [])
 
   
 
