@@ -19,9 +19,9 @@ export const fetchCategories = async ({id, signal}) => {
 }
 
 export const fetchImages = async ({pageParam=1, limit, category, user}) => {
-  
+  console.log('http', category)
   let url = `http://localhost:4000/api/image/?page=${pageParam}`;
-  console.log(category)
+  
   if(category && user && limit) {
     url += '&limit=' + limit + '&category=' +  category + '&user=' + user;
   } else if(category && limit) {
@@ -33,8 +33,9 @@ export const fetchImages = async ({pageParam=1, limit, category, user}) => {
   } else if (limit) {
     url += '&limit=' + limit;
   }
-  console.log(url)
+  
   const response = await fetch( url )
+  console.log(response)
    return response.json()
 }
 

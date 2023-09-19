@@ -15,7 +15,7 @@ const ImageDetailsPage = () => {
     queryKey: ['image-details', params.imageId],
     queryFn: ({signal}) => fetchImage({signal, id: params.imageId})
   })
-
+  console.log("details",data.image.category)
   const [showCommentForm, setShowCommentForm] = useState(false);
 
   const toggleCommentForm = () => {

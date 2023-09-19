@@ -7,7 +7,6 @@ import { useLoaderData } from 'react-router';
 
 const HomePage = () => {
   const data = useLoaderData()
-  console.log(data.data)
   return (
     <div className='min-h-full bg-neutral-300  bg-gradient-to-r from-neutral-300 via-neutral-200 to-neutral-400'>
       <HeroSection />

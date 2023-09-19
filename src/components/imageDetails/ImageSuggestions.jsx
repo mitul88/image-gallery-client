@@ -6,7 +6,7 @@ import LoadingIndicator from '../../ui/LoadingIndicator'
 
 const ImageSuggestions = ({category}) => {
   const {data, isPending, isError, error} = useQuery({
-    queryKey: ["img-suggestions", {category: category, limit: 5}],
+    queryKey: ["img-suggestions", {category: category._id, limit: 5}],
     queryFn: ({signal, queryKey}) => fetchImages({signal, ...queryKey[1]})
   })
 

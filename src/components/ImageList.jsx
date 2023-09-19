@@ -2,20 +2,19 @@ import React, { useEffect, useState } from 'react'
 import ImageItem from './ImageItem'
 import CategoryNavigation from './CategoryNavigation'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { fetchCategories, fetchImages } from '../utils/http';
+import { fetchImages } from '../utils/http';
 import LoadingIndicator from '../ui/LoadingIndicator';
 import { useLocation } from 'react-router';
  
 const ImageList = ({categoryData}) => {
   const location = useLocation();
-  const searchParam = new URLSearchParams(location.search).get('category');
-  console.log(searchParam)
+  const searchParam = new URLSearchParams(location.search).get('id');
 
   const [isLoading, setIsLoading] = useState(false)
   const {data: imageData, hasNextPage, fetchNextPage, isFetchingNextPage} = useInfiniteQuery(
     {
-      queryKey: ['images', searchParam && searchParam],
-      queryFn:({ pageParam = 1}) => fetchImages({pageParam}),
+      queryKey: ['images',  {category: searchParam}],
+      queryFn:({ pageParam = 1, queryKey}) => fetchImages({pageParam, ...queryKey[1]}),
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.data.hasNextPage ? lastPage.data.nextPage : undefined;
       }
