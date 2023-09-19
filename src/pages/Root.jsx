@@ -14,7 +14,7 @@ const RootPage = () => {
   }
 
   return (
-    <div className='h-screen'>
+    <div className='min-h-screen'>
         <MainNavigation />
         <LoadingBar
           color='#f11946'

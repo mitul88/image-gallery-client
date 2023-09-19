@@ -3,13 +3,14 @@ import ImageItem from './ImageItem'
 import CategoryNavigation from './CategoryNavigation'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { fetchImages } from '../utils/http';
-
+import LoadingIndicator from '../ui/LoadingIndicator';
+ 
 const ImageList = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const {data, hasNextPage, fetchNextPage} = useInfiniteQuery(
+  const {data, hasNextPage, fetchNextPage, isFetchingNextPage} = useInfiniteQuery(
     {
       queryKey: ['images'],
-      queryFn:({ pageParam = 1}) => fetchImages(pageParam),
+      queryFn:({ pageParam = 1}) => fetchImages({pageParam}),
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.data.hasNextPage ? lastPage.data.nextPage : undefined;
       }
@@ -34,18 +35,23 @@ const ImageList = () => {
     }
   }, [])
 
-  
+  // {isFetchingNextPage && (<LoadingIndicator />)}
 
   let content;
 
   if(data) {
     content = (
-        data.pages.map((page) => 
-          page.data.docs.map((imageItem) => (
-            <ImageItem key={imageItem._id} image={imageItem}/>
+        <>
+          {
+            data.pages.map((page) => 
+              page.data.docs.map((imageItem) => (
+                <ImageItem key={imageItem._id} image={imageItem}/>
+                )
+              )
             )
-          )
-      )
+          }
+          {isFetchingNextPage && (<LoadingIndicator />)}
+        </>
     )
   }
 
