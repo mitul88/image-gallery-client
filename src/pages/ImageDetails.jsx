@@ -18,7 +18,7 @@ const ImageDetailsPage = () => {
     navigate(-1);
   }
 
-  const {data, isError, error} = useQuery({
+  const {data, isError: isImageError, error: imageError} = useQuery({
     queryKey: ['image-details', params.imageId],
     queryFn: ({signal}) => fetchImage({signal, id: params.imageId})
   })
@@ -28,8 +28,8 @@ const ImageDetailsPage = () => {
   });
   
   const submitComment = (formData) => {
-    console.log(formData)
-    mutate({event: formData});
+    // sending comment data with user token
+    mutate({formData, token});
   }
 
   const toggleCommentForm = () => {

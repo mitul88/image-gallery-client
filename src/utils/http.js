@@ -67,24 +67,31 @@ export async function fetchUser({ id, signal }) {
     return data;
 }
 
-export async function postComment(eventData) {
-  console.log(eventData)
-  // const response = await fetch(`http://localhost:3000/api/comment/`, {
-  //   method: 'POST',
-  //   body: JSON.stringify(eventData),
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // });
+export async function postComment(commentData) {
+  const formData = commentData.formData;
+  const token = commentData.token;
+  const postData = {
+    "user_comment": formData.get('user_comment'),
+    "image_id": formData.get('image_id')
+  }
 
-  // if (!response.ok) {
-  //   const error = new Error('An error occurred while creating the event');
-  //   error.code = response.status;
-  //   error.info = await response.json();
-  //   throw error;
-  // }
+  const response = await fetch(`http://localhost:4000/api/comment/`, {
+    method: 'POST',
+    body: JSON.stringify(postData),
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+  });
 
-  // const { event } = await response.json();
+  if (!response.ok) {
+    const error = new Error('An error occurred while creating the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
 
-  // return event;
+  const { data } = await response.json();
+
+  return data;
 }

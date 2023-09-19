@@ -9,9 +9,10 @@ const CommentForm = ({submitComment, toggleCommentForm}) => {
     
     const handleSubmit = e => {
         e.preventDefault()
+        if (comment === "") return;
         const data = new FormData();
-        data.append("comment", comment);
-        data.append("imageId", params.imageId);
+        data.append("user_comment", comment);
+        data.append("image_id", params.imageId);
         submitComment(data)
     }
 
@@ -20,7 +21,7 @@ const CommentForm = ({submitComment, toggleCommentForm}) => {
         <div className="mb-2 w-full flex justify-center">
             <textarea 
                 type="text"
-                name='comment' 
+                name='user_comment' 
                 className='rounded-md border border-gray-200 px-3 py-1 mx-auto w-full'
                 onChange={(e)=>setComment(e.target.value)}
             ></textarea>
@@ -28,11 +29,15 @@ const CommentForm = ({submitComment, toggleCommentForm}) => {
                 type="text" 
                 className="hidden" 
                 defaultValue={params.imageId} 
-                name='imageId'
+                name='image_id'
             />
         </div>
         <div className='w-full flex flex-row justify-around'>
-            <button className="px-3 py-1 bg-gray-100 text-gray-400 text-xs rounded-md" type="submit">Comment</button>
+            <button 
+                className="px-3 py-1 bg-gray-100 text-gray-400 text-xs rounded-md" 
+                type="submit"
+                // onClick={comment !== "" ? toggleCommentForm : null}
+            >Comment</button>
             <button className="px-3 py-1 bg-gray-100 text-gray-400 text-xs rounded-md" onClick={toggleCommentForm}>Cancel</button>
         </div>
     </form>
