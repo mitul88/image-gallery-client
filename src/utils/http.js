@@ -4,6 +4,20 @@ export const queryClient = new QueryClient({
     defaultOptions: { queries: { suspense: true }}
 });
 
+export const fetchCategories = async ({id, signal}) => {
+  const response = await fetch(`http://localhost:4000/api/category`, { signal });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while fetching the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const {data}  = await response.json();
+  return data;
+}
+
 export const fetchImages = async ({pageParam=1, limit, category, user}) => {
   
   let url = `http://localhost:4000/api/image/?page=${pageParam}`;

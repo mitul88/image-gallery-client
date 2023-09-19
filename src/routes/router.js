@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomePage from "../pages/Home";
+import HomePage, {loader as categoryLoader} from "../pages/Home";
 import RootPage from "../pages/Root";
 import AuthenticationPage, {action as authAction} from "../pages/Authentication";
 import ProfilePage, {loader as profileLoader} from "../pages/Profile";
@@ -21,7 +21,8 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <HomePage />
+                element: <HomePage />,
+                loader: categoryLoader
             },
             {
                 path: ':userId/profile',
