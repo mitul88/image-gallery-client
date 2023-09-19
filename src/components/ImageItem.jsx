@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const ImageItem = ({image}) => {
   return (
-    <Link to={`/image/${image._id}`}>
+    <Link to={`/image/${image._id}/${image.title}`}>
       <div className='rounded-md h-[300px] max-w-[300px] mx-auto bg-white flex flex-col shadow shadow-md' style={{fontFamily: "Quicksand"}}>
           <img 
               className="h-[200px] rounded-t-md object-fill saturate-100 brightness-100" 
