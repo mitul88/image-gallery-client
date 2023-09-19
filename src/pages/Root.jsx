@@ -14,13 +14,13 @@ const RootPage = () => {
   }
 
   return (
-    <div>
+    <div className='h-screen'>
         <MainNavigation />
         <LoadingBar
           color='#f11946'
           progress={progress}
         />
-        <main>
+        <main className='h-full'>
             <Outlet />
         </main>
         <Footer />
