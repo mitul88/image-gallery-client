@@ -53,7 +53,7 @@ export const fetchImage = async ({id, signal}) => {
   return data;
 }
 
-export async function fetchUser({ id, signal }) {
+export const fetchUser = async ({ id, signal }) => {
     const response = await fetch(`http://localhost:4000/api/user/${id}`, { signal });
     if (!response.ok) {
       const error = new Error('An error occurred while fetching the user');
@@ -93,5 +93,19 @@ export async function postComment(commentData) {
 
   const { data } = await response.json();
 
+  return data;
+}
+
+export const fetchComments = async ({id, signal}) => {
+  const response = await fetch(`http://localhost:4000/api/comment/image-comments/${id}`, { signal });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while fetching the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const {data}  = await response.json();
   return data;
 }
