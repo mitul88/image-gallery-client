@@ -29,13 +29,15 @@ const ImageDetailsPage = () => {
   })
 
   const {mutate, isPending, isError: isPostCommentError, error: postCommenttError } = useMutation({
-    mutationFn: postComment
+    mutationFn: postComment,
+    onSuccess: () => {
+      setShowCommentForm(!showCommentForm);
+    }
   });
 
   const submitComment = (formData) => {
     // sending comment data with user token
     mutate({formData, token});
-    setShowCommentForm(!showCommentForm);
   }
 
   const toggleCommentForm = () => {
