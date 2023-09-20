@@ -31,6 +31,7 @@ const ImageDetailsPage = () => {
   const {mutate, isPending, isError: isPostCommentError, error: postCommenttError } = useMutation({
     mutationFn: postComment,
     onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['comments']});
       setShowCommentForm(!showCommentForm);
     }
   });
@@ -72,7 +73,7 @@ const ImageDetailsPage = () => {
               <span className='text-gray-400'>{imageData.likes}</span>
             </div>
             <div className='flex flex-row justify-center items-center pointer-events-none'>
-              <span className='text-gray-400'>{imageData.comments}</span> 
+              <span className='text-gray-400'>{commentData.length}</span> 
               <span className='p-2 rounded-full bg-orange-600 text-white ml-2'><BiCommentDetail /></span>
             </div>
           </div>
