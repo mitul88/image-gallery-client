@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiLike, BiCommentDetail } from "react-icons/bi";
-import { Link, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import CommentsListSection from '../components/imageDetails/CommentsList';
 import ImageSuggestions from '../components/imageDetails/ImageSuggestions';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -27,6 +27,11 @@ const ImageDetailsPage = () => {
     queryKey: ['comments', params.imageId],
     queryFn:({signal})=> fetchComments({signal, id: params.imageId})
   })
+
+  const { pathname } = useLocation()
+  useEffect(()=> {
+    window.scrollTo(0, 0);
+  }, [pathname])
 
   const {mutate, isPending, isError: isPostCommentError, error: postCommenttError } = useMutation({
     mutationFn: postComment,
