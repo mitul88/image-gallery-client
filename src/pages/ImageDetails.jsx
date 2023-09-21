@@ -7,12 +7,15 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { fetchComments, fetchImage, fetchLikes, postComment, postLike, queryClient } from '../utils/http';
 
 import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
+import DropdownOptions from '../ui/DropdownOptions';
 
 const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
   const params = useParams();
   const navigate = useNavigate();
+  
   const [showCommentForm, setShowCommentForm] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const goBack = () => {
     navigate(-1);
@@ -77,6 +80,10 @@ const ImageDetailsPage = () => {
     setShowCommentForm(!showCommentForm);
   }
 
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown)
+  }
+
   return (
     <section className='bg-slate-200 md:min-h-screen md:py-2 px-5'>
       <div className='container mx-auto md:mt-3 lg:h-[700px] flex flex-col lg:flex-row md:gap-5'>
@@ -93,7 +100,15 @@ const ImageDetailsPage = () => {
               className="absolute rounded-full bg-gray-100 w-[40px] h-[40px] top-3 left-3 p-2 text-gray-400 flex flex-col justify-center items-center"
               onClick={goBack}
             ><BiArrowBack /></button>
-            <button className="absolute rounded-full bg-gray-100 w-[40px] h-[40px] top-3 right-3 p-2 text-gray-400 flex flex-col justify-center items-center"><BiDotsVerticalRounded /></button>
+            <button 
+              className="absolute rounded-full bg-gray-100 w-[40px] h-[40px] top-3 right-3 p-2 text-gray-400 flex flex-col justify-center items-center"
+              onClick={toggleDropdown}
+            ><BiDotsVerticalRounded /></button>
+            <DropdownOptions show={showDropdown}>
+              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm'>Edit</Link>
+              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm'>Delete</Link>
+              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm'>Report</Link>
+            </DropdownOptions>
           </div>
           <h2 className="text-3xl text-center my-5 px-5">{imageData.image.title}</h2>
           <p className="text-sm text-center tracking-widest px-5">{imageData.image.desc}</p>
