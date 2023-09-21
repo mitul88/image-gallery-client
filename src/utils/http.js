@@ -113,12 +113,14 @@ export const fetchComments = async ({id, signal}) => {
 export const postLike = async (likeData) => {
   const formData = likeData.formData;
   const token = likeData.token;
+  const method = likeData.method;
+  
   const postData = {
     "image_id": formData.get('image_id')
   }
 
   const response = await fetch(`http://localhost:4000/api/like/`, {
-    method: 'POST',
+    method: method,
     body: JSON.stringify(postData),
     headers: {
       'Content-Type': 'application/json',
@@ -138,9 +140,13 @@ export const postLike = async (likeData) => {
   return data;
 }
 
-export const fetchLikes = async ({id, signal}) => {
-  const response = await fetch(`http://localhost:4000/api/like/counts/${id}`, { signal });
-
+export const fetchLikes = async ({id, token, signal}) => {
+  const response = await fetch(`http://localhost:4000/api/like/counts/${id}`,{
+    method: "GET",
+    headers: {
+      'authorization': `Bearer ${token}`
+    }
+  }, { signal });
   if (!response.ok) {
     const error = new Error('An error occurred while fetching the event');
     error.code = response.status;

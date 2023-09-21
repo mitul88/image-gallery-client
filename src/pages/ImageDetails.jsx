@@ -8,22 +8,11 @@ import { fetchComments, fetchImage, fetchLikes, postComment, postLike, queryClie
 
 import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
 
-import jwtDecode from 'jwt-decode';
-
-
-
 const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
   const params = useParams();
   const navigate = useNavigate();
   const [showCommentForm, setShowCommentForm] = useState(false);
-
-  let decoded;
-  if (token){
-    if(token !== "EXPIRED") {
-      decoded = jwtDecode(token)
-    }
-  };
 
   const goBack = () => {
     navigate(-1);
@@ -40,9 +29,10 @@ const ImageDetailsPage = () => {
   })
 
   const {data: likeData} = useQuery({
-    queryKey: ['likes'],
-    queryFn: ({signal})=> fetchLikes({signal, id: params.imageId})
+    queryKey: ['likes', token],
+    queryFn: ({signal, queryKey})=> fetchLikes({signal, id: params.imageId, token: queryKey[1]})
   })
+  const current_user_likes = likeData.current_user_likes
 
   const { pathname } = useLocation()
   useEffect(()=> {
@@ -73,7 +63,13 @@ const ImageDetailsPage = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("image_id", e.target.image_id.value);
-    mutateLike({formData, token})
+    let method;
+    if (!current_user_likes) {
+      method = "POST"
+    } else {
+      method="DELETE"
+    }
+    mutateLike({formData, token, method})
   }
 
   const toggleCommentForm = () => {
@@ -122,7 +118,7 @@ const ImageDetailsPage = () => {
                   name="image_id" 
                   readOnly={true} 
                 />
-                <button type='submit' className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'><BiLike className='mr-2 mt-1' /> Like</button>
+                <button type='submit' className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'><BiLike className='mr-2 mt-1' /> {current_user_likes ? "Liked" : "Like"}</button>
               </form>
               <div className='flex flex-row justify-center items-center'>
                 <Link 
