@@ -67,7 +67,7 @@ export const fetchUser = async ({ id, signal }) => {
     return data;
 }
 
-export async function postComment(commentData) {
+export const postComment = async (commentData) => {
   const formData = commentData.formData;
   const token = commentData.token;
   const postData = {
@@ -98,6 +98,48 @@ export async function postComment(commentData) {
 
 export const fetchComments = async ({id, signal}) => {
   const response = await fetch(`http://localhost:4000/api/comment/image-comments/${id}`, { signal });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while fetching the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const {data}  = await response.json();
+  return data;
+}
+
+export const postLike = async (likeData) => {
+  const formData = likeData.formData;
+  const token = likeData.token;
+  const postData = {
+    "image_id": formData.get('image_id')
+  }
+
+  const response = await fetch(`http://localhost:4000/api/like/`, {
+    method: 'POST',
+    body: JSON.stringify(postData),
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while creating the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}
+
+export const fetchLikes = async ({id, signal}) => {
+  const response = await fetch(`http://localhost:4000/api/like/counts/${id}`, { signal });
 
   if (!response.ok) {
     const error = new Error('An error occurred while fetching the event');

@@ -4,15 +4,26 @@ import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from 'r
 import CommentsListSection from '../components/imageDetails/CommentsList';
 import ImageSuggestions from '../components/imageDetails/ImageSuggestions';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchComments, fetchImage, postComment, queryClient } from '../utils/http';
+import { fetchComments, fetchImage, fetchLikes, postComment, postLike, queryClient } from '../utils/http';
 
 import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
+
+import jwtDecode from 'jwt-decode';
+
+
 
 const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
   const params = useParams();
   const navigate = useNavigate();
   const [showCommentForm, setShowCommentForm] = useState(false);
+
+  let decoded;
+  if (token){
+    if(token !== "EXPIRED") {
+      decoded = jwtDecode(token)
+    }
+  };
 
   const goBack = () => {
     navigate(-1);
@@ -28,12 +39,17 @@ const ImageDetailsPage = () => {
     queryFn:({signal})=> fetchComments({signal, id: params.imageId})
   })
 
+  const {data: likeData} = useQuery({
+    queryKey: ['likes'],
+    queryFn: ({signal})=> fetchLikes({signal, id: params.imageId})
+  })
+
   const { pathname } = useLocation()
   useEffect(()=> {
     window.scrollTo(0, 0);
   }, [pathname])
 
-  const {mutate, isPending, isError: isPostCommentError, error: postCommenttError } = useMutation({
+  const {mutate: mutateComment, isPending, isError: isPostCommentError, error: postCommenttError } = useMutation({
     mutationFn: postComment,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['comments']});
@@ -41,9 +57,23 @@ const ImageDetailsPage = () => {
     }
   });
 
+  const {mutate: mutateLike} = useMutation({
+    mutationFn: postLike,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['likes']})
+    }
+  })
+
   const submitComment = (formData) => {
     // sending comment data with user token
-    mutate({formData, token});
+    mutateComment({formData, token});
+  }
+
+  const handleLikeSubmit = e => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image_id", e.target.image_id.value);
+    mutateLike({formData, token})
   }
 
   const toggleCommentForm = () => {
@@ -75,7 +105,7 @@ const ImageDetailsPage = () => {
           <div className='w-full flex flex-row justify-between items-center p-5'>
             <div className='flex flex-row justify-center items-center pointer-events-none'>
               <span className='p-2 rounded-full bg-orange-600 text-white mr-2'><BiLike /></span>
-              <span className='text-gray-400'>{imageData.likes}</span>
+              <span className='text-gray-400'>{likeData.likeCount}</span>
             </div>
             <div className='flex flex-row justify-center items-center pointer-events-none'>
               <span className='text-gray-400'>{commentData.length}</span> 
@@ -84,14 +114,21 @@ const ImageDetailsPage = () => {
           </div>
           {token && (
             <div className='w-full flex flex-row justify-between px-10 items-center border-t border-b border-gray-200'>
-              <div className='flex flex-row justify-center items-center '>
-                <Link className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'><BiLike className='mr-2' /> Like</Link>
-              </div>
+              <form onSubmit={handleLikeSubmit} className='flex flex-row justify-center items-center '>
+                <input 
+                  type="text" 
+                  className="hidden" 
+                  value={params.imageId}
+                  name="image_id" 
+                  readOnly={true} 
+                />
+                <button type='submit' className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'><BiLike className='mr-2 mt-1' /> Like</button>
+              </form>
               <div className='flex flex-row justify-center items-center'>
                 <Link 
                   className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'
                   onClick={toggleCommentForm}  
-                ><BiCommentDetail className='mr-5' /> Comment</Link>
+                ><BiCommentDetail className='mr-5 mt-1' /> Comment</Link>
               </div>
             </div>
           )}

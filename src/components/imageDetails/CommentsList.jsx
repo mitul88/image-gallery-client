@@ -1,8 +1,18 @@
-import ErrorBlock from '../../ui/ErrorBlock'
-import CommentForm from './CommentForm'
+import { useRouteLoaderData } from 'react-router-dom';
+import ErrorBlock from '../../ui/ErrorBlock';
+import CommentForm from './CommentForm';
+import jwtDecode from 'jwt-decode';
                  
 const CommentsListSection = ({commentData, submitComment, showCommentForm, toggleCommentForm, isCommentPending, isPostCommentError}) => {
-    
+    const token = useRouteLoaderData('root');
+
+    let decoded;
+    if (token){
+      if(token !== "EXPIRED") {
+        decoded = jwtDecode(token)
+      }
+    };
+
   return (
     <div className='w-full max-h-[400px] overflow-x-hidden overflow-y-auto'>
         {isPostCommentError && (
@@ -24,6 +34,16 @@ const CommentsListSection = ({commentData, submitComment, showCommentForm, toggl
             <div key={comment._id} className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
                 <h4 className="text-sm font-bold ml-5">{comment.user.name}</h4>
                 <p className="text-sm text-gray-400 ml-5">{comment.user_comment}</p>
+                {decoded?._id && decoded._id === comment.user.id ? (
+                    <div className="w-1/2 flex justify-around text-xs ml-5 mt-2">
+                        <button className="text-blue-400">
+                            Edit
+                        </button>
+                        <button className="text-blue-400">
+                            Delete
+                        </button>
+                    </div>
+                ) : null }
             </div>
         ))}
         
