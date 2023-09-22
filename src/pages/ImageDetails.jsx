@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BiLike, BiCommentDetail } from "react-icons/bi";
 import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import CommentsListSection from '../components/imageDetails/CommentsList';
@@ -13,9 +13,31 @@ const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
   const params = useParams();
   const navigate = useNavigate();
-  
+  const { pathname } = useLocation()
+
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  // const dropdownMenuRef = useRef();
+
+  useEffect(()=> {
+    window.scrollTo(0, 0);
+  }, [pathname])
+
+  // useEffect(() => {
+  //   const closeDropDown = e => {
+  //     if (e.target[0] !== dropdownMenuRef.current) {
+  //       console.log("lol")
+  //     } else {
+  //       console.log('mongododo tunglo')
+  //     }
+  //   }
+
+  //   document.body.addEventListener('click', closeDropDown)
+
+  //   return () => document.body.addEventListener('click', closeDropDown)
+  // }, [])
+
 
   const goBack = () => {
     navigate(-1);
@@ -26,6 +48,7 @@ const ImageDetailsPage = () => {
     queryFn: ({signal}) => fetchImage({signal, id: params.imageId})
   })
 
+  console.log(imageData.image.uploaded_by)
   const {data: commentData, isError: isFetchCommentError, error: fetchCommentError} = useQuery({
     queryKey: ['comments', params.imageId],
     queryFn:({signal})=> fetchComments({signal, id: params.imageId})
@@ -36,11 +59,6 @@ const ImageDetailsPage = () => {
     queryFn: ({signal, queryKey})=> fetchLikes({signal, id: params.imageId, token: queryKey[1]})
   })
   const current_user_likes = likeData.current_user_likes
-
-  const { pathname } = useLocation()
-  useEffect(()=> {
-    window.scrollTo(0, 0);
-  }, [pathname])
 
   const {mutate: mutateComment, isPending, isError: isPostCommentError, error: postCommenttError } = useMutation({
     mutationFn: postComment,
@@ -105,12 +123,13 @@ const ImageDetailsPage = () => {
               onClick={toggleDropdown}
             ><BiDotsVerticalRounded /></button>
             <DropdownOptions show={showDropdown}>
-              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm'>Edit</Link>
-              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm'>Delete</Link>
-              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm'>Report</Link>
+              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</Link>
+              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Delete</Link>
+              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Report</Link>
             </DropdownOptions>
           </div>
-          <h2 className="text-3xl text-center my-5 px-5">{imageData.image.title}</h2>
+          <h2 className="text-3xl text-center mt-5 px-5">{imageData.image.title}</h2>
+            <h4 className="text-sm text-center text-blue-600 italic mb-5"><Link to={`/${imageData.image.uploaded_by._id}/profile`}>@ {imageData.image.uploaded_by.name}</Link></h4>
           <p className="text-sm text-center tracking-widest px-5">{imageData.image.desc}</p>
           
           <div className='w-full flex flex-row justify-between items-center p-5'>
