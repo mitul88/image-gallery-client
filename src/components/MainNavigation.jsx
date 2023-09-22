@@ -21,8 +21,8 @@ const MainNavigation = () => {
       Image <span className='text-green-500'>Gallery!</span>
       </Link>
       <nav className={`flex justify-${token ? 'between' : 'end'} items-center min-w-[300px]`} style={{fontFamily: 'Quicksand'}}>
-        {token && <Link to='/'>Home</Link>}
-        {token && <Link to={`${decoded?._id}/profile`}>Profile</Link>}
+        {token && <Link to='/' className='font-bold tracking-widest'>Home</Link>}
+        {token && <Link to={`${decoded?._id}/profile`} className='font-bold tracking-widest'>Profile</Link>}
         {token ? 
           <Form action='/logout' method='post'>
             <button 
