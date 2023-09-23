@@ -9,6 +9,8 @@ import { fetchComments, fetchImage, fetchLikes, postComment, postLike, queryClie
 import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
 import DropdownOptions from '../ui/DropdownOptions';
 
+import jwtDecode from 'jwt-decode';
+
 const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
   const params = useParams();
@@ -18,26 +20,17 @@ const ImageDetailsPage = () => {
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  // const dropdownMenuRef = useRef();
+  let decoded;
+  if (token){
+    if(token !== "EXPIRED") {
+      decoded = jwtDecode(token)
+    }
+  };
+  
 
   useEffect(()=> {
     window.scrollTo(0, 0);
   }, [pathname])
-
-  // useEffect(() => {
-  //   const closeDropDown = e => {
-  //     if (e.target[0] !== dropdownMenuRef.current) {
-  //       console.log("lol")
-  //     } else {
-  //       console.log('mongododo tunglo')
-  //     }
-  //   }
-
-  //   document.body.addEventListener('click', closeDropDown)
-
-  //   return () => document.body.addEventListener('click', closeDropDown)
-  // }, [])
-
 
   const goBack = () => {
     navigate(-1);
@@ -48,7 +41,6 @@ const ImageDetailsPage = () => {
     queryFn: ({signal}) => fetchImage({signal, id: params.imageId})
   })
 
-  console.log(imageData.image.uploaded_by)
   const {data: commentData, isError: isFetchCommentError, error: fetchCommentError} = useQuery({
     queryKey: ['comments', params.imageId],
     queryFn:({signal})=> fetchComments({signal, id: params.imageId})
@@ -118,13 +110,19 @@ const ImageDetailsPage = () => {
               className="absolute rounded-full bg-gray-100 w-[40px] h-[40px] top-3 left-3 p-2 text-gray-400 flex flex-col justify-center items-center"
               onClick={goBack}
             ><BiArrowBack /></button>
-            <button 
-              className="absolute rounded-full bg-gray-100 w-[40px] h-[40px] top-3 right-3 p-2 text-gray-400 flex flex-col justify-center items-center"
-              onClick={toggleDropdown}
-            ><BiDotsVerticalRounded /></button>
+            {token && (
+              <button 
+                className="absolute rounded-full bg-gray-100 w-[40px] h-[40px] top-3 right-3 p-2 text-gray-400 flex flex-col justify-center items-center"
+                onClick={toggleDropdown}
+              ><BiDotsVerticalRounded /></button>
+            )}
             <DropdownOptions show={showDropdown}>
-              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</Link>
-              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Delete</Link>
+              {decoded && decoded._id === imageData.image.uploaded_by._id ? (
+                  <>
+                    <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</Link>
+                    <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Delete</Link>
+                  </>
+                ) : null}
               <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Report</Link>
             </DropdownOptions>
           </div>
