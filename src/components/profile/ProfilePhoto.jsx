@@ -3,9 +3,8 @@ import { useState } from 'react';
 import Modal from '../../ui/Modal';
 import ImageUploader from '../ImageUploader';
 
-const ProfilePhoto = ({imgUrl, user, userId, uploadProfilePhoto}) => {
+const ProfilePhoto = ({imgUrl, user, userId, uploadProfilePhoto, setProfilePhotoUploadModal, profilePhotoUploadModal}) => {
 
-  const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const submitUpload = e => {
@@ -21,7 +20,7 @@ const ProfilePhoto = ({imgUrl, user, userId, uploadProfilePhoto}) => {
         (
         <div 
           className='w-full h-full rounded-md md:rounded-full flex flex-col justify-center items-center bg-gray-200 text-gray-400 cursor-pointer'
-          onClick={()=>setShowModal(true)}  
+          onClick={()=>setProfilePhotoUploadModal(true)}  
         >
           UPLOAD
         </div>
@@ -37,7 +36,7 @@ const ProfilePhoto = ({imgUrl, user, userId, uploadProfilePhoto}) => {
             />
           )
       }
-      <Modal isVisible={showModal} onClose={()=>setShowModal(false)}>
+      <Modal isVisible={profilePhotoUploadModal} onClose={()=>setProfilePhotoUploadModal(false)}>
         <h3 className="text-2xl text-center my-3">Upload Your Photo</h3>
         <form onSubmit={submitUpload} className='flex flex-col jutify-center items-center'>
           <ImageUploader onFileSelect={(file)=> setSelectedFile(file)} />

@@ -8,10 +8,13 @@ import { fetchUser, postProfilePhoto, queryClient } from '../utils/http';
 import _ from 'lodash';
 
 import jwtDecode from 'jwt-decode';
+import { useState } from 'react';
 
 const ProfilePage = () => {
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
+
+  const [profilePhotoUploadModal, setProfilePhotoUploadModal] = useState(false);
 
   let decoded;
   if (token){
@@ -28,7 +31,8 @@ const ProfilePage = () => {
   const {mutate: mutateProfilePhoto, isPending: isProfilePhotoPending, isError: isProfilePhotoError, error: profilePhotoError } = useMutation({
     mutationFn: postProfilePhoto,
     onSuccess: () => {
-      // queryClient.invalidateQueries({queryKey: ['comments']});
+      queryClient.invalidateQueries({queryKey: ['user']});
+      setProfilePhotoUploadModal(false);
     }
   });
 
@@ -46,7 +50,9 @@ const ProfilePage = () => {
             imgUrl={data.profile_photo} 
             user={decoded} 
             userId={params.userId} 
-            uploadProfilePhoto={uploadProfilePhoto}  
+            uploadProfilePhoto={uploadProfilePhoto}
+            setProfilePhotoUploadModal={setProfilePhotoUploadModal}
+            profilePhotoUploadModal={profilePhotoUploadModal}  
           />
           <ProfileHeader data={_.pick(data, ['name', 'profession', 'createdAt'])} /> 
         </div>
