@@ -78,11 +78,16 @@ export const postComment = async (commentData) => {
       "user_comment": formData.get('user_comment'),
       "image_id": formData.get('image_id')
     }
+  } else if (method === "PUT") {
+    postData = {
+      "user_comment": formData.get('user_comment'),
+      "comment_id": formData.get('comment_id')
+    }
   } else if (method === "DELETE") {
     postData = {
       "comment_id": formData.get('comment_id'),
     }
-  }
+  } 
 
   const response = await fetch(`http://localhost:4000/api/comment/`, {
     method: method,

@@ -19,6 +19,7 @@ const ImageDetailsPage = () => {
 
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
 
   let decoded;
   if (token){
@@ -57,6 +58,7 @@ const ImageDetailsPage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['comments']});
       setShowCommentForm(false);
+      setShowEditForm(false);
     }
   });
 
@@ -74,8 +76,14 @@ const ImageDetailsPage = () => {
   }
 
   const deleteComment = (formData) => {
-    // sending comment data with user token, this fn is initiate from a nested component : CommentForm
+    // sending comment data with user token, this fn is initiate from a nested component : CommentList
     let method = "DELETE";
+    mutateComment({formData, token, method});
+  }
+  
+  const editComment = (formData) => {
+    // sending comment data with user token, this fn is initiate from a nested component : CommentList
+    let method = "PUT";
     mutateComment({formData, token, method});
   }
 
@@ -95,6 +103,11 @@ const ImageDetailsPage = () => {
   const toggleCommentForm = () => {
     if(!token) navigate("/auth?mode=login")
     setShowCommentForm(!showCommentForm);
+  }
+
+  const toggleEditForm = () => {
+    if(!token) navigate("/auth?mode=login")
+    setShowEditForm(!showEditForm);
   }
 
   const toggleDropdown = () => {
@@ -172,9 +185,12 @@ const ImageDetailsPage = () => {
             <CommentsListSection
               commentData={commentData} 
               submitComment={submitComment}
-              deleteComment={deleteComment} 
+              deleteComment={deleteComment}
+              editComment={editComment} 
               toggleCommentForm={toggleCommentForm} 
-              showCommentForm={showCommentForm} 
+              showCommentForm={showCommentForm}
+              toggleEditForm={toggleEditForm}
+              showEditForm={showEditForm} 
               isCommentPending={isPending}
               isPostCommentError={isPostCommentError}
             />
