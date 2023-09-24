@@ -16,7 +16,8 @@ export function getAuthToken() {
     const tokenDuration = getTokenDuration();
 
     if (tokenDuration < 0) {
-        return "EXPIRED";
+        // return "EXPIRED";
+        return null;
     } 
 
     return token;
