@@ -187,11 +187,9 @@ export const postProfilePhoto = async (photoData) => {
 
   const response = await fetch(`http://localhost:4000/api/user/upload_profile_photo/${userId}`, {
     method: "POST",
-    // body: JSON.stringify(postData),
-    body: JSON.stringify(formData),
+    body: formData,
     headers: {
-      'Content-Type': 'application/json',
-      'authorization': `Bearer ${token}`
+      'authorization': `Bearer ${token}`,
     },
   });
 

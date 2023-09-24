@@ -11,7 +11,7 @@ const ProfilePhoto = ({imgUrl, user, userId, uploadProfilePhoto}) => {
   const submitUpload = e => {
     e.preventDefault()
     const formData = new FormData();
-    formData.append("image", selectedFile);
+    formData.append("profile-photo", selectedFile);
     uploadProfilePhoto(formData);
   };
 
