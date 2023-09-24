@@ -70,13 +70,22 @@ export const fetchUser = async ({ id, signal }) => {
 export const postComment = async (commentData) => {
   const formData = commentData.formData;
   const token = commentData.token;
-  const postData = {
-    "user_comment": formData.get('user_comment'),
-    "image_id": formData.get('image_id')
+  const method = commentData.method
+
+  let postData = {}
+  if (method === "POST") {
+    postData = {
+      "user_comment": formData.get('user_comment'),
+      "image_id": formData.get('image_id')
+    }
+  } else if (method === "DELETE") {
+    postData = {
+      "comment_id": formData.get('comment_id'),
+    }
   }
 
   const response = await fetch(`http://localhost:4000/api/comment/`, {
-    method: 'POST',
+    method: method,
     body: JSON.stringify(postData),
     headers: {
       'Content-Type': 'application/json',
@@ -163,3 +172,4 @@ export const fetchLikes = async ({id, token, signal}) => {
   const {data}  = await response.json();
   return data;
 }
+

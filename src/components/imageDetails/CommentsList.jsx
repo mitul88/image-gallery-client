@@ -3,7 +3,15 @@ import ErrorBlock from '../../ui/ErrorBlock';
 import CommentForm from './CommentForm';
 import jwtDecode from 'jwt-decode';
                  
-const CommentsListSection = ({commentData, submitComment, showCommentForm, toggleCommentForm, isCommentPending, isPostCommentError}) => {
+const CommentsListSection = ({
+    commentData, 
+    submitComment, 
+    deleteComment, 
+    showCommentForm, 
+    toggleCommentForm, 
+    isCommentPending, 
+    isPostCommentError
+}) => {
     const token = useRouteLoaderData('root');
 
     let decoded;
@@ -12,6 +20,13 @@ const CommentsListSection = ({commentData, submitComment, showCommentForm, toggl
         decoded = jwtDecode(token)
       }
     };
+
+    const submitDeleteComment = e => {
+        e.preventDefault();
+        let deleteCommentForm = document.forms.deleteCommentForm;
+        const formData = new FormData(deleteCommentForm);
+        deleteComment(formData);
+    }
 
   return (
     <div className='w-full max-h-[400px] overflow-x-hidden overflow-y-auto'>
@@ -39,9 +54,18 @@ const CommentsListSection = ({commentData, submitComment, showCommentForm, toggl
                         <button className="text-blue-400">
                             Edit
                         </button>
-                        <button className="text-blue-400">
-                            Delete
-                        </button>
+                        <form onSubmit={submitDeleteComment} id="deleteCommentForm" className='flex flex-row justify-center items-center '>
+                            <input 
+                                type="text" 
+                                className="hidden" 
+                                value={comment._id}
+                                name="comment_id" 
+                                readOnly={true} 
+                            />
+                            <button type="submit" className="text-blue-400">
+                                Delete
+                            </button>
+                        </form>
                     </div>
                 ) : null }
             </div>

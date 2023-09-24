@@ -56,7 +56,7 @@ const ImageDetailsPage = () => {
     mutationFn: postComment,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['comments']});
-      setShowCommentForm(!showCommentForm);
+      setShowCommentForm(false);
     }
   });
 
@@ -68,13 +68,20 @@ const ImageDetailsPage = () => {
   })
 
   const submitComment = (formData) => {
-    // sending comment data with user token
-    mutateComment({formData, token});
+    // sending comment data with user token, this fn is initiate from a nested component : CommentForm
+    let method = "POST";
+    mutateComment({formData, token, method});
+  }
+
+  const deleteComment = (formData) => {
+    // sending comment data with user token, this fn is initiate from a nested component : CommentForm
+    let method = "DELETE";
+    mutateComment({formData, token, method});
   }
 
   const handleLikeSubmit = e => {
     e.preventDefault();
-    const formData = new FormData();
+    let formData = new FormData();
     formData.append("image_id", e.target.image_id.value);
     let method;
     if (!current_user_likes) {
@@ -164,7 +171,8 @@ const ImageDetailsPage = () => {
           <div className="pl-5 pt-5">
             <CommentsListSection
               commentData={commentData} 
-              submitComment={submitComment} 
+              submitComment={submitComment}
+              deleteComment={deleteComment} 
               toggleCommentForm={toggleCommentForm} 
               showCommentForm={showCommentForm} 
               isCommentPending={isPending}
