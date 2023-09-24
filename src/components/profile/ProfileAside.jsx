@@ -14,7 +14,7 @@ const ProfileAside = ({data}) => {
               )}
         </div>
         <div className=' mt-5'>
-            <span className="text-gray-400">SKILLS</span> <hr className="border-[1px] text-gray-400 w-full" />
+            <span className="text-gray-400">INTERESTS</span> <hr className="border-[1px] text-gray-400 w-full" />
             <div className="py-3 flex md:flex-col justify-between" style={{fontFamily: "Quicksand"}}>
             {!data.skills && <Link to="settings">Add skills</Link>}
             {data.skills && data.skills.map((item, index)=> (
