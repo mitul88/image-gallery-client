@@ -2,7 +2,6 @@ import { useRouteLoaderData } from 'react-router-dom';
 import ErrorBlock from '../../ui/ErrorBlock';
 import CommentForm from './CommentForm';
 import jwtDecode from 'jwt-decode';
-import { useState } from 'react';
                  
 const CommentsListSection = ({
     commentData, 
@@ -63,7 +62,7 @@ const CommentsListSection = ({
             <div key={comment._id} className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
                 <h4 className="text-sm font-bold ml-5">{comment.user.name}</h4>
 
-                {decoded._id === comment.user.id && showEditForm ? (
+                {decoded?._id === comment.user.id && showEditForm ? (
                         <form onSubmit={submitEditComment} id="editCommentForm">
                             <textarea 
                                 type="text" 
