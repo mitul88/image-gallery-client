@@ -1,25 +1,23 @@
 import React from 'react'
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Modal from '../../ui/Modal';
 import ImageUploader from '../ImageUploader';
 
-const ProfilePhoto = ({imgUrl, user, userId}) => {
+const ProfilePhoto = ({imgUrl, user, userId, uploadProfilePhoto}) => {
 
   const [showModal, setShowModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const uploadImage = e => {
+  const submitUpload = e => {
     e.preventDefault()
     const formData = new FormData();
     formData.append("image", selectedFile);
-
-    console.log(formData)
+    uploadProfilePhoto(formData);
   };
 
   return (
     <div className="mx-auto lg:mx-0 w-[220px] h-[220px] rounded-md">
-      {!imgUrl ? user._id === userId ? 
+      {!imgUrl ? user?._id === userId ? 
         (
         <div 
           className='w-full h-full rounded-md md:rounded-full flex flex-col justify-center items-center bg-gray-200 text-gray-400 cursor-pointer'
@@ -28,7 +26,7 @@ const ProfilePhoto = ({imgUrl, user, userId}) => {
           UPLOAD
         </div>
         ): (
-          <div className='w-full h-full rounded-md md:rounded-full flex flex-col justify-center items-center bg-gray-200 text-gray-400 cursor-none'>
+          <div className='w-full h-full rounded-md md:rounded-full flex flex-col justify-center items-center bg-gray-200 text-gray-400 cursor-default'>
             No Photo
           </div>
         ): (
@@ -41,7 +39,7 @@ const ProfilePhoto = ({imgUrl, user, userId}) => {
       }
       <Modal isVisible={showModal} onClose={()=>setShowModal(false)}>
         <h3 className="text-2xl text-center my-3">Upload Your Photo</h3>
-        <form onSubmit={uploadImage} className='flex flex-col jutify-center items-center'>
+        <form onSubmit={submitUpload} className='flex flex-col jutify-center items-center'>
           <ImageUploader onFileSelect={(file)=> setSelectedFile(file)} />
           <button type='submit' className="text-sm bg-orange-500 text-white px-5 py-1 rounded mx-auto">Upload</button>
         </form>

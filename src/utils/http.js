@@ -178,3 +178,32 @@ export const fetchLikes = async ({id, token, signal}) => {
   return data;
 }
 
+export const postProfilePhoto = async (photoData) => {
+  console.log(photoData.formData)
+
+  const formData = photoData.formData;
+  const token = photoData.token;
+  const userId = photoData.userId;
+
+  const response = await fetch(`http://localhost:4000/api/user/upload_profile_photo/${userId}`, {
+    method: "POST",
+    // body: JSON.stringify(postData),
+    body: JSON.stringify(formData),
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while creating the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}
+

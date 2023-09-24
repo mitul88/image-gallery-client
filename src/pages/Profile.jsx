@@ -3,8 +3,8 @@ import ProfilePhoto from '../components/profile/ProfilePhoto';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileTab from '../components/profile/ProfileTab';
 import ProfileAside from '../components/profile/ProfileAside';
-import { useQuery } from '@tanstack/react-query';
-import { fetchUser, queryClient } from '../utils/http';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { fetchUser, postProfilePhoto, queryClient } from '../utils/http';
 import _ from 'lodash';
 
 import jwtDecode from 'jwt-decode';
@@ -13,25 +13,41 @@ const ProfilePage = () => {
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
 
-  const {data, isError, error} = useQuery({
-    queryKey: ['user', params.userId],
-    queryFn: ({signal}) => fetchUser({signal, id: params.userId})
-  })
-
   let decoded;
   if (token){
     if(token !== "EXPIRED") {
       decoded = jwtDecode(token)
     }
   };
-  
+
+  const {data, isError, error} = useQuery({
+    queryKey: ['user', params.userId],
+    queryFn: ({signal}) => fetchUser({signal, id: params.userId})
+  })
+
+  const {mutate: mutateProfilePhoto, isPending: isProfilePhotoPending, isError: isProfilePhotoError, error: profilePhotoError } = useMutation({
+    mutationFn: postProfilePhoto,
+    onSuccess: () => {
+      // queryClient.invalidateQueries({queryKey: ['comments']});
+    }
+  });
+
+  const uploadProfilePhoto = (formData) => {
+    const userId = params.userId
+    mutateProfilePhoto({formData, userId, token});
+  }
 
   return (
     <section className='bg-slate-200 pt-5 min-h-screen px-0 md:px-5 lg:px-[250px]'>
       <div className='container mx-auto min-h-[800px] bg-white rounded-md flex flex-col'>
         {/* top section */}
         <div className='w-full p-5 flex flex-col md:flex-row '>
-          <ProfilePhoto imgUrl={data.profile_photo} user={decoded} userId={params.userId} />
+          <ProfilePhoto 
+            imgUrl={data.profile_photo} 
+            user={decoded} 
+            userId={params.userId} 
+            uploadProfilePhoto={uploadProfilePhoto}  
+          />
           <ProfileHeader data={_.pick(data, ['name', 'profession', 'createdAt'])} /> 
         </div>
 
