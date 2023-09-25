@@ -1,4 +1,4 @@
-import { Outlet, useParams, useRouteLoaderData } from 'react-router-dom';
+import { Outlet, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import ProfilePhoto from '../components/profile/ProfilePhoto';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileTab from '../components/profile/ProfileTab';
@@ -7,12 +7,15 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { fetchUser, postProfilePhoto, queryClient } from '../utils/http';
 import _ from 'lodash';
 
+import { BiArrowBack } from "react-icons/bi";
+
 import jwtDecode from 'jwt-decode';
 import { useState } from 'react';
 
 const ProfilePage = () => {
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
+  const navigate = useNavigate();
 
   const [profilePhotoUploadModal, setProfilePhotoUploadModal] = useState(false);
 
@@ -22,6 +25,10 @@ const ProfilePage = () => {
       decoded = jwtDecode(token)
     }
   };
+
+  const goBack = () => {
+    navigate(-1);
+  }
 
   const {data, isError, error} = useQuery({
     queryKey: ['user', params.userId],
@@ -43,6 +50,9 @@ const ProfilePage = () => {
 
   return (
     <section className='bg-slate-200 pt-5 min-h-screen px-0 md:px-5 lg:px-[250px]'>
+      <div className="relative">
+        <button onClick={goBack} className="absolute top-5 right-10 bg-gray-100 hover:bg-gray-200 text-gray-500 p-4 rounded-full flex flex-row items-center"><BiArrowBack /></button>
+      </div>
       <div className='container mx-auto min-h-[800px] bg-white rounded-md flex flex-col'>
         {/* top section */}
         <div className='w-full p-5 flex flex-col md:flex-row '>
