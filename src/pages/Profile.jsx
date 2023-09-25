@@ -18,7 +18,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   const [profilePhotoUploadModal, setProfilePhotoUploadModal] = useState(false);
-  const [showProfessionEdit, setShowProfessionEdit] = useState(false);
+  const [showProfessionForm, setShowProfessionForm] = useState(false);
 
   let decoded;
   if (token){
@@ -68,8 +68,8 @@ const ProfilePage = () => {
           <ProfileHeader 
             data={_.pick(data, ['_id', 'name', 'profession', 'createdAt'])} 
             user={decoded} 
-            setShowProfessionEdit = {setShowProfessionEdit}
-            showProfessionEdit={showProfessionEdit}  
+            setShowProfessionForm = {setShowProfessionForm}
+            showProfessionForm={showProfessionForm}  
           /> 
         </div>
 
