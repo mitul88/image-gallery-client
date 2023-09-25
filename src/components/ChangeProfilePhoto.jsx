@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import ImageUploader from './ImageUploader'
+import React, { useState } from 'react';
+import ImageUploader from './shared/ImageUploader';
 
 const ChangeProfilePhoto = () => {
     const [selectedFile, setSelectedFile] = useState(null);

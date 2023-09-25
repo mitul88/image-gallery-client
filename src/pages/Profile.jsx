@@ -11,6 +11,8 @@ import { BiArrowBack } from "react-icons/bi";
 
 import jwtDecode from 'jwt-decode';
 import { useState } from 'react';
+import UploadImageForm from '../components/shared/UploadImageForm';
+import Modal from '../ui/Modal';
 
 const ProfilePage = () => {
   const params = useParams('userId');
@@ -18,6 +20,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   const [profilePhotoUploadModal, setProfilePhotoUploadModal] = useState(false);
+  const [uploadImageModal, setUploadImageModal] = useState(false);
   const [showProfessionForm, setShowProfessionForm] = useState(false);
   const [showBioForm, setShowBioForm] = useState(false);
   const [showInterestForm, setShowInterestForm] = useState(false);
@@ -71,7 +74,8 @@ const ProfilePage = () => {
             data={_.pick(data, ['_id', 'name', 'profession', 'createdAt'])} 
             user={decoded} 
             setShowProfessionForm = {setShowProfessionForm}
-            showProfessionForm={showProfessionForm}  
+            showProfessionForm={showProfessionForm}
+            setUploadImageModal={setUploadImageModal}  
           /> 
         </div>
 
@@ -93,7 +97,10 @@ const ProfilePage = () => {
             </main>
           </div>
         </div>
-      </div> 
+      </div>
+      <Modal isVisible={uploadImageModal} onClose={()=>setUploadImageModal(false)}>
+        <UploadImageForm />
+      </Modal> 
     </section>
   )
 }

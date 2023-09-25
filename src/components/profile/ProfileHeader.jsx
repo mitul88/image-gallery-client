@@ -1,8 +1,8 @@
 import React from 'react'
-import { Link, useRouteLoaderData } from 'react-router-dom';
+import { useRouteLoaderData } from 'react-router-dom';
 import SingleInputForm from '../../ui/SingleInputForm';
 
-const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm}) => {
+const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, setUploadImageModal}) => {
   const token = useRouteLoaderData('root');
   let date = new Date(data.createdAt);
   
@@ -22,12 +22,13 @@ const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm}) 
         <h4 className="text-md text-blue-500 tracking-wider font-bold">{data.profession && data.profession}</h4>
         <h4 className="text-sm text-gray-400 italic">Member since : {date.getFullYear()}</h4>
         {token && (
-            <Link to="upload" 
+            <button
+              onClick={()=>setUploadImageModal(true)} 
               className='bg-orange-600 shadow shadow-sky-950 shadow-md ease-in duration-150 hover:shadow-none text-white rounded-md py-1 px-5 font-semibold text-sm w-[100px] pb-1 my-5 flex flex-row items-center'
               style={{fontFamily: 'Quicksand'}}
-              > 
+            > 
               Upload
-            </Link>
+            </button>
             )
         }
     </div> 

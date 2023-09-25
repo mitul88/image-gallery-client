@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
 import Modal from '../../ui/Modal';
-import ImageUploader from '../ImageUploader';
+import ImageUploader from '../shared/ImageUploader';
 
 const ProfilePhoto = ({imgUrl, user, userId, uploadProfilePhoto, setProfilePhotoUploadModal, profilePhotoUploadModal}) => {
 
@@ -38,7 +38,7 @@ const ProfilePhoto = ({imgUrl, user, userId, uploadProfilePhoto, setProfilePhoto
       }
       <Modal isVisible={profilePhotoUploadModal} onClose={()=>setProfilePhotoUploadModal(false)}>
         <h3 className="text-2xl text-center my-3">Upload Your Photo</h3>
-        <form onSubmit={submitUpload} className='flex flex-col jutify-center items-center'>
+        <form onSubmit={submitUpload} className='flex flex-col jutify-center items-center mx-[80px]'>
           <ImageUploader onFileSelect={(file)=> setSelectedFile(file)} />
           <button type='submit' className="text-sm bg-orange-500 text-white px-5 py-1 rounded mx-auto">Upload</button>
         </form>
