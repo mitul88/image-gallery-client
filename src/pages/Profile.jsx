@@ -20,6 +20,7 @@ const ProfilePage = () => {
   const [profilePhotoUploadModal, setProfilePhotoUploadModal] = useState(false);
   const [showProfessionForm, setShowProfessionForm] = useState(false);
   const [showBioForm, setShowBioForm] = useState(false);
+  const [showInterestForm, setShowInterestForm] = useState(false);
 
   let decoded;
   if (token){
@@ -76,7 +77,14 @@ const ProfilePage = () => {
 
         {/* bottom section */}
         <div className="w-full px-5 flex flex-col lg:flex-row ">
-          <ProfileAside data={_.pick(data, ['_id','bio', 'skills'])} user={decoded} setShowBioForm={setShowBioForm} showBioForm={showBioForm} />
+          <ProfileAside 
+            data={_.pick(data, ['_id','bio', 'skills'])} 
+            user={decoded} 
+            setShowBioForm={setShowBioForm} 
+            showBioForm={showBioForm} 
+            setShowInterestForm={setShowInterestForm}  
+            showInterestForm={showInterestForm} 
+          />
           {/* bottom right */}
           <div className='mx-auto w-full lg:ml-20'>
             <ProfileTab />

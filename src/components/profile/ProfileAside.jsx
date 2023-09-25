@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import SingleInputForm from '../../ui/SingleInputForm'
 import { AiOutlinePlus } from "react-icons/ai";
 
-const ProfileAside = ({data, user, setShowBioForm , showBioForm}) => {
+const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm }) => {
 
   console.log(data)
   return (
@@ -35,7 +35,14 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm}) => {
         <div className=' mt-5'>
             <span className="text-gray-400">INTERESTS</span> <hr className="border-[1px] text-gray-400 w-full" />
             <div className="py-3 flex md:flex-col justify-between" style={{fontFamily: "Quicksand"}}>
-            {!data.skills && <Link to="settings">Add skills</Link>}
+            {showInterestForm && (
+              <SingleInputForm defaultValue={data.bio} onClose={setShowInterestForm} />
+            )}
+            {!data.skills && 
+              <button 
+              onClick={()=>setShowInterestForm(true)}
+              className='flex flex-row items-center justify-center bg-gray-100 rounded w-[90px] px-2 py-1 text-xs text-gray-500 tracking-wide'
+            ><AiOutlinePlus className="mr-1 " /> Add skills</button>}
             {data.skills && data.skills.map((item, index)=> (
                 <h4 className="font-bold" key={index}>{item}</h4>
             ))}
