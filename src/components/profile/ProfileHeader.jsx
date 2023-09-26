@@ -1,8 +1,8 @@
 import React from 'react'
 import { useRouteLoaderData } from 'react-router-dom';
-import SingleInputForm from '../../ui/SingleInputForm';
+import SingleInputForm from '../shared/SingleInputForm';
 
-const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, setUploadImageModal}) => {
+const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, setUploadImageModal, singleEdit}) => {
   const token = useRouteLoaderData('root');
   let date = new Date(data.createdAt);
   
@@ -10,7 +10,12 @@ const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, s
     <div className='mx-auto md:ml-0 md:mt-5 lg:ml-20'>
         <h1 className="text-3xl font-bold leading-loose">{data.name}</h1>
         {showProfessionForm && (
-          <SingleInputForm defaultValue={data.profession} onClose={setShowProfessionForm} />
+          <SingleInputForm 
+            defaultValue={data.profession}
+            name="profession" 
+            onClose={setShowProfessionForm} 
+            singleEdit={singleEdit} 
+          />
         )}
         
         {!data.profession ? 

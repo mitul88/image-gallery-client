@@ -9,7 +9,7 @@ const Settings = () => {
   }
   return (
     <div>
-      <div className='p-3 m-3 rounded shadow-md shadow-gray-200'>
+      <div className='p-3 my-3 rounded shadow-md shadow-gray-200'>
 
         <div className='m-3 p-5 flex flex-col md:flex-row justify-between items-center border-b border-gray-200'>
           <div>

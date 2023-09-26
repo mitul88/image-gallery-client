@@ -4,7 +4,7 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileTab from '../components/profile/ProfileTab';
 import ProfileAside from '../components/profile/ProfileAside';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchUser, postProfilePhoto, queryClient } from '../utils/http';
+import { editSingleInput, fetchUser, postProfilePhoto, queryClient } from '../utils/http';
 import _ from 'lodash';
 
 import { BiArrowBack } from "react-icons/bi";
@@ -49,6 +49,19 @@ const ProfilePage = () => {
     }
   });
 
+  const {mutate: singleEditInput} = useMutation({
+    mutationFn: editSingleInput,
+    onSuccess: () => {
+      setShowProfessionForm(false);
+      setShowBioForm(false);
+      setShowInterestForm(false);
+    }
+  })
+
+  const singleEdit = (formData) => {
+    singleEditInput({formData, token})
+  }
+
   const uploadProfilePhoto = (formData) => {
     const userId = params.userId
     mutateProfilePhoto({formData, userId, token});
@@ -75,7 +88,8 @@ const ProfilePage = () => {
             user={decoded} 
             setShowProfessionForm = {setShowProfessionForm}
             showProfessionForm={showProfessionForm}
-            setUploadImageModal={setUploadImageModal}  
+            setUploadImageModal={setUploadImageModal}
+            singleEdit={singleEdit}  
           /> 
         </div>
 
@@ -87,7 +101,8 @@ const ProfilePage = () => {
             setShowBioForm={setShowBioForm} 
             showBioForm={showBioForm} 
             setShowInterestForm={setShowInterestForm}  
-            showInterestForm={showInterestForm} 
+            showInterestForm={showInterestForm}
+            singleEdit={singleEdit} 
           />
           {/* bottom right */}
           <div className='mx-auto w-full lg:ml-20'>

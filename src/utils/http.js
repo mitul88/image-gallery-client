@@ -205,3 +205,33 @@ export const postProfilePhoto = async (photoData) => {
   return data;
 }
 
+export const editSingleInput = async (inputData) => {
+  const formData = inputData.formData;
+  const token = inputData.token;
+
+  let postData = {
+    "bio" : formData.get('bio'),
+    "interest" : formData.get('interest'),
+    "profession" : formData.get('profession'),
+  }
+
+  const response = await fetch(`http://localhost:4000/api/user/single-update`, {
+    method: "PATCH",
+    body: JSON.stringify(postData),
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while updating');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}

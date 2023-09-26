@@ -1,17 +1,20 @@
 import React from 'react'
-import SingleInputForm from '../../ui/SingleInputForm'
+import SingleInputForm from '../shared/SingleInputForm'
 import { AiOutlinePlus } from "react-icons/ai";
 
-const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm }) => {
-
-  console.log(data)
-  console.log(data.skills)
+const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm, singleEdit }) => {
   return (
-    <div className='lg:w-[250px]'>
+    <div className='lg:w-[340px]'>
         <div className=' mt-5'>
             <span className="text-gray-400">BIO</span> <hr className="border-[1px] mb-1 text-gray-400 w-full" />
             {showBioForm && (
-              <SingleInputForm defaultValue={data.bio} onClose={setShowBioForm} elemType="textarea" />
+              <SingleInputForm 
+                defaultValue={data.bio}
+                name="bio"  
+                onClose={setShowBioForm} 
+                elemType="textarea"
+                singleEdit={singleEdit} 
+              />
             )}
             
             {!data.bio ?
@@ -36,7 +39,12 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterest
             <span className="text-gray-400">INTERESTS</span> <hr className="border-[1px] text-gray-400 w-full" />
             <div className="py-3 flex md:flex-col justify-between" style={{fontFamily: "Quicksand"}}>
             {showInterestForm && (
-              <SingleInputForm defaultValue={data.bio} onClose={setShowInterestForm} />
+              <SingleInputForm 
+                defaultValue={data.bio}
+                name="interest"  
+                onClose={setShowInterestForm} 
+                singleEdit={singleEdit}
+              />
             )}
             {!data.skills ? 
                user?._id === data._id ? 
