@@ -108,7 +108,7 @@ const ProfilePage = () => {
           />
           {/* bottom right */}
           <div className='mx-auto w-full lg:ml-20'>
-            <ProfileTab />
+            <ProfileTab userId={params.userId} authUser={decoded} />
             <main >
               <Outlet />
             </main>

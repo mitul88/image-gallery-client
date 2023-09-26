@@ -1,6 +1,7 @@
 import React from 'react'
 import { useRouteLoaderData } from 'react-router-dom';
 import SingleInputForm from '../shared/SingleInputForm';
+import { AiOutlineEdit } from "react-icons/ai";
 
 const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, setUploadImageModal, singleEdit}) => {
   const token = useRouteLoaderData('root');
@@ -24,7 +25,15 @@ const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, s
             : null
           : null
         }
-        <h4 className="text-md text-blue-500 tracking-wider font-bold">{data.profession && data.profession}</h4>
+        {!showProfessionForm && (
+          <div className='flex items-center'>
+            <h4 className="text-md text-blue-500 tracking-wider font-bold">{data.profession && data.profession}</h4>
+            <button onClick={()=>setShowProfessionForm(true)} className='rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 p-1 ml-1'>
+              <AiOutlineEdit />
+            </button>
+          </div>
+        )}
+        
         <h4 className="text-sm text-gray-400 italic">Member since : {date.getFullYear()}</h4>
         {token && (
             <button
