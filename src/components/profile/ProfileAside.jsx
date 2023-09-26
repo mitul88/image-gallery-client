@@ -3,6 +3,7 @@ import SingleInputForm from '../shared/SingleInputForm'
 import { AiOutlinePlus } from "react-icons/ai";
 
 const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm, singleEdit }) => {
+  console.log(data.interest)
   return (
     <div className='lg:w-[340px]'>
         <div className=' mt-5'>
@@ -30,7 +31,7 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterest
             }
 
             {data.bio && (
-              <p className="text-sm tracking-wider py-3 italic text-center lg:text-justify">
+              <p className="text-sm text-gray-600 tracking-wider py-3 italic text-center lg:text-justify">
                   {data.bio}
               </p>
             )}
@@ -38,27 +39,40 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterest
         <div className=' mt-5'>
             <span className="text-gray-400">INTERESTS</span> <hr className="border-[1px] text-gray-400 w-full" />
             <div className="py-3 flex md:flex-col justify-between" style={{fontFamily: "Quicksand"}}>
-            {showInterestForm && (
-              <SingleInputForm 
-                defaultValue={data.bio}
-                name="interest"  
-                onClose={setShowInterestForm} 
-                singleEdit={singleEdit}
-              />
-            )}
-            {!data.skills ? 
-               user?._id === data._id ? 
-                (<button 
-                  onClick={()=>setShowInterestForm(true)}
-                  className='flex flex-row items-center justify-center bg-gray-100 rounded w-[90px] px-2 py-1 text-xs text-gray-500 tracking-wide'
-                ><AiOutlinePlus className="mr-1 " /> Add skills
-                </button>)
-                : null
-              : null
-            }
-            {data.skills && data.skills.map((item, index)=> (
-                <h4 className="font-bold" key={index}>{item}</h4>
-            ))}
+              {showInterestForm && (
+                <SingleInputForm 
+                  name="interest"  
+                  onClose={setShowInterestForm} 
+                  singleEdit={singleEdit}
+                />
+              )}
+
+              {data.interest && data.interest.map((item, index)=> (
+                  <h4 className="text-sm font-semibold text-gray-600 mb-1" key={index}>{item}</h4>
+              ))}
+
+              <div>
+                {/* This code needs refactoring */}
+                {!data.interest || data.interest.length === 0 ? 
+                  user?._id === data._id ? 
+                    (<button 
+                      onClick={()=>setShowInterestForm(true)}
+                      className='flex flex-row items-center justify-center bg-gray-100 rounded px-2 py-1 text-xs text-gray-500 tracking-wide'
+                    ><AiOutlinePlus className="mr-1 " /> Add interest
+                    </button>)
+                    : null
+                  : data.interest.length !== 0 && data.interest.length < 3 ?
+                    user?._id === data._id ? 
+                      (<button 
+                        onClick={()=>setShowInterestForm(true)}
+                        className='flex flex-row items-center justify-center bg-gray-100 rounded px-1 py-1 text-xs text-gray-500 tracking-wide'
+                      ><AiOutlinePlus className="mr-1" /> more
+                      </button>)
+                    : null
+                :null
+                }
+                {/* above code needs refactoring */}
+              </div>
             </div>
         </div>
     </div>

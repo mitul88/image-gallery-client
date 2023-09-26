@@ -12,6 +12,8 @@ const SingleInputForm = ({defaultValue, name, onClose, elemType, singleEdit}) =>
     singleEdit(formData)
   };
 
+  if(!defaultValue) defaultValue = "";
+
   return (
     <form onSubmit={submitForm}>
         <div className={`flex ${elemType === "textarea" ? "flex-col" : "flex-row"}`}>

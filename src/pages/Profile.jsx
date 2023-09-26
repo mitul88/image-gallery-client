@@ -49,9 +49,10 @@ const ProfilePage = () => {
     }
   });
 
-  const {mutate: singleEditInput} = useMutation({
+  const {mutate: singleEditInput, isPending: isSingleEditPending, isError: isSingleEditError, error: singleEditError} = useMutation({
     mutationFn: editSingleInput,
     onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['user']});
       setShowProfessionForm(false);
       setShowBioForm(false);
       setShowInterestForm(false);
@@ -85,7 +86,7 @@ const ProfilePage = () => {
             profilePhotoUploadModal={profilePhotoUploadModal}  
           />
           <ProfileHeader 
-            data={_.pick(data, ['_id', 'name', 'profession', 'createdAt'])} 
+            data={data} 
             user={decoded} 
             setShowProfessionForm = {setShowProfessionForm}
             showProfessionForm={showProfessionForm}
@@ -97,7 +98,7 @@ const ProfilePage = () => {
         {/* bottom section */}
         <div className="w-full px-5 flex flex-col lg:flex-row ">
           <ProfileAside 
-            data={_.pick(data, ['_id','bio', 'skills'])} 
+            data={data} 
             user={decoded} 
             setShowBioForm={setShowBioForm} 
             showBioForm={showBioForm} 
