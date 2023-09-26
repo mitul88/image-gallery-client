@@ -3,7 +3,7 @@ import { useRouteLoaderData } from 'react-router-dom';
 import SingleInputForm from '../shared/SingleInputForm';
 import { AiOutlineEdit } from "react-icons/ai";
 
-const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, setUploadImageModal, singleEdit}) => {
+const ProfileHeader = ({data, authUser, showProfessionForm, setShowProfessionForm, setUploadImageModal, singleEdit}) => {
   const token = useRouteLoaderData('root');
   let date = new Date(data.createdAt);
   
@@ -20,17 +20,19 @@ const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, s
         )}
         
         {!data.profession ? 
-          data._id !== user?._id ? null :
+          data._id !== authUser?._id ? null :
             !showProfessionForm ? (<button onClick={()=>setShowProfessionForm(true)} className='text-sm px-2 py-1 bg-gray-100 rounded tracking-wide text-gray-500'>Add profession</button>)
             : null
           : null
         }
-        {!showProfessionForm && (
+        {!showProfessionForm &&  (
           <div className='flex items-center'>
             <h4 className="text-md text-blue-500 tracking-wider font-bold">{data.profession && data.profession}</h4>
-            <button onClick={()=>setShowProfessionForm(true)} className='rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 p-1 ml-1'>
-              <AiOutlineEdit />
-            </button>
+            {data._id === authUser?._id && (
+              <button onClick={()=>setShowProfessionForm(true)} className='rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 p-1 ml-1'>
+                <AiOutlineEdit />
+              </button>
+            )}
           </div>
         )}
         

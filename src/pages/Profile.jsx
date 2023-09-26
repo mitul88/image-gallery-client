@@ -80,7 +80,7 @@ const ProfilePage = () => {
           <p className='text-gray-600 animate-pulse'>Updating...</p>
         </div>
       )}
-        
+
         {/* top section */}
         <div className='w-full p-5 flex flex-col md:flex-row '>
           <ProfilePhoto 
@@ -93,7 +93,7 @@ const ProfilePage = () => {
           />
           <ProfileHeader 
             data={data} 
-            user={decoded} 
+            authUser={decoded} 
             setShowProfessionForm = {setShowProfessionForm}
             showProfessionForm={showProfessionForm}
             setUploadImageModal={setUploadImageModal}
