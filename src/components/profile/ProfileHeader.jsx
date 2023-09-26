@@ -14,7 +14,7 @@ const ProfileHeader = ({data, user, showProfessionForm, setShowProfessionForm, s
             defaultValue={data.profession}
             name="profession" 
             onClose={setShowProfessionForm} 
-            singleEdit={singleEdit} 
+            singleEdit={singleEdit}
           />
         )}
         

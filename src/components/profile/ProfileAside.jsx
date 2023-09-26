@@ -13,7 +13,7 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterest
                 name="bio"  
                 onClose={setShowBioForm} 
                 elemType="textarea"
-                singleEdit={singleEdit} 
+                singleEdit={singleEdit}
               />
             )}
             

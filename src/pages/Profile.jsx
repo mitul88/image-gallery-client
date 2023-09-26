@@ -59,7 +59,8 @@ const ProfilePage = () => {
   })
 
   const singleEdit = (formData) => {
-    singleEditInput({formData, token})
+    const userId = params.userId
+    singleEditInput({formData, userId, token})
   }
 
   const uploadProfilePhoto = (formData) => {
@@ -89,7 +90,7 @@ const ProfilePage = () => {
             setShowProfessionForm = {setShowProfessionForm}
             showProfessionForm={showProfessionForm}
             setUploadImageModal={setUploadImageModal}
-            singleEdit={singleEdit}  
+            singleEdit={singleEdit}
           /> 
         </div>
 
@@ -102,7 +103,7 @@ const ProfilePage = () => {
             showBioForm={showBioForm} 
             setShowInterestForm={setShowInterestForm}  
             showInterestForm={showInterestForm}
-            singleEdit={singleEdit} 
+            singleEdit={singleEdit}
           />
           {/* bottom right */}
           <div className='mx-auto w-full lg:ml-20'>

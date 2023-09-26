@@ -208,6 +208,7 @@ export const postProfilePhoto = async (photoData) => {
 export const editSingleInput = async (inputData) => {
   const formData = inputData.formData;
   const token = inputData.token;
+  const userId = inputData.userId;
 
   let postData = {
     "bio" : formData.get('bio'),
@@ -215,7 +216,7 @@ export const editSingleInput = async (inputData) => {
     "profession" : formData.get('profession'),
   }
 
-  const response = await fetch(`http://localhost:4000/api/user/single-update`, {
+  const response = await fetch(`http://localhost:4000/api/user/single-update/${userId}`, {
     method: "PATCH",
     body: JSON.stringify(postData),
     headers: {
