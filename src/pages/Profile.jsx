@@ -29,6 +29,8 @@ const ProfilePage = () => {
   if (token){
     if(token !== "EXPIRED") {
       decoded = jwtDecode(token)
+    } else {
+      navigate('/');
     }
   };
 

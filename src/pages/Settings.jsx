@@ -1,19 +1,25 @@
 import React, { useState } from 'react'
 import ChangeProfilePhoto from '../components/ChangeProfilePhoto'
+import Modal from '../ui/Modal';
+import EditUserForm from '../components/profile/EditUserForm';
 
 const Settings = () => {
   const [showChangePhoto, setShowChangePhoto] = useState(false);
+  const [showUserEditForm, setShowUserEditForm] = useState(false);
 
   const handleDeletePhoto = () => {
     window.confirm("are you sure ?");
   }
   return (
-    <div>
+    <>
       <div className='p-3 my-3 rounded shadow-md shadow-gray-200'>
 
         <div className='m-3 p-5 flex flex-col md:flex-row justify-between items-center border-b border-gray-200'>
           <div>
-            <button className="px-2 text-sm lg:px-5 lg:py-2 text-blue-400 rounded-md hover:bg-sky-100 ease-in duration-300">Edit Profile</button>
+            <button 
+              className="px-2 text-sm lg:px-5 lg:py-2 text-blue-400 rounded-md hover:bg-sky-100 ease-in duration-300"
+              onClick={()=>setShowUserEditForm(true)}  
+            >Edit Profile</button>
           </div>
           <div className='w-[350px]'>
             <p className="mt-2 text-sm text-gray-500">Edit your profile information.</p>
@@ -55,7 +61,10 @@ const Settings = () => {
         </div>
 
       </div>
-    </div>
+      <Modal isVisible={showUserEditForm} onClose={()=>setShowUserEditForm(false)}>
+        <EditUserForm />
+      </Modal>
+    </>
   )
 }
 

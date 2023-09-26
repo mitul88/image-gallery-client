@@ -3,7 +3,7 @@ import SingleInputForm from '../shared/SingleInputForm'
 import { AiOutlinePlus } from "react-icons/ai";
 
 const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm, singleEdit }) => {
-  console.log(data.interest)
+  
   return (
     <div className='lg:w-[340px]'>
         <div className=' mt-5'>
