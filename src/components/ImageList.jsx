@@ -3,14 +3,13 @@ import ImageItem from './ImageItem'
 import CategoryNavigation from './CategoryNavigation'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { fetchImages } from '../utils/http';
-import LoadingIndicator from '../ui/LoadingIndicator';
 import { useLocation } from 'react-router';
+import LoadingImage from '../ui/LoadingImage';
  
 const ImageList = ({categoryData}) => {
   const location = useLocation();
   const searchParam = new URLSearchParams(location.search).get('id');
 
-  const [isLoading, setIsLoading] = useState(false)
   const {data: imageData, hasNextPage, fetchNextPage, isFetchingNextPage} = useInfiniteQuery(
     {
       queryKey: ['images',  {category: searchParam}],
@@ -41,7 +40,7 @@ const ImageList = ({categoryData}) => {
     }
   }, [])
 
-  // {isFetchingNextPage && (<LoadingIndicator />)}
+  {isFetchingNextPage && (<LoadingImage />)}
 
   let content;
 
@@ -56,7 +55,7 @@ const ImageList = ({categoryData}) => {
               )
             )
           }
-          {isFetchingNextPage && (<LoadingIndicator />)}
+          {isFetchingNextPage && (<LoadingImage />)}
         </>
     )
   }

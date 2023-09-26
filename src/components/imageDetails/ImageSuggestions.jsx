@@ -1,19 +1,18 @@
-import React from 'react'
-import ImageItem from '../ImageItem'
-import { useQuery } from '@tanstack/react-query'
-import { fetchImages } from '../../utils/http'
-import LoadingIndicator from '../../ui/LoadingIndicator'
+import ImageItem from '../ImageItem';
+import { useQuery } from '@tanstack/react-query';
+import { fetchImages } from '../../utils/http';
+import LoadingImage from '../../ui/LoadingImage';
 
 const ImageSuggestions = ({category}) => {
-  const {data, isPending, isError, error} = useQuery({
+  const {data, isLoading, isError, error} = useQuery({
     queryKey: ["img-suggestions", {category: category._id, limit: 5}],
     queryFn: ({signal, queryKey}) => fetchImages({signal, ...queryKey[1]})
   })
 
   let content;
 
-  if (isPending) {
-    content = (<LoadingIndicator />)
+  if (isLoading) {
+    content = (<LoadingImage />)
   }
 
   if(data) {
