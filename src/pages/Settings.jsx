@@ -3,12 +3,13 @@ import ChangeProfilePhoto from '../components/ChangeProfilePhoto'
 import Modal from '../ui/Modal';
 import EditUserForm from '../components/profile/EditUserForm';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { userUpdate, fetchUser, queryClient } from '../utils/http';
+import { userUpdate, fetchUser, queryClient, deleteProfilePhoto } from '../utils/http';
 import { useParams, useRouteLoaderData } from 'react-router-dom';
 
 const Settings = () => {
   const [showChangePhoto, setShowChangePhoto] = useState(false);
   const [showUserEditForm, setShowUserEditForm] = useState(false);
+  const [showProfilePhotoDelete, setShowProfilePhotoDelete] = useState(false);
   
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
@@ -19,10 +20,10 @@ const Settings = () => {
   })
 
   const handleDeletePhoto = () => {
-    window.confirm("are you sure ?");
+    setShowProfilePhotoDelete(true);
   }
 
-  const {mutate: userUpdateFn} = useMutation({
+  const {mutate: userUpdateMutate} = useMutation({
     mutationFn: userUpdate,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['user']});
@@ -32,7 +33,20 @@ const Settings = () => {
 
   const userUpdateSubmit = (formData) => {
     const userId = params.userId
-    userUpdateFn({formData, userId, token})
+    userUpdateMutate({formData, userId, token})
+  }
+
+  const {mutate: deletePhotoMutate} = useMutation({
+    mutationFn: deleteProfilePhoto,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['user']});
+      setShowProfilePhotoDelete(false);
+    }
+  })
+
+  const handleDelete = () => {
+    const userId = params.userId;
+    deletePhotoMutate({userId, token});
   }
 
   return (
@@ -86,8 +100,19 @@ const Settings = () => {
         </div>
 
       </div>
+      {/* edit user modal */}
       <Modal isVisible={showUserEditForm} onClose={()=>setShowUserEditForm(false)}>
         <EditUserForm defaultValue={data} userUpdateSubmit={userUpdateSubmit} />
+      </Modal>
+      {/* delete modal */}
+      <Modal isVisible={showProfilePhotoDelete} onClose={()=>setShowProfilePhotoDelete(false)}>
+        <div className='w-[200px] p-5'>
+          <h3 className="text-2xl text-center text-gray-600 font-semibold">Are You Sure ?</h3>
+          <div className='mx-auto flex justify-center my-2'>
+              <button onClick={handleDelete} className="px-2 bg-red-600 text-white rounded">Yes</button>
+              <button onClick={()=>setShowProfilePhotoDelete(false)} className="px-2 bg-green-600 text-white rounded ml-2">No</button>
+          </div>
+        </div>
       </Modal>
     </>
   )

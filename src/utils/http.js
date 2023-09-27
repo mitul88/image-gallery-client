@@ -179,7 +179,6 @@ export const fetchLikes = async ({id, token, signal}) => {
 }
 
 export const postProfilePhoto = async (photoData) => {
-  console.log(photoData.formData)
 
   const formData = photoData.formData;
   const token = photoData.token;
@@ -253,6 +252,30 @@ export const userUpdate = async (updateData) => {
   const response = await fetch(`http://localhost:4000/api/user/update/${userId}`, {
     method: "PUT",
     body: JSON.stringify(postData),
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while updating');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}
+
+export const deleteProfilePhoto = async (deletePhotoData) => {
+  const token = deletePhotoData.token;
+  const userId = deletePhotoData.userId;
+
+  const response = await fetch(`http://localhost:4000/api/user/profile-photo-delete/${userId}`, {
+    method: "DELETE",
     headers: {
       'Content-Type': 'application/json',
       'authorization': `Bearer ${token}`

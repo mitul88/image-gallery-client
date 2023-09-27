@@ -2,17 +2,10 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-// user name
-// user Phone
-// dob
-// profession
-// bio
-// interest
-
 function EditUserForm({defaultValue, userUpdateSubmit}) {
-    
-    let defaultDOB = new Date(defaultValue?.dob);
-    const [dob, setDob] = useState(defaultValue.name ? defaultDOB : new Date());
+    let defaultDOB = defaultValue.dob ? new Date(defaultValue?.dob) : null;
+
+    const [dob, setDob] = useState(defaultDOB? defaultDOB : new Date());
 
     const [name, setName] = useState(defaultValue.name ? defaultValue.name : "");
     const [phoneNumber, setPhoneNumber] = useState(defaultValue.phone ? defaultValue.phone : "");
