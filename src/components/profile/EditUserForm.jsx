@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 // bio
 // interest
 
-function EditUserForm({defaultValue}) {
+function EditUserForm({defaultValue, userUpdateSubmit}) {
     const [dob, setDob] = useState(new Date());
     const [name, setName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -18,6 +18,14 @@ function EditUserForm({defaultValue}) {
 
     const handleSubmit = e => {
         e.preventDefault();
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("phoneNumber", phoneNumber);
+        formData.append("profession", profession);
+        formData.append("dob", dob);
+        formData.append("bio", bio);
+    
+        userUpdateSubmit(formData);
     }
 
     return (

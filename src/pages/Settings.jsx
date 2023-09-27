@@ -2,14 +2,30 @@ import React, { useState } from 'react'
 import ChangeProfilePhoto from '../components/ChangeProfilePhoto'
 import Modal from '../ui/Modal';
 import EditUserForm from '../components/profile/EditUserForm';
+import { useMutation } from '@tanstack/react-query';
+import { userUpdate } from '../utils/http';
+import { useParams, useRouteLoaderData } from 'react-router-dom';
 
 const Settings = () => {
   const [showChangePhoto, setShowChangePhoto] = useState(false);
   const [showUserEditForm, setShowUserEditForm] = useState(false);
+  
+  const params = useParams('userId');
+  const token = useRouteLoaderData('root');
 
   const handleDeletePhoto = () => {
     window.confirm("are you sure ?");
   }
+
+  const {mutate: userUpdateFn} = useMutation({
+    mutationFn: userUpdate
+  })
+
+  const userUpdateSubmit = (formData) => {
+    const userId = params.userId
+    userUpdateFn({formData, userId, token})
+  }
+
   return (
     <>
       <div className='p-3 my-3 rounded shadow-md shadow-gray-200'>
@@ -62,7 +78,7 @@ const Settings = () => {
 
       </div>
       <Modal isVisible={showUserEditForm} onClose={()=>setShowUserEditForm(false)}>
-        <EditUserForm />
+        <EditUserForm userUpdateSubmit={userUpdateSubmit} />
       </Modal>
     </>
   )

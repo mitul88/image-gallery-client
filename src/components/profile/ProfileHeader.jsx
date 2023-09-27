@@ -28,10 +28,12 @@ const ProfileHeader = ({data, authUser, showProfessionForm, setShowProfessionFor
         {!showProfessionForm &&  (
           <div className='flex items-center'>
             <h4 className="text-md text-blue-500 tracking-wider font-bold">{data.profession && data.profession}</h4>
-            {data._id === authUser?._id && (
-              <button onClick={()=>setShowProfessionForm(true)} className='rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 p-1 ml-1'>
-                <AiOutlineEdit />
-              </button>
+            {data.profession && (
+              data._id === authUser?._id ? (
+                <button onClick={()=>setShowProfessionForm(true)} className='rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 p-1 ml-1'>
+                <   AiOutlineEdit />
+                </button>
+              ) : null
             )}
           </div>
         )}

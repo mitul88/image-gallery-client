@@ -236,3 +236,37 @@ export const editSingleInput = async (inputData) => {
 
   return data;
 }
+
+export const userUpdate = async (updateData) => {
+  const formData = updateData.formData;
+  const token = updateData.token;
+  const userId = updateData.userId;
+
+  let postData = {
+    "name" : formData.get('name'),
+    "bio" : formData.get('bio'),
+    "phone" : formData.get('phoneNumber'),
+    "dob" : formData.get('dob'),
+    "profession" : formData.get('profession'),
+  }
+
+  const response = await fetch(`http://localhost:4000/api/user/update/${userId}`, {
+    method: "PUT",
+    body: JSON.stringify(postData),
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while updating');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}
