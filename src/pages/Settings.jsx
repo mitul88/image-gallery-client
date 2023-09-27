@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import ChangeProfilePhoto from '../components/ChangeProfilePhoto'
 import Modal from '../ui/Modal';
 import EditUserForm from '../components/profile/EditUserForm';
-import { useMutation } from '@tanstack/react-query';
-import { userUpdate } from '../utils/http';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { userUpdate, fetchUser, queryClient } from '../utils/http';
 import { useParams, useRouteLoaderData } from 'react-router-dom';
 
 const Settings = () => {
@@ -13,12 +13,21 @@ const Settings = () => {
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
 
+  const {data, isError, error} = useQuery({
+    queryKey: ['user', params.userId],
+    queryFn: ({signal}) => fetchUser({signal, id: params.userId})
+  })
+
   const handleDeletePhoto = () => {
     window.confirm("are you sure ?");
   }
 
   const {mutate: userUpdateFn} = useMutation({
-    mutationFn: userUpdate
+    mutationFn: userUpdate,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['user']});
+      setShowUserEditForm(false);
+    }
   })
 
   const userUpdateSubmit = (formData) => {
@@ -78,7 +87,7 @@ const Settings = () => {
 
       </div>
       <Modal isVisible={showUserEditForm} onClose={()=>setShowUserEditForm(false)}>
-        <EditUserForm userUpdateSubmit={userUpdateSubmit} />
+        <EditUserForm defaultValue={data} userUpdateSubmit={userUpdateSubmit} />
       </Modal>
     </>
   )

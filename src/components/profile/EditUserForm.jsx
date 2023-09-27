@@ -10,15 +10,21 @@ import "react-datepicker/dist/react-datepicker.css";
 // interest
 
 function EditUserForm({defaultValue, userUpdateSubmit}) {
-    const [dob, setDob] = useState(new Date());
-    const [name, setName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [profession, setProfession] = useState("");
-    const [bio, setBio] = useState("");
+    
+    let defaultDOB = new Date(defaultValue?.dob);
+    const [dob, setDob] = useState(defaultValue.name ? defaultDOB : new Date());
+
+    const [name, setName] = useState(defaultValue.name ? defaultValue.name : "");
+    const [phoneNumber, setPhoneNumber] = useState(defaultValue.phone ? defaultValue.phone : "");
+    const [profession, setProfession] = useState(defaultValue.profession ? defaultValue.profession : "");
+    const [bio, setBio] = useState(defaultValue.bio ? defaultValue.bio : "");
+
+
 
     const handleSubmit = e => {
         e.preventDefault();
         const formData = new FormData();
+        
         formData.append("name", name);
         formData.append("phoneNumber", phoneNumber);
         formData.append("profession", profession);
@@ -38,9 +44,9 @@ function EditUserForm({defaultValue, userUpdateSubmit}) {
                         id="user-name" 
                         type="text" 
                         name="user-name" 
-                        defaultValue={defaultValue}
                         onChange={(e) => setName(e.target.value)}
                         className="border border-gray-300 rounded px-3 py-1 mb-3 text-gray-600 font-semibold"
+                        defaultValue={defaultValue.name}
                     />
                 </div>
                 <div className="flex flex-col">
@@ -49,7 +55,7 @@ function EditUserForm({defaultValue, userUpdateSubmit}) {
                         id="user-phone" 
                         type="text" 
                         name="user-phone" 
-                        defaultValue={defaultValue}
+                        defaultValue={defaultValue.phone}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         className="border border-gray-300 rounded px-3 py-1 mb-3 text-gray-600 font-semibold"
                     />
@@ -59,7 +65,7 @@ function EditUserForm({defaultValue, userUpdateSubmit}) {
                     <DatePicker 
                         className="border border-gray-300 px-3 py-1 w-full rounded mb-3 text-gray-600 font-semibold" 
                         selected={dob} 
-                        onChange={(date) => setDob(date)} 
+                        onChange={(date) => setDob(date)}
                     />
                 </div>
                 <div className="flex flex-col">
@@ -67,7 +73,7 @@ function EditUserForm({defaultValue, userUpdateSubmit}) {
                     <input 
                         id="profession" 
                         type="text" name="profession" 
-                        defaultValue={defaultValue}
+                        defaultValue={defaultValue.profession}
                         onChange={(e) => setProfession(e.target.value)}
                         className="border border-gray-300 rounded px-3 py-1 mb-3 text-gray-600 font-semibold"
                     />
@@ -78,7 +84,7 @@ function EditUserForm({defaultValue, userUpdateSubmit}) {
                         id="bio" 
                         type="text" 
                         name="bio" 
-                        defaultValue={defaultValue}
+                        defaultValue={defaultValue.bio}
                         onChange={(e) => setBio(e.target.value)}
                         className="border border-gray-300 rounded px-3 py-1 mb-3 text-gray-600 font-semibold"
                     />
