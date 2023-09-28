@@ -10,12 +10,14 @@ import UploadImagePage from "../pages/UploadImage";
 import UserPhotoPage, {loader as userPhotoLoader} from "../pages/UserPhoto";
 import { checkAuthLoader, loadToken } from "../utils/auth";
 import { action as logoutAction } from "../pages/Logout";
+import Error from "../pages/Error";
+
 
 export const router = createBrowserRouter([
     {
         path: '/',
         element: <RootPage />,
-        errorElement: <p>Error Occured</p>,
+        errorElement: <Error />,
         id: 'root',
         loader: loadToken,
         children: [

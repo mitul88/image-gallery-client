@@ -4,7 +4,7 @@ import Modal from '../ui/Modal';
 import EditUserForm from '../components/profile/EditUserForm';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { userUpdate, fetchUser, queryClient, deleteProfilePhoto, changePassword } from '../utils/http';
-import { redirect, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
+import { useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import ChangePassword from '../components/profile/ChangePassword';
 
 const Settings = () => {
@@ -17,7 +17,7 @@ const Settings = () => {
   const token = useRouteLoaderData('root');
   const navigate = useNavigate();
 
-  const {data, isError, error} = useQuery({
+  const {data, isError: isUserDataError, error: userDataError} = useQuery({
     queryKey: ['user', params.userId],
     queryFn: ({signal}) => fetchUser({signal, id: params.userId})
   })
