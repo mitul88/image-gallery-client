@@ -70,11 +70,11 @@ const ProfilePage = () => {
   }
   return (
     <section className='bg-slate-200 pt-5 min-h-screen px-0 md:px-5 lg:px-[250px]'>
+      
+      <div className='container mx-auto min-h-[800px] bg-white rounded-md flex flex-col relative'>
       <div className="relative">
         <button onClick={goBack} className="absolute top-5 right-10 bg-gray-100 hover:bg-gray-200 text-gray-500 p-4 rounded-full flex flex-row items-center"><BiArrowBack /></button>
       </div>
-      <div className='container mx-auto min-h-[800px] bg-white rounded-md flex flex-col relative'>
-
       {isSingleEditLoading && (
         <div className="absolute -left-4 -top-4 w-[200px] px-5 py-2 bg-yellow-400 ">
           <p className='text-gray-600 animate-pulse'>Updating...</p>
