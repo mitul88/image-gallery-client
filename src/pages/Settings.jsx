@@ -3,8 +3,8 @@ import ChangeProfilePhoto from '../components/ChangeProfilePhoto'
 import Modal from '../ui/Modal';
 import EditUserForm from '../components/profile/EditUserForm';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { userUpdate, fetchUser, queryClient, deleteProfilePhoto } from '../utils/http';
-import { useParams, useRouteLoaderData } from 'react-router-dom';
+import { userUpdate, fetchUser, queryClient, deleteProfilePhoto, changePassword } from '../utils/http';
+import { redirect, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import ChangePassword from '../components/profile/ChangePassword';
 
 const Settings = () => {
@@ -15,16 +15,18 @@ const Settings = () => {
   
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
+  const navigate = useNavigate();
 
   const {data, isError, error} = useQuery({
     queryKey: ['user', params.userId],
     queryFn: ({signal}) => fetchUser({signal, id: params.userId})
   })
-  
+
   const handleDeletePhoto = () => {
     setShowProfilePhotoDelete(true);
   }
 
+  // user update
   const {mutate: userUpdateMutate} = useMutation({
     mutationFn: userUpdate,
     onSuccess: () => {
@@ -38,6 +40,7 @@ const Settings = () => {
     userUpdateMutate({formData, userId, token})
   }
 
+  // delete photo
   const {mutate: deletePhotoMutate} = useMutation({
     mutationFn: deleteProfilePhoto,
     onSuccess: () => {
@@ -49,6 +52,22 @@ const Settings = () => {
   const handleDelete = () => {
     const userId = params.userId;
     deletePhotoMutate({userId, token});
+  }
+
+  // change password 
+  const {mutate: passwordMutate, isLoading: isChangePassLoading, isError: isChangePassError, error: changePassError} = useMutation({
+    mutationFn: changePassword,
+    onSuccess: () => {
+      setShowChangePassword(false);
+      localStorage.removeItem('token');
+      localStorage.removeItem('expiration');
+      navigate('/auth?mode=login')
+    }
+  })
+
+  const handleChangePass = (formData) => {
+    const userId = params.userId;
+    passwordMutate({formData, token, userId})
   }
 
   return (
@@ -134,10 +153,16 @@ const Settings = () => {
         </div>
       </Modal>
       <Modal isVisible={showChangePassword} onClose={()=>setShowChangePassword(false)}>
-        <ChangePassword />
+        <ChangePassword 
+          handleChangePass={handleChangePass} 
+          isChangePassLoading={isChangePassLoading}
+          isChangePassError={isChangePassError}
+          changePassError={changePassError}
+        />
       </Modal>
     </>
   )
 }
 
 export default Settings
+

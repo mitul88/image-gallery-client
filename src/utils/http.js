@@ -293,3 +293,36 @@ export const deleteProfilePhoto = async (deletePhotoData) => {
 
   return data;
 }
+
+export const changePassword = async (changePasswordData) => {
+
+  const formData = changePasswordData.formData;
+  const token = changePasswordData.token;
+  const userId = changePasswordData.userId;
+
+  const changePasswordPost = {
+    currentPass: formData.get('currentPass'),
+    newPass: formData.get('newPass'),
+    confirmNewPass: formData.get('confirmNewPass')
+  }
+
+  const response = await fetch(`http://localhost:4000/api/user/change-password/${userId}`, {
+    method: 'POST',
+    body: JSON.stringify(changePasswordPost),
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`,
+    }
+  })
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while updating');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}
