@@ -17,7 +17,7 @@ const Settings = () => {
   const token = useRouteLoaderData('root');
   const navigate = useNavigate();
 
-  const {data, isError: isUserDataError, error: userDataError} = useQuery({
+  const {data} = useQuery({
     queryKey: ['user', params.userId],
     queryFn: ({signal}) => fetchUser({signal, id: params.userId})
   })
