@@ -38,7 +38,7 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterest
         </div>
         <div className=' mt-5'>
             <span className="text-gray-400">INTERESTS</span> <hr className="border-[1px] text-gray-400 w-full" />
-            <div className="py-3 flex md:flex-col justify-between" style={{fontFamily: "Quicksand"}}>
+            <div className="py-3 my-5 mx-auto md:my-0 flex flex-col justify-between" style={{fontFamily: "Quicksand"}}>
               {showInterestForm && (
                 <SingleInputForm 
                   name="interest"  
@@ -48,7 +48,7 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterest
               )}
 
               {data.interest && data.interest.map((item, index)=> (
-                  <h4 className="text-sm font-semibold text-gray-600 mb-1" key={index}>{item}</h4>
+                  <h4 className="text-sm mx-auto md:mx-0  font-semibold text-gray-600 mb-1" key={index}>{item}</h4>
               ))}
 
               <div>

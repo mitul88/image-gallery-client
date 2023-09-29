@@ -13,7 +13,7 @@ const ProfileTab = ({userId, authUser}) => {
   
 
   return (
-    <div className='w-full flex flex-row items-center border-t border-b border-gray-200 text-sm'>
+    <div className='w-full flex flex-row items-center justify-center md:justify-normal border-t border-b border-gray-200 text-sm'>
         <div className='flex flex-row justify-center items-center mr-5'>
             <Link to="" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Photos</Link>
         </div>
@@ -21,10 +21,10 @@ const ProfileTab = ({userId, authUser}) => {
             <Link to="about" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> About</Link>
         </div>
         {authUser?._id === userId && (
-        <div className='flex flex-row justify-center items-center mr-5'>
-            <Link to="upload" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Upload Photo</Link>
-        </div>
-        )
+          <div className='flex flex-row justify-center items-center mr-5'>
+              <Link to="upload" className='flex flex-row justify-between items-center p-2 rounded-lg text-gray-400 hover:bg-gray-100'> Upload Photo</Link>
+          </div>
+         )
         }
         {authUser?._id === userId && (
         <div className='flex flex-row justify-center items-center mr-5'>
