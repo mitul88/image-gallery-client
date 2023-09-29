@@ -7,7 +7,7 @@ import ImageDetailsPage, {loader as imageDetailsLoader} from "../pages/ImageDeta
 import UserInfo from "../pages/UserInfo";
 import Settings from "../pages/Settings";
 import UploadImagePage from "../pages/UploadImage";
-import UserPhotoPage, {loader as userPhotoLoader} from "../pages/UserPhoto";
+import UserPhotoPage from "../pages/UserPhoto";
 import { checkAuthLoader, loadToken } from "../utils/auth";
 import { action as logoutAction } from "../pages/Logout";
 import Error from "../pages/Error";
@@ -31,11 +31,12 @@ export const router = createBrowserRouter([
                 element: <ProfilePage />,
                 id:"user",
                 loader: profileLoader,
+                loader: categoryLoader,
                 children: [
                     {
                         index: true,
                         element: <UserPhotoPage />,
-                        loader: userPhotoLoader
+                        loader: categoryLoader,
                     },
                     {
                         path: 'about',

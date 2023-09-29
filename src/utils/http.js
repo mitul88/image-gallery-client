@@ -352,3 +352,28 @@ export const changeProfilePhoto = async (photoData) => {
 
   return data;
 }
+
+export const postImage = async (imageData) => {
+
+  const formData = imageData.formData;
+  const token = imageData.token;
+
+  const response = await fetch(`http://localhost:4000/api/image/upload/`, {
+    method: "POST",
+    body: formData,
+    headers: {
+      'authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while creating the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}

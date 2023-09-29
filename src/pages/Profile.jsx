@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
+import { Outlet, useLoaderData, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import ProfilePhoto from '../components/profile/ProfilePhoto';
 import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileTab from '../components/profile/ProfileTab';
@@ -17,6 +17,8 @@ import Modal from '../ui/Modal';
 const ProfilePage = () => {
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
+  const categoryData = useLoaderData('category');
+  const categories = categoryData.data;
   const navigate = useNavigate();
 
   const [profilePhotoUploadModal, setProfilePhotoUploadModal] = useState(false);
@@ -122,7 +124,7 @@ const ProfilePage = () => {
         </div>
       </div>
       <Modal isVisible={uploadImageModal} onClose={()=>setUploadImageModal(false)}>
-        <UploadImageForm />
+        <UploadImageForm categories={categories} />
       </Modal> 
     </section>
   )

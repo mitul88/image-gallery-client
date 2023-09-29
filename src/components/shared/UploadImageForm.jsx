@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import ImageUploader from './ImageUploader';
 
-const UploadImageForm = () => {
+const UploadImageForm = ({categories}) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
@@ -35,10 +35,9 @@ const UploadImageForm = () => {
             <label htmlFor="image-category">Select Category</label>
             <select className='border border-gray-300 rounded-md px-3 py-2 w-full mb-3 bg-white' defaultValue={"saab"} name="image-category" id="image-category">
                 {/* <option value="">Select Category</option> */}
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
+                {categories.map(category => (
+                  <option key={category._id} value={category._id}>{category.name}</option>
+                ))}
             </select>
         </div>
         <div className='flex flex-col'>
