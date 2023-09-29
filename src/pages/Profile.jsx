@@ -41,7 +41,7 @@ const ProfilePage = () => {
     queryFn: ({signal}) => fetchUser({signal, id: params.userId})
   })
 
-  const {mutate: uploadImageMutate, isPending: isUploadPending, isError: isUploadError, error: uploadError } = useMutation({
+  const {mutate: uploadImageMutate, isLoading: isUploadLoading, isError: isUploadError, error: uploadError } = useMutation({
     mutationFn: postImage,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['images']});
@@ -53,7 +53,7 @@ const ProfilePage = () => {
     uploadImageMutate({formData, token})
   }
 
-  const {mutate: mutateProfilePhoto, isPending: isProfilePhotoPending, isError: isProfilePhotoError, error: profilePhotoError } = useMutation({
+  const {mutate: mutateProfilePhoto, isLoading: isProfilePhotoPending, isError: isProfilePhotoError, error: profilePhotoError } = useMutation({
     mutationFn: postProfilePhoto,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['user']});
@@ -136,7 +136,7 @@ const ProfilePage = () => {
       <Modal isVisible={uploadImageModal} onClose={()=>setUploadImageModal(false)}>
         <UploadImageForm 
           handleUploadImage={handleUploadImage} 
-          isUploadPending={isUploadPending}
+          isUploadLoading={isUploadLoading}
           isUploadError={isUploadError}
           uploadError={uploadError}
         />

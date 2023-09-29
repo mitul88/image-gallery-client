@@ -21,7 +21,7 @@ const UserPhotoPage = () => {
     }
   };
 
-  const {mutate: uploadImageMutate, isPending: isUploadPending, isError: isUploadError, error: uploadError } = useMutation({
+  const {mutate: uploadImageMutate, isPending: isUploadLoading, isError: isUploadError, error: uploadError } = useMutation({
     mutationFn: postImage,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['images']});
@@ -80,7 +80,7 @@ const UserPhotoPage = () => {
       <Modal isVisible={uploadImageModal} onClose={()=>setUploadImageModal(false)}>
         <UploadImageForm 
             handleUploadImage={handleUploadImage} 
-            isUploadPending={isUploadPending}
+            isUploadLoading={isUploadLoading}
             isUploadError={isUploadError}
             uploadError={uploadError}
           />

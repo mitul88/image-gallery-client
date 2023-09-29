@@ -377,3 +377,26 @@ export const postImage = async (imageData) => {
 
   return data;
 }
+
+export const deleteImage = async (imageData) => {
+  const token = imageData.token;
+  const imageId = imageData.imageId
+
+  const response = await fetch(`http://localhost:4000/api/image/delete-image/${imageId}`, {
+    method: "DELETE",
+    headers: {
+      'authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while deleting image');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}

@@ -5,7 +5,7 @@ import { fetchCategories } from '../../utils/http';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
-const UploadImageForm = ({ handleUploadImage, isUploadPending, isUploadError, uploadError}) => {
+const UploadImageForm = ({ handleUploadImage, isUploadLoading, isUploadError, uploadError}) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
@@ -39,7 +39,7 @@ const UploadImageForm = ({ handleUploadImage, isUploadPending, isUploadError, up
   return (
     <div className='m-5 p-5 w-96 shadow-md shadow-gray-200' style={{fontFamily: "Quicksand"}}>
       <h2 className="text-xl font-bold text-center">Upload your image</h2>
-      {isUploadPending && (<p className='bg-green-200 mb-3 rounded text-center px-5'><span className='animate-pulsetacking-wider font-bold text-green-600 mb-3'>Profile Photo Updating ....</span></p>)}
+      {isUploadLoading && (<p className='bg-green-200 mb-3 rounded text-center px-5'><span className='animate-pulsetacking-wider font-bold text-green-600 mb-3'>Profile Photo Updating ....</span></p>)}
       {isUploadError && (<p className='text-red-400 text-sm bg-red-100 px-3 py-1 rounded mb-3'>{uploadError?.info.message}</p>)}
       {inputError && (<p className='text-red-400 text-sm bg-red-100 px-3 py-1 rounded mb-3'>Fill up all fields</p>)}
       <form onSubmit={submitForm}>

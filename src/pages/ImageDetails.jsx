@@ -1,25 +1,27 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiLike, BiCommentDetail } from "react-icons/bi";
-import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
+import { Link, redirect, useLocation, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import CommentsListSection from '../components/imageDetails/CommentsList';
 import ImageSuggestions from '../components/imageDetails/ImageSuggestions';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { fetchComments, fetchImage, fetchLikes, postComment, postLike, queryClient } from '../utils/http';
+import { deleteImage, fetchComments, fetchImage, fetchLikes, postComment, postLike, queryClient } from '../utils/http';
 
 import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
 import DropdownOptions from '../ui/DropdownOptions';
 
 import jwtDecode from 'jwt-decode';
+import Modal from '../ui/Modal';
 
 const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
-  const params = useParams();
+  const params = useParams('imageId');
   const navigate = useNavigate();
   const { pathname } = useLocation()
 
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
+  const [showImageDelete, setShowImageDelete] = useState(false);
 
   let decoded;
   if (token){
@@ -87,6 +89,21 @@ const ImageDetailsPage = () => {
     mutateComment({formData, token, method});
   }
 
+  // delete photo
+  const {mutate: mutateImage, isLoading: isImageMutateLoading, isError: isImageMutateError, error: imageMutateError} = useMutation({
+    mutationFn: deleteImage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['images']});
+      setShowImageDelete(false);
+      navigate("/")
+    }
+  })
+
+  const handleImageDelete = () => {
+    const imageId = params.imageId;
+    mutateImage({imageId, token});
+  }
+
   const handleLikeSubmit = e => {
     e.preventDefault();
     let formData = new FormData();
@@ -139,11 +156,11 @@ const ImageDetailsPage = () => {
             <DropdownOptions show={showDropdown}>
               {decoded && decoded._id === imageData.image.uploaded_by._id ? (
                   <>
-                    <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</Link>
-                    <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Delete</Link>
+                    <button onClick={()=>setShowImageDelete(true)} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</button>
+                    <button onClick={()=>setShowImageDelete(true)} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Delete</button>
                   </>
                 ) : null}
-              <Link className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Report</Link>
+              <button className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Report</button>
             </DropdownOptions>
           </div>
           <h2 className="text-3xl text-center mt-5 px-5">{imageData.image.title}</h2>
@@ -201,6 +218,25 @@ const ImageDetailsPage = () => {
       <div className='container mx-auto lg:mb-5'>
         <ImageSuggestions category={imageData.image.category} />
       </div>
+      <Modal isVisible={showImageDelete} onClose={()=>setShowImageDelete(false)}>
+        <div className='w-[200px] p-5'>
+          {isImageMutateLoading && (
+            <div className='px-3 py-1 rounded bg-gray-200'>
+              <span className='animate-pulse text-red-600 font-bold tracking-wide'>Image deleting...</span>
+            </div>
+          )}
+          {isImageMutateError && (
+            <div className='px-3 py-1 rounded bg-red-200'>
+              <span className='text-red-600 font-bold tracking-wide'>{imageMutateError.info.message}</span>
+            </div>
+          )}
+          <h3 className="text-2xl text-center text-gray-600 font-semibold">Are You Sure ?</h3>
+          <div className='mx-auto flex justify-center my-2'>
+              <button onClick={handleImageDelete} className="px-2 bg-red-600 text-white rounded">Yes</button>
+              <button onClick={()=>setShowImageDelete(false)} className="px-2 bg-green-600 text-white rounded ml-2">No</button>
+          </div>
+        </div>
+      </Modal>
     </section>
   )
 }
