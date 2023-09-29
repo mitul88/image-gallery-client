@@ -184,7 +184,7 @@ export const postProfilePhoto = async (photoData) => {
   const token = photoData.token;
   const userId = photoData.userId;
 
-  const response = await fetch(`http://localhost:4000/api/user/upload_profile_photo/${userId}`, {
+  const response = await fetch(`http://localhost:4000/api/user/upload-profile-photo/${userId}`, {
     method: "POST",
     body: formData,
     headers: {
@@ -317,6 +317,32 @@ export const changePassword = async (changePasswordData) => {
 
   if (!response.ok) {
     const error = new Error('An error occurred while updating');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}
+
+export const changeProfilePhoto = async (photoData) => {
+
+  const formData = photoData.formData;
+  const token = photoData.token;
+  const userId = photoData.userId;
+
+  const response = await fetch(`http://localhost:4000/api/user/change-profile-photo/${userId}`, {
+    method: "PUT",
+    body: formData,
+    headers: {
+      'authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while creating the event');
     error.code = response.status;
     error.info = await response.json();
     throw error;
