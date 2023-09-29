@@ -3,7 +3,7 @@ import ChangeProfilePhoto from '../components/ChangeProfilePhoto'
 import Modal from '../ui/Modal';
 import EditUserForm from '../components/profile/EditUserForm';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { userUpdate, fetchUser, queryClient, deleteProfilePhoto, changePassword } from '../utils/http';
+import { userUpdate, fetchUser, queryClient, deleteProfilePhoto, changePassword, changeProfilePhoto } from '../utils/http';
 import { useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import ChangePassword from '../components/profile/ChangePassword';
 
@@ -52,6 +52,20 @@ const Settings = () => {
   const handleDelete = () => {
     const userId = params.userId;
     deletePhotoMutate({userId, token});
+  }
+
+  // change user photo
+  const {mutate: changeUserPhotoMutate, isLoading: isChangePhotoLoading, isError: isChangePhotoError, error: changePhotoError} = useMutation({
+    mutationFn: changeProfilePhoto,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['user']});
+      setShowChangePhoto(false);
+    }
+  })
+
+  const handleChangePhoto = (formData) => {
+    const userId = params.userId;
+    changeUserPhotoMutate({formData, userId, token});
   }
 
   // change password 
@@ -108,7 +122,13 @@ const Settings = () => {
           )}
           {showChangePhoto && (
             <div>
-              <ChangeProfilePhoto showUploadForm={setShowChangePhoto} />
+              <ChangeProfilePhoto 
+                showUploadForm={setShowChangePhoto} 
+                handleChangePhoto={handleChangePhoto}
+                isChangePhotoLoading={isChangePhotoLoading}
+                isChangePhotoError={isChangePhotoError}
+                changePhotoError={changePhotoError} 
+              />
             </div>
           )}
           <div className="w-[350px]">
