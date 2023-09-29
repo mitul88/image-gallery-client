@@ -1,4 +1,4 @@
-import { useRouteLoaderData } from 'react-router-dom';
+import { Link, useRouteLoaderData } from 'react-router-dom';
 import ErrorBlock from '../../ui/ErrorBlock';
 import CommentForm from './CommentForm';
 import jwtDecode from 'jwt-decode';
@@ -60,7 +60,9 @@ const CommentsListSection = ({
         )}
         {commentData.map(comment => (
             <div key={comment._id} className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
-                <h4 className="text-sm font-bold ml-5">{comment.user.name}</h4>
+                <Link to={`/${comment.user.id}/profile`}>
+                    <h4 className="text-sm font-bold ml-5 text-blue-400 hover:text-blue-800">{comment.user.name}</h4>
+                </Link>
 
                 {decoded?._id === comment.user.id && showEditForm ? (
                         <form onSubmit={submitEditComment} id="editCommentForm">
@@ -111,27 +113,7 @@ const CommentsListSection = ({
                 ) : null }
             </div>
         ))}
-        
-{/* 
-        <div className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
-            <h4 className="text-sm font-bold ml-5">Redwan Rahman</h4>
-            <p className="text-sm text-gray-400 ml-5">My backyard !!</p>
-        </div>
-
-        <div className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
-            <h4 className="text-sm font-bold ml-5">Romit Paul</h4>
-            <p className="text-sm text-gray-400 ml-5">I wish I could go there</p>
-        </div>
-
-        <div className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
-            <h4 className="text-sm font-bold ml-5">Sabuj Tarafdar</h4>
-            <p className="text-sm text-gray-400 ml-5">Heaven !!</p>
-        </div>
-
-        <div className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
-            <h4 className="text-sm font-bold ml-5">Sadek Rahman</h4>
-            <p className="text-sm text-gray-400 ml-5">I have taken a similar pic back in 2012 in canada. this place remind me of that place</p>
-        </div> */}
+    
     </div>
   )
 }

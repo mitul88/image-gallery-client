@@ -72,7 +72,7 @@ const UserPhotoPage = () => {
         {content}
         {
           params.userId === decoded?._id ? (
-            <button onClick={()=>setUploadImageModal(true)} className='h-[80px] w-[80px] rounded bg-gray-100 hover:bg-gray-200 ease-in duration-300'>
+            <button onClick={()=>setUploadImageModal(true)} className='w-[180px] h-[180px] rounded bg-gray-100 hover:bg-gray-200 ease-in duration-300'>
               <AiOutlinePlus className='scale-150 mx-auto text-gray-400' />
             </button>
           ) : null
