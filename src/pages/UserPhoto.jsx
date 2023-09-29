@@ -6,13 +6,10 @@ import jwtDecode from 'jwt-decode';
 import Modal from '../ui/Modal';
 import UploadImageForm from '../components/shared/UploadImageForm';
 import { useEffect, useState } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { fetchImages } from '../utils/http';
+import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
+import { fetchImages, postImage, queryClient } from '../utils/http';
 
 const UserPhotoPage = () => {
-
-  const categoryData = useLoaderData();
-  const categories = categoryData.data
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
   const [uploadImageModal, setUploadImageModal] = useState(false);
@@ -23,6 +20,18 @@ const UserPhotoPage = () => {
       decoded = jwtDecode(token)
     }
   };
+
+  const {mutate: uploadImageMutate, isPending: isUploadPending, isError: isUploadError, error: uploadError } = useMutation({
+    mutationFn: postImage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['images']});
+      setUploadImageModal(false);
+    }
+  });
+
+  const handleUploadImage = (formData) => {
+    uploadImageMutate({formData, token})
+  }
 
   const {data: imageData, hasNextPage, fetchNextPage, isFetchingNextPage} = useInfiniteQuery(
     {
@@ -52,9 +61,6 @@ const UserPhotoPage = () => {
     }
   }, [])
 
-  console.log(decoded._id)
-  console.log(params.userId)
-
   let content;
   if(imageData) {
       content = imageData.pages.map(page => page.data.docs.map(image => <ImageGridItem key={image._id} image={image}/>))
@@ -65,14 +71,19 @@ const UserPhotoPage = () => {
     <div className='flex flex-col md:flex-row flex-wrap gap-5 my-5'>
         {content}
         {
-          params.userId === decoded._id ? (
+          params.userId === decoded?._id ? (
             <button onClick={()=>setUploadImageModal(true)} className='h-[80px] w-[80px] rounded bg-gray-100 hover:bg-gray-200 ease-in duration-300'>
               <AiOutlinePlus className='scale-150 mx-auto text-gray-400' />
             </button>
           ) : null
         }
       <Modal isVisible={uploadImageModal} onClose={()=>setUploadImageModal(false)}>
-        <UploadImageForm categories={categories} />
+        <UploadImageForm 
+            handleUploadImage={handleUploadImage} 
+            isUploadPending={isUploadPending}
+            isUploadError={isUploadError}
+            uploadError={uploadError}
+          />
       </Modal> 
     </div>
   )

@@ -8,7 +8,7 @@ export const fetchCategories = async ({id, signal}) => {
   const response = await fetch(`http://localhost:4000/api/category`, { signal });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while fetching the event');
+    const error = new Error('An error occurred while fetching categories');
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -42,7 +42,7 @@ export const fetchImage = async ({id, signal}) => {
   const response = await fetch(`http://localhost:4000/api/image/${id}`, { signal });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while fetching the event');
+    const error = new Error('An error occurred while fetching the image');
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -99,7 +99,7 @@ export const postComment = async (commentData) => {
   });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while creating the event');
+    const error = new Error('An error occurred while posting the event');
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -114,7 +114,7 @@ export const fetchComments = async ({id, signal}) => {
   const response = await fetch(`http://localhost:4000/api/comment/image-comments/${id}`, { signal });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while fetching the event');
+    const error = new Error('An error occurred while fetching the comments');
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -143,7 +143,7 @@ export const postLike = async (likeData) => {
   });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while creating the event');
+    const error = new Error('An error occurred while posting like');
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -193,7 +193,7 @@ export const postProfilePhoto = async (photoData) => {
   });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while creating the event');
+    const error = new Error('An error occurred while uploading profile photo');
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -283,7 +283,7 @@ export const deleteProfilePhoto = async (deletePhotoData) => {
   });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while updating');
+    const error = new Error('An error occurred while deleting photo');
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -342,7 +342,7 @@ export const changeProfilePhoto = async (photoData) => {
   });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while creating the event');
+    const error = new Error('An error occurred while changing photo');
     error.code = response.status;
     error.info = await response.json();
     throw error;
@@ -367,7 +367,7 @@ export const postImage = async (imageData) => {
   });
 
   if (!response.ok) {
-    const error = new Error('An error occurred while creating the event');
+    const error = new Error('An error occurred while posting image');
     error.code = response.status;
     error.info = await response.json();
     throw error;

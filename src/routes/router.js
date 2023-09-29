@@ -31,12 +31,10 @@ export const router = createBrowserRouter([
                 element: <ProfilePage />,
                 id:"user",
                 loader: profileLoader,
-                loader: categoryLoader,
                 children: [
                     {
                         index: true,
                         element: <UserPhotoPage />,
-                        loader: categoryLoader,
                     },
                     {
                         path: 'about',

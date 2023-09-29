@@ -4,7 +4,7 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileTab from '../components/profile/ProfileTab';
 import ProfileAside from '../components/profile/ProfileAside';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { editSingleInput, fetchUser, postProfilePhoto, queryClient } from '../utils/http';
+import { editSingleInput, fetchUser, postImage, postProfilePhoto, queryClient } from '../utils/http';
 import _ from 'lodash';
 
 import { BiArrowBack } from "react-icons/bi";
@@ -17,8 +17,6 @@ import Modal from '../ui/Modal';
 const ProfilePage = () => {
   const params = useParams('userId');
   const token = useRouteLoaderData('root');
-  const categoryData = useLoaderData('category');
-  const categories = categoryData.data;
   const navigate = useNavigate();
 
   const [profilePhotoUploadModal, setProfilePhotoUploadModal] = useState(false);
@@ -42,6 +40,18 @@ const ProfilePage = () => {
     queryKey: ['user', params.userId],
     queryFn: ({signal}) => fetchUser({signal, id: params.userId})
   })
+
+  const {mutate: uploadImageMutate, isPending: isUploadPending, isError: isUploadError, error: uploadError } = useMutation({
+    mutationFn: postImage,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['images']});
+      setUploadImageModal(false);
+    }
+  });
+
+  const handleUploadImage = (formData) => {
+    uploadImageMutate({formData, token})
+  }
 
   const {mutate: mutateProfilePhoto, isPending: isProfilePhotoPending, isError: isProfilePhotoError, error: profilePhotoError } = useMutation({
     mutationFn: postProfilePhoto,
@@ -124,7 +134,12 @@ const ProfilePage = () => {
         </div>
       </div>
       <Modal isVisible={uploadImageModal} onClose={()=>setUploadImageModal(false)}>
-        <UploadImageForm categories={categories} />
+        <UploadImageForm 
+          handleUploadImage={handleUploadImage} 
+          isUploadPending={isUploadPending}
+          isUploadError={isUploadError}
+          uploadError={uploadError}
+        />
       </Modal> 
     </section>
   )
