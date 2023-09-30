@@ -37,7 +37,7 @@ export const action = async ({request}) => {
     body: JSON.stringify(authData)
   })
 
-  if(response.status === 422 || response.status === 401) {
+  if(response.status === 422 || response.status === 401 || response.status === 400) {
     return response;
   }
 

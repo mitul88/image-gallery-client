@@ -13,10 +13,10 @@ const AuthForm = () => {
     <div className='p-1 w-96 md:w-2/5'>
         <Form method='post'>
             <h1 className='text-3xl my-5 font-bold tracking-widest'>{isLogin ? 'Log in to your account' : 'Create a new user'}</h1>
-            {data && data.errors && 
+            {data && DataTransfer.errors && 
             (
                 <ul>
-                {Object.values(data.errors).map(err => <li key={err}>{err}</li>)}  
+                    {Object.values(data.errors).map(err => <li key={err}>{err}</li>)}  
                 </ul>
             )}
             {!isLogin && (
