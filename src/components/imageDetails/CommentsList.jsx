@@ -60,11 +60,11 @@ const CommentsListSection = ({
         )}
         {commentData.map(comment => (
             <div key={comment._id} className="rounded-full bg-gray-100 p-3 mb-2 max-w-[250px]">
-                <Link to={`/${comment.user.id}/profile`}>
-                    <h4 className="text-sm font-bold ml-5 text-blue-400 hover:text-blue-800">{comment.user.name}</h4>
+                <Link to={`/${comment.commented_by._id}/profile`}>
+                    <h4 className="text-sm font-bold ml-5 text-blue-400 hover:text-blue-800">{comment.commented_by.name}</h4>
                 </Link>
 
-                {decoded?._id === comment.user.id && showEditForm ? (
+                {decoded?._id === comment.commented_by._id && showEditForm ? (
                         <form onSubmit={submitEditComment} id="editCommentForm">
                             <textarea 
                                 type="text" 
@@ -87,7 +87,7 @@ const CommentsListSection = ({
                     <p className="text-sm text-gray-400 ml-5">{comment.user_comment}</p>
                 )}
                 
-                {decoded?._id && decoded._id === comment.user.id ? (
+                {decoded?._id && decoded._id === comment.commented_by._id ? (
                     <div className="w-1/2 flex justify-around text-xs ml-5 mt-2">
                         <button onClick={toggleEditForm} className="text-blue-400">
                             {showEditForm ? null : "Edit"}

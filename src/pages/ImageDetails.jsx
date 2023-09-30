@@ -55,7 +55,7 @@ const ImageDetailsPage = () => {
   })
   const current_user_likes = likeData.current_user_likes
 
-  const {mutate: mutateComment, isPending, isError: isPostCommentError, error: postCommenttError } = useMutation({
+  const {mutate: mutateComment, isPending, isError: isPostCommentError, error: postCommentError } = useMutation({
     mutationFn: postComment,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['comments']});
