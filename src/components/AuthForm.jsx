@@ -16,7 +16,7 @@ const AuthForm = () => {
             {data && DataTransfer.errors && 
             (
                 <ul>
-                    {Object.values(data.errors).map(err => <li key={err}>{err}</li>)}  
+                    {Object.values(data.errors).map(err => <li key={err} >{err}</li>)}  
                 </ul>
             )}
             {!isLogin && (
@@ -25,7 +25,7 @@ const AuthForm = () => {
                     <input type="name" name='name' id='name' required className='rounded-md my-2 p-2 border-2 border-gray-500 bg-sky-900' />
                 </div>
             )}
-            {data && data.message && <p>{data.message}</p>}
+            {data && data.message && <p className='px-3 py-1 rounded text-white bg-red-700 text-lg font-semibold tracking-wider text-center'>{data.message}</p>}
             <div className="m-auto flex flex-col">
                 <label htmlFor="email">Email</label>
                 <input type="email" name='email' id='email' required className='rounded-md my-2 p-2 border-2 border-gray-500 bg-sky-900' />
