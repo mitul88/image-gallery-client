@@ -7,7 +7,7 @@ import Modal from '../ui/Modal';
 import UploadImageForm from '../components/shared/UploadImageForm';
 import { useEffect, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
-import { fetchCategories, fetchImages, postImage, queryClient } from '../utils/http';
+import { fetchCategories, fetchImages, fetchUserPhotos, postImage, queryClient } from '../utils/http';
 
 const UserPhotoPage = () => {
   const params = useParams('userId');
@@ -29,7 +29,7 @@ const UserPhotoPage = () => {
   const {mutate: uploadImageMutate, isPending: isUploadLoading, isError: isUploadError, error: uploadError } = useMutation({
     mutationFn: postImage,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['images']});
+      queryClient.invalidateQueries({queryKey: ['images', 'user-photos']});
       setUploadImageModal(false);
     }
   });
@@ -40,8 +40,8 @@ const UserPhotoPage = () => {
 
   const {data: imageData, hasNextPage, fetchNextPage, isFetchingNextPage} = useInfiniteQuery(
     {
-      queryKey: ['images',  {user: params.userId}],
-      queryFn:({ pageParam = 1, queryKey}) => fetchImages({pageParam, ...queryKey[1]}),
+      queryKey: ['user-photos',  {user: params.userId}],
+      queryFn:({ pageParam = 1, queryKey}) => fetchUserPhotos({pageParam, ...queryKey[1]}),
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.data.hasNextPage ? lastPage.data.nextPage : undefined;
       }

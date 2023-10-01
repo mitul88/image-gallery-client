@@ -38,6 +38,27 @@ export const fetchImages = async ({pageParam=1, limit, category, user}) => {
    return response.json()
 }
 
+export const fetchUserPhotos = async ({pageParam=1, limit, category, user}) => {
+ 
+  let url = `http://localhost:4000/api/image/user-photos?page=${pageParam}`;
+  
+  if(category && user && limit) {
+    url += '&limit=' + limit + '&category=' +  category + '&user=' + user;
+  } else if(category && limit) {
+    url += '&limit=' + limit + '&category=' +  category;
+  } else if (category) {
+    url += '&category=' + category;
+  } else if (user) {
+    url += '&user=' + user;
+  } else if (limit) {
+    url += '&limit=' + limit;
+  }
+  
+  const response = await fetch( url )
+   return response.json()
+}
+
+
 export const fetchImage = async ({id, signal}) => {
   const response = await fetch(`http://localhost:4000/api/image/${id}`, { signal });
 
