@@ -1,25 +1,14 @@
 import React from 'react'
 import { useState } from 'react';
 import ImageUploader from './ImageUploader';
-import { fetchCategories } from '../../utils/http';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
 
-const UploadImageForm = ({ handleUploadImage, isUploadLoading, isUploadError, uploadError}) => {
+const UploadImageForm = ({ categoryData, handleUploadImage, isUploadLoading, isUploadError, uploadError}) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
 
     const [inputError, setInputError] = useState(false);
-
-    const params = useParams('userId');
-
-    const {data, isError: isCategoryError, error: categoryError} = useQuery({
-      queryKey: ['categories', params.userId],
-      queryFn: ({signal}) => fetchCategories({signal, id: params.userId})
-    })
-  
   
     const submitForm = e => {
       e.preventDefault()
@@ -63,7 +52,7 @@ const UploadImageForm = ({ handleUploadImage, isUploadLoading, isUploadError, up
               id="image-category"
             >
                 <option value="">Select Category</option>
-                {data.map(category => (
+                {categoryData.map(category => (
                   <option key={category._id} value={category._id}>{category.name}</option>
                 ))}
             </select>

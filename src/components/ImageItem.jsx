@@ -18,10 +18,10 @@ const ImageItem = ({image}) => {
             </div>
               <div className="flex flex-row justify-between items-center w-full pointer-events-none">
                   <div className='flex items-center'>
-                    <div className='rounded-md bg-gray-100 p-2 text-sm font-bold text-gray-500 flex flex-row items-center mr-2'><BiLike className='mr-2' /> 22</div>
-                    <div className='rounded-md bg-gray-100 p-2 text-sm font-bold text-gray-500 flex flex-row items-center'><BiCommentDetail className='mr-2' /> 8</div>
+                    <div className='rounded-md bg-gray-100 p-2 text-sm font-bold text-gray-500 flex flex-row items-center mr-2'><BiLike className='mr-2' /> {image.likesCount}</div>
+                    <div className='rounded-md bg-gray-100 p-2 text-sm font-bold text-gray-500 flex flex-row items-center'><BiCommentDetail className='mr-2' /> {image.commentsCount}</div>
                   </div>
-                  <p className="text-sm text-gray-400">@{image.uploaded_by.name}</p>
+                  <p className="text-sm text-gray-400">@{image.posted_by[0].name}</p>
               </div>
           </div>
       </div>

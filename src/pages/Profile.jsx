@@ -4,7 +4,7 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileTab from '../components/profile/ProfileTab';
 import ProfileAside from '../components/profile/ProfileAside';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { editSingleInput, fetchUser, postImage, postProfilePhoto, queryClient } from '../utils/http';
+import { editSingleInput, fetchCategories, fetchUser, postImage, postProfilePhoto, queryClient } from '../utils/http';
 import _ from 'lodash';
 
 import { BiArrowBack } from "react-icons/bi";
@@ -35,6 +35,11 @@ const ProfilePage = () => {
   const goBack = () => {
     navigate(-1);
   }
+
+  const {data: categoryData, isError: isCategoryError, error: categoryError} = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => fetchCategories()
+  })
 
   const {data, isError, error} = useQuery({
     queryKey: ['user', params.userId],
@@ -139,6 +144,7 @@ const ProfilePage = () => {
           isUploadLoading={isUploadLoading}
           isUploadError={isUploadError}
           uploadError={uploadError}
+          categoryData={categoryData}
         />
       </Modal> 
     </section>

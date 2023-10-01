@@ -4,8 +4,8 @@ export const queryClient = new QueryClient({
     defaultOptions: { queries: { suspense: true }}
 });
 
-export const fetchCategories = async ({id, signal}) => {
-  const response = await fetch(`http://localhost:4000/api/category`, { signal });
+export const fetchCategories = async () => {
+  const response = await fetch(`http://localhost:4000/api/category`);
 
   if (!response.ok) {
     const error = new Error('An error occurred while fetching categories');

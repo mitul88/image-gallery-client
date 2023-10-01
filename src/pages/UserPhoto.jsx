@@ -1,13 +1,13 @@
 import ImageGridItem from '../components/profile/ImageGridItem';
-import { useLoaderData, useParams, useRouteLoaderData } from 'react-router-dom';
+import { useParams, useRouteLoaderData } from 'react-router-dom';
 import { AiOutlinePlus } from "react-icons/ai";
 
 import jwtDecode from 'jwt-decode';
 import Modal from '../ui/Modal';
 import UploadImageForm from '../components/shared/UploadImageForm';
 import { useEffect, useState } from 'react';
-import { useInfiniteQuery, useMutation } from '@tanstack/react-query';
-import { fetchImages, postImage, queryClient } from '../utils/http';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { fetchCategories, fetchImages, postImage, queryClient } from '../utils/http';
 
 const UserPhotoPage = () => {
   const params = useParams('userId');
@@ -20,6 +20,11 @@ const UserPhotoPage = () => {
       decoded = jwtDecode(token)
     }
   };
+
+  const {data: categoryData, isError: isCategoryError, error: categoryError} = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => fetchCategories()
+  })
 
   const {mutate: uploadImageMutate, isPending: isUploadLoading, isError: isUploadError, error: uploadError } = useMutation({
     mutationFn: postImage,
@@ -83,6 +88,7 @@ const UserPhotoPage = () => {
             isUploadLoading={isUploadLoading}
             isUploadError={isUploadError}
             uploadError={uploadError}
+            categoryData={categoryData}
           />
       </Modal> 
     </div>
