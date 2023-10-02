@@ -7,7 +7,7 @@ import Modal from '../ui/Modal';
 import UploadImageForm from '../components/shared/UploadImageForm';
 import { useEffect, useState } from 'react';
 import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
-import { fetchCategories, fetchImages, fetchUserPhotos, postImage, queryClient } from '../utils/http';
+import { fetchCategories, fetchImages, postImage, queryClient } from '../utils/http';
 
 const UserPhotoPage = () => {
   const params = useParams('userId');
@@ -26,10 +26,10 @@ const UserPhotoPage = () => {
     queryFn: () => fetchCategories()
   })
 
-  const {mutate: uploadImageMutate, isPending: isUploadLoading, isError: isUploadError, error: uploadError } = useMutation({
+  const {mutate: uploadImageMutate, isLoading: isUploadLoading, isError: isUploadError, error: uploadError } = useMutation({
     mutationFn: postImage,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['images', 'user-photos']});
+      queryClient.invalidateQueries({queryKey: ['images']});
       setUploadImageModal(false);
     }
   });

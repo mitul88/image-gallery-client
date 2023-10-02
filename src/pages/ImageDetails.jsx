@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { BiLike, BiCommentDetail } from "react-icons/bi";
-import { Link, redirect, useLocation, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams, useRouteLoaderData } from 'react-router-dom';
 import CommentsListSection from '../components/imageDetails/CommentsList';
 import ImageSuggestions from '../components/imageDetails/ImageSuggestions';
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -17,7 +17,7 @@ const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
   const params = useParams('imageId');
   const navigate = useNavigate();
-  const { pathname } = useLocation()
+  const { pathname } = useLocation();
 
   const [showCommentForm, setShowCommentForm] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -62,7 +62,7 @@ const ImageDetailsPage = () => {
   })
   const current_user_likes = likeData.current_user_likes
 
-  const {mutate: mutateComment, isPending, isError: isPostCommentError, error: postCommentError } = useMutation({
+  const {mutate: mutateComment, isLoading, isError: isPostCommentError, error: postCommentError } = useMutation({
     mutationFn: postComment,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['comments']});
@@ -78,10 +78,10 @@ const ImageDetailsPage = () => {
     }
   })
 
-  const {mutate: mutateImageInfo, isPending: isImageInfoEditLoading, isError: isImageInfoEditError, error: imageInfoEditError } = useMutation({
+  const {mutate: mutateImageInfo, isLoading: isImageInfoEditLoading, isError: isImageInfoEditError, error: imageInfoEditError } = useMutation({
     mutationFn: editImageInformation,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['images', 'user-photos']});
+      queryClient.invalidateQueries({queryKey: ['image-details']});
       setShowImageEditModal(false);
     }
   });
@@ -151,6 +151,16 @@ const ImageDetailsPage = () => {
     setShowDropdown(!showDropdown)
   }
 
+  const toggleImageEdit = () => {
+    setShowDropdown(false)
+    setShowImageEditModal(true)
+  }
+
+  const toggleImageDelete = () => {
+    setShowDropdown(false)
+    setShowImageDelete(true)
+  }
+
   return (
     <section className='bg-slate-200 md:min-h-screen md:py-2 px-5'>
       <div className='container mx-auto md:mt-3 lg:h-[700px] flex flex-col lg:flex-row md:gap-5'>
@@ -176,8 +186,8 @@ const ImageDetailsPage = () => {
             <DropdownOptions show={showDropdown}>
               {decoded && decoded._id === imageData.image.uploaded_by._id ? (
                   <>
-                    <button onClick={()=>setShowImageEditModal(true)} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</button>
-                    <button onClick={()=>setShowImageDelete(true)} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Delete</button>
+                    <button onClick={toggleImageEdit} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</button>
+                    <button onClick={toggleImageDelete} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Delete</button>
                   </>
                 ) : null}
               <button className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Report</button>
@@ -228,7 +238,7 @@ const ImageDetailsPage = () => {
               showCommentForm={showCommentForm}
               toggleEditForm={toggleEditForm}
               showEditForm={showEditForm} 
-              isCommentPending={isPending}
+              isCommentPending={isLoading}
               isPostCommentError={isPostCommentError}
             />
           </div>
@@ -258,7 +268,12 @@ const ImageDetailsPage = () => {
         </div>
       </Modal>
       <Modal isVisible={showImageEditModal} onClose={()=>setShowImageEditModal(false)}>
-        <UploadImageForm categoryData={categoryData} submitFn={editImageInfo} method="edit" />
+        <UploadImageForm 
+          categoryData={categoryData} 
+          submitFn={editImageInfo} 
+          method="edit" 
+          imageData={imageData}
+        />
       </Modal>
     </section>
   )

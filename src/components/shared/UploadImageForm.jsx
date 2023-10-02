@@ -2,15 +2,15 @@ import React from 'react'
 import { useState } from 'react';
 import ImageUploader from './ImageUploader';
 
-const UploadImageForm = ({ categoryData, submitFn, isUploadLoading, isUploadError, uploadError, method}) => {
+const UploadImageForm = ({ categoryData, submitFn, isUploadLoading, isUploadError, uploadError, method, imageData}) => {
 
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [category, setCategory] = useState("");
+    const [title, setTitle] = useState(imageData ? imageData.image.title : "");
+    const [description, setDescription] = useState(imageData ? imageData.image.desc : "");
+    const [category, setCategory] = useState(imageData ? imageData.image.category._id : "");
     const [selectedFile, setSelectedFile] = useState(null);
 
     const [inputError, setInputError] = useState(false);
-  
+
     const submitForm = e => {
       e.preventDefault()
       if (title === "" || category === "" || description === "" ) {
@@ -37,7 +37,7 @@ const UploadImageForm = ({ categoryData, submitFn, isUploadLoading, isUploadErro
   return (
     <div className='m-5 p-5 w-96 shadow-md shadow-gray-200' style={{fontFamily: "Quicksand"}}>
       <h2 className="text-xl font-bold text-center">{method === "create" ? "Upload" : "Edit"} your image</h2>
-      {isUploadLoading && (<p className='bg-green-200 mb-3 rounded text-center px-5'><span className='animate-pulsetacking-wider font-bold text-green-600 mb-3'>Profile Photo Updating ....</span></p>)}
+      {isUploadLoading && (<p className='bg-green-200 mb-3 rounded text-center px-5'><span className='animate-pulsetacking-wider font-bold text-green-600 mb-3'>Photo Uploading ....</span></p>)}
       {isUploadError && (<p className='text-red-400 text-sm bg-red-100 px-3 py-1 rounded mb-3'>{uploadError?.info.message}</p>)}
       {inputError && (<p className='text-red-400 text-sm bg-red-100 px-3 py-1 rounded mb-3'>Fill up all fields</p>)}
       <form onSubmit={submitForm}>
@@ -54,9 +54,9 @@ const UploadImageForm = ({ categoryData, submitFn, isUploadLoading, isUploadErro
         <div className="flex flex-col">
             <label htmlFor="image-category">Select Category</label>
             <select
+              value={category}
               onChange={(e)=>setCategory(e.target.value)} 
               className='border border-gray-300 rounded-md px-3 py-2 w-full mb-3 bg-white' 
-              defaultValue={"saab"} 
               name="category" 
               id="image-category"
             >

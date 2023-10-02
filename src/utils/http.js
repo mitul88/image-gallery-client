@@ -44,8 +44,9 @@ export const editImageInformation = async (imageData) => {
   const token = imageData.token;
 
   let postData = {
-    "user_comment": formData.get('user_comment'),
-    "image_id": formData.get('image_id')
+    "title": formData.get('title'),
+    "desc": formData.get('desc'),
+    "category": formData.get('category')
   }
 
   const response = await fetch(`http://localhost:4000/api/image/${imageId}`, {
