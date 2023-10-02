@@ -30,7 +30,7 @@ const MainNavigation = () => {
               className='flex flex-row items-center px-5 py-1 rounded-lg bg-red-600 md:shadow-md md:shadow-red-950  ease-in duration-150 hover:bg-red-700 hover:shadow-none  tracking-wide text-md'
             ><BiPowerOff className='mr-2' />Logout</button></Form> 
             : <Link to='auth?mode=login'  
-                className='flex flex-row items-center px-5 py-1 rounded-lg bg-sky-900 md:shadow-lg md:shadow-gray-900 border border-sky-900 ease-in duration-150 hover:bg-sky-900/75 hover:shadow-none tracking-widest text-lg'
+                className='flex flex-row justify-end items-center px-5 py-1 rounded-lg bg-sky-900 md:shadow-lg md:shadow-gray-900 border border-sky-900 ease-in duration-150 hover:bg-sky-900/75 hover:shadow-none tracking-widest text-lg'
               ><BiLogInCircle className='mr-2' />Signin</Link>
         }
       </nav>

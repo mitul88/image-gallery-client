@@ -163,10 +163,10 @@ const ImageDetailsPage = () => {
 
   return (
     <section className='bg-slate-200 md:min-h-screen md:py-2 px-5'>
-      <div className='container mx-auto md:mt-3 lg:h-[700px] flex flex-col lg:flex-row md:gap-5'>
+      <div className='container mx-auto md:mt-3 h-[600px] flex flex-col lg:flex-row md:gap-5'>
         <div className='w-full lg:w-3/4 h-full sm:rounded-md'>
           <img 
-              className="h-full w-fit mx-auto sm:rounded-md" 
+              className="h-full object-cover w-fit mx-auto sm:rounded-md" 
               src={imageData.image.url} 
               alt="" 
           />
