@@ -42,7 +42,7 @@ const ProfileHeader = ({data, authUser, showProfessionForm, setShowProfessionFor
         {token && (
             <button
               onClick={()=>setUploadImageModal(true)} 
-              className='bg-orange-600 shadow shadow-sky-950 shadow-md ease-in duration-150 hover:shadow-none text-white rounded-md py-1 px-5 font-semibold text-sm w-[100px] pb-1 my-5 flex flex-row items-center'
+              className='bg-orange-600 shadow shadow-sky-950 shadow-md ease-in duration-150 hover:shadow-none text-white text-lg rounded-md px-5 tracking-wider font-semibold text-sm py-2 flex flex-row items-center my-5 ease-in duration-300'
               style={{fontFamily: 'Quicksand'}}
             > 
               Upload

@@ -16,11 +16,17 @@ const MainNavigation = () => {
   };
   
   return (
-    <header className='w-full h-[80px] bg-sky-950 text-white flex justify-between items-center px-[80px]'>
+    <header className={`w-full h-auto py-5 md:py-auto md:h-[80px] bg-sky-950 text-white flex ${token ? 'flex-col' : 'flex-row'} gap-5 md:gap-0 md:flex-row justify-between items-center px-[80px]`}>
       <Link to="/" className='text-2xl font-bold'>
-      Image <span className='text-green-500'>Gallery!</span>
+        Image <span className='text-green-500'>Gallery!</span>
       </Link>
-      <nav className={`flex justify-${token ? 'between' : 'end'} items-center min-w-[300px]`} style={{fontFamily: 'Quicksand'}}>
+      {!token && (
+        <Link to='auth?mode=login'  
+          className='p-3 border-none rounded-full text-md tracking-wide md:flex flex-row justify-end items-center md:px-5 md:py-1 md:rounded-lg bg-sky-900 md:shadow-lg md:shadow-gray-900 border border-sky-900 ease-in duration-150 hover:bg-sky-900/75 hover:shadow-none md:tracking-widest md:text-lg'
+        ><BiLogInCircle className='md:mr-2' /> <span className='hidden md:block'>Sign in</span>
+        </Link>
+      )}
+      <nav className={`${token ? 'flex' : 'hidden'} flex-col gap-3 md:gap-0 md:flex-row flex justify-${token ? 'between' : 'end'} items-center min-w-[300px]`} style={{fontFamily: 'Quicksand'}}>
         {token && <Link to='/' className='font-bold tracking-widest'>Home</Link>}
         {token && <Link to={`${decoded?._id}/profile`} className='font-bold tracking-widest'>Profile</Link>}
         {token ? 
@@ -30,8 +36,8 @@ const MainNavigation = () => {
               className='flex flex-row items-center px-5 py-1 rounded-lg bg-red-600 md:shadow-md md:shadow-red-950  ease-in duration-150 hover:bg-red-700 hover:shadow-none  tracking-wide text-md'
             ><BiPowerOff className='mr-2' />Logout</button></Form> 
             : <Link to='auth?mode=login'  
-                className='flex flex-row justify-end items-center px-5 py-1 rounded-lg bg-sky-900 md:shadow-lg md:shadow-gray-900 border border-sky-900 ease-in duration-150 hover:bg-sky-900/75 hover:shadow-none tracking-widest text-lg'
-              ><BiLogInCircle className='mr-2' />Signin</Link>
+                className='hidden md:flex flex-row justify-end items-center md:px-5 md:py-1 md:rounded-lg bg-sky-900 md:shadow-lg md:shadow-gray-900 border border-sky-900 ease-in duration-150 hover:bg-sky-900/75 hover:shadow-none md:tracking-widest md:text-lg'
+              ><BiLogInCircle className='md:mr-2' />Signin</Link>
         }
       </nav>
     </header>
