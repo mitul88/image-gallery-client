@@ -11,7 +11,7 @@ const UploadImagePage = () => {
  
   return (
     <>
-      <UploadImageForm categoryData={categoryData} />
+      <UploadImageForm categoryData={categoryData} method="create" />
     </>
   )
 }

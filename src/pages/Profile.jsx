@@ -140,11 +140,12 @@ const ProfilePage = () => {
       </div>
       <Modal isVisible={uploadImageModal} onClose={()=>setUploadImageModal(false)}>
         <UploadImageForm 
-          handleUploadImage={handleUploadImage} 
+          submitFn={handleUploadImage} 
           isUploadLoading={isUploadLoading}
           isUploadError={isUploadError}
           uploadError={uploadError}
           categoryData={categoryData}
+          method="create"
         />
       </Modal> 
     </section>

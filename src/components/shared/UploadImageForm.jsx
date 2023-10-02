@@ -2,7 +2,8 @@ import React from 'react'
 import { useState } from 'react';
 import ImageUploader from './ImageUploader';
 
-const UploadImageForm = ({ categoryData, handleUploadImage, isUploadLoading, isUploadError, uploadError}) => {
+const UploadImageForm = ({ categoryData, submitFn, isUploadLoading, isUploadError, uploadError, method}) => {
+
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState("");
@@ -12,22 +13,30 @@ const UploadImageForm = ({ categoryData, handleUploadImage, isUploadLoading, isU
   
     const submitForm = e => {
       e.preventDefault()
-      if (title === "" || category === "" || description === "" || selectedFile === null) {
+      if (title === "" || category === "" || description === "" ) {
+        if(method === "create") {
+          if(selectedFile === null) {
+            setInputError(true);
+            return
+          }
+        }
         setInputError(true);
         return
       }
       const formData = new FormData();
       formData.append("title", title);
       formData.append("desc", description);
-      formData.append("image", selectedFile);
       formData.append("category", category);
+      if(method === "create") {
+        formData.append("image", selectedFile);
+      }
       
-      handleUploadImage(formData)
+      submitFn(formData)
     };
 
   return (
     <div className='m-5 p-5 w-96 shadow-md shadow-gray-200' style={{fontFamily: "Quicksand"}}>
-      <h2 className="text-xl font-bold text-center">Upload your image</h2>
+      <h2 className="text-xl font-bold text-center">{method === "create" ? "Upload" : "Edit"} your image</h2>
       {isUploadLoading && (<p className='bg-green-200 mb-3 rounded text-center px-5'><span className='animate-pulsetacking-wider font-bold text-green-600 mb-3'>Profile Photo Updating ....</span></p>)}
       {isUploadError && (<p className='text-red-400 text-sm bg-red-100 px-3 py-1 rounded mb-3'>{uploadError?.info.message}</p>)}
       {inputError && (<p className='text-red-400 text-sm bg-red-100 px-3 py-1 rounded mb-3'>Fill up all fields</p>)}
@@ -67,8 +76,10 @@ const UploadImageForm = ({ categoryData, handleUploadImage, isUploadLoading, isU
             onChange={(e) => setDescription(e.target.value)}  
           ></textarea>
         </div>
-        <ImageUploader onFileSelect={(file)=> setSelectedFile(file)} />
-        <button type='submit' className='bg-orange-500 text-white rounded-md px-3 py-1'>Add Photo</button>
+        {method === "create" && (
+          <ImageUploader onFileSelect={(file)=> setSelectedFile(file)} />
+        )}
+        <button type='submit' className='bg-orange-500 text-white rounded-md px-3 py-1'>{method === "create" ? "Add Photo" : "Edit Photo"}</button>
       </form>
     </div>
   )

@@ -4,13 +4,14 @@ import { Link, redirect, useLocation, useNavigate, useParams, useRouteLoaderData
 import CommentsListSection from '../components/imageDetails/CommentsList';
 import ImageSuggestions from '../components/imageDetails/ImageSuggestions';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { deleteImage, fetchComments, fetchImage, fetchLikes, postComment, postLike, queryClient } from '../utils/http';
+import { deleteImage, editImageInformation, fetchCategories, fetchComments, fetchImage, fetchLikes, postComment, postLike, queryClient } from '../utils/http';
 
 import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
 import DropdownOptions from '../ui/DropdownOptions';
 
 import jwtDecode from 'jwt-decode';
 import Modal from '../ui/Modal';
+import UploadImageForm from '../components/shared/UploadImageForm';
 
 const ImageDetailsPage = () => {
   const token = useRouteLoaderData('root');
@@ -22,6 +23,7 @@ const ImageDetailsPage = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showImageDelete, setShowImageDelete] = useState(false);
+  const [showImageEditModal, setShowImageEditModal] = useState(false);
 
   let decoded;
   if (token){
@@ -38,6 +40,11 @@ const ImageDetailsPage = () => {
   const goBack = () => {
     navigate(-1);
   }
+
+  const {data: categoryData, isError: isCategoryError, error: categoryError} = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => fetchCategories()
+  })
 
   const {data: imageData, isError: isFetchError, error: fetchError} = useQuery({
     queryKey: ['image-details', params.imageId],
@@ -70,6 +77,14 @@ const ImageDetailsPage = () => {
       queryClient.invalidateQueries({queryKey: ['likes']})
     }
   })
+
+  const {mutate: mutateImageInfo, isPending: isImageInfoEditLoading, isError: isImageInfoEditError, error: imageInfoEditError } = useMutation({
+    mutationFn: editImageInformation,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['images', 'user-photos']});
+      setShowImageEditModal(false);
+    }
+  });
 
   const submitComment = (formData) => {
     // sending comment data with user token, this fn is initiate from a nested component : CommentForm
@@ -117,6 +132,11 @@ const ImageDetailsPage = () => {
     mutateLike({formData, token, method})
   }
 
+  const editImageInfo = (formData) => {
+    const imageId = params.imageId
+    mutateImageInfo({formData, imageId, token})
+  }
+
   const toggleCommentForm = () => {
     if(!token) navigate("/auth?mode=login")
     setShowCommentForm(!showCommentForm);
@@ -156,7 +176,7 @@ const ImageDetailsPage = () => {
             <DropdownOptions show={showDropdown}>
               {decoded && decoded._id === imageData.image.uploaded_by._id ? (
                   <>
-                    <button onClick={()=>setShowImageDelete(true)} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</button>
+                    <button onClick={()=>setShowImageEditModal(true)} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Edit</button>
                     <button onClick={()=>setShowImageDelete(true)} className='hover:bg-gray-100 py-1 px-2 rounded-sm ease-in duration-150'>Delete</button>
                   </>
                 ) : null}
@@ -236,6 +256,9 @@ const ImageDetailsPage = () => {
               <button onClick={()=>setShowImageDelete(false)} className="px-2 bg-green-600 text-white rounded ml-2">No</button>
           </div>
         </div>
+      </Modal>
+      <Modal isVisible={showImageEditModal} onClose={()=>setShowImageEditModal(false)}>
+        <UploadImageForm categoryData={categoryData} submitFn={editImageInfo} method="edit" />
       </Modal>
     </section>
   )

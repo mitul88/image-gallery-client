@@ -40,8 +40,8 @@ const UserPhotoPage = () => {
 
   const {data: imageData, hasNextPage, fetchNextPage, isFetchingNextPage} = useInfiniteQuery(
     {
-      queryKey: ['user-photos',  {user: params.userId}],
-      queryFn:({ pageParam = 1, queryKey}) => fetchUserPhotos({pageParam, ...queryKey[1]}),
+      queryKey: ['images',  {user: params.userId}],
+      queryFn:({ pageParam = 1, queryKey}) => fetchImages({pageParam, ...queryKey[1]}),
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.data.hasNextPage ? lastPage.data.nextPage : undefined;
       }
@@ -84,11 +84,12 @@ const UserPhotoPage = () => {
         }
       <Modal isVisible={uploadImageModal} onClose={()=>setUploadImageModal(false)}>
         <UploadImageForm 
-            handleUploadImage={handleUploadImage} 
+            submitFn={handleUploadImage} 
             isUploadLoading={isUploadLoading}
             isUploadError={isUploadError}
             uploadError={uploadError}
             categoryData={categoryData}
+            method="create"
           />
       </Modal> 
     </div>

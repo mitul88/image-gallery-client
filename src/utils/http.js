@@ -38,27 +38,36 @@ export const fetchImages = async ({pageParam=1, limit, category, user}) => {
    return response.json()
 }
 
-export const fetchUserPhotos = async ({pageParam=1, limit, category, user}) => {
- 
-  let url = `http://localhost:4000/api/image/user-photos?page=${pageParam}`;
-  
-  if(category && user && limit) {
-    url += '&limit=' + limit + '&category=' +  category + '&user=' + user;
-  } else if(category && limit) {
-    url += '&limit=' + limit + '&category=' +  category;
-  } else if (category) {
-    url += '&category=' + category;
-  } else if (user) {
-    url += '&user=' + user;
-  } else if (limit) {
-    url += '&limit=' + limit;
+export const editImageInformation = async (imageData) => {
+  const formData = imageData.formData;
+  const imageId = imageData.imageId
+  const token = imageData.token;
+
+  let postData = {
+    "user_comment": formData.get('user_comment'),
+    "image_id": formData.get('image_id')
   }
-  
-  const response = await fetch( url )
-   return response.json()
-}
 
+  const response = await fetch(`http://localhost:4000/api/image/${imageId}`, {
+    method: "put",
+    body: JSON.stringify(postData),
+    headers: {
+      'Content-Type': 'application/json',
+      'authorization': `Bearer ${token}`
+    },
+  });
 
+  if (!response.ok) {
+    const error = new Error('An error occurred while posting the event');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+} 
 export const fetchImage = async ({id, signal}) => {
   const response = await fetch(`http://localhost:4000/api/image/${id}`, { signal });
 
