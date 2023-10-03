@@ -4,7 +4,7 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileTab from '../components/profile/ProfileTab';
 import ProfileAside from '../components/profile/ProfileAside';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { editSingleInput, fetchCategories, fetchUser, postImage, postProfilePhoto, queryClient } from '../utils/http';
+import { bioChange, deleteBio, editSingleInput, fetchCategories, fetchUser, postImage, postProfilePhoto, queryClient } from '../utils/http';
 import _ from 'lodash';
 
 import { BiArrowBack } from "react-icons/bi";
@@ -54,10 +54,6 @@ const ProfilePage = () => {
     }
   });
 
-  const handleUploadImage = (formData) => {
-    uploadImageMutate({formData, token})
-  }
-
   const {mutate: mutateProfilePhoto, isLoading: isProfilePhotoPending, isError: isProfilePhotoError, error: profilePhotoError } = useMutation({
     mutationFn: postProfilePhoto,
     onSuccess: () => {
@@ -75,6 +71,22 @@ const ProfilePage = () => {
       setShowInterestForm(false);
     }
   })
+
+  const {mutate: mutateBio} = useMutation({
+    mutationFn: deleteBio,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['user']});
+    }
+  })
+
+  const handleDeleteBio = () => {
+    const userId = params.userId;
+    mutateBio({token, userId})
+  }
+
+  const handleUploadImage = (formData) => {
+    uploadImageMutate({formData, token})
+  }
 
   const singleEdit = (formData) => {
     const userId = params.userId
@@ -127,6 +139,7 @@ const ProfilePage = () => {
             setShowInterestForm={setShowInterestForm}  
             showInterestForm={showInterestForm}
             singleEdit={singleEdit}
+            handleDeleteBio={handleDeleteBio}
           />
           {/* bottom right */}
           <div className='mx-auto w-full lg:ml-20'>

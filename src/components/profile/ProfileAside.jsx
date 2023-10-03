@@ -1,13 +1,19 @@
 import React from 'react'
 import SingleInputForm from '../shared/SingleInputForm'
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineEdit, AiFillDelete } from "react-icons/ai";
 
-const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm, singleEdit }) => {
-  
+const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm, singleEdit, handleDeleteBio }) => {
+
+  const submitDeleteBio = (e) => {
+    e.preventDefault();
+    handleDeleteBio();
+  }
+
   return (
     <div className='lg:w-[340px]'>
         <div className=' mt-5'>
-            <span className="text-gray-400">BIO</span> <hr className="border-[1px] mb-1 text-gray-400 w-full" />
+            <span className="text-gray-400">BIO</span> 
+            <hr className="border-[1px] mb-1 text-gray-400 w-full" />
             {showBioForm && (
               <SingleInputForm 
                 defaultValue={data.bio}
@@ -35,6 +41,26 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterest
                   {data.bio}
               </p>
             )}
+            {data.bio && 
+            user?._id === data._id ? 
+            (
+              <div className='flex'>
+                <button
+                    onClick={()=>setShowBioForm(true)} 
+                    className='flex flex-row items-center justify-center bg-gray-100 rounded-full p-1 text-gray-400 mr-2'
+                    style={{fontFamily: "Quicksand"}}
+                    > <AiOutlineEdit />
+                </button>
+                <form onSubmit={submitDeleteBio}>
+                  <button
+                      type='submit' 
+                      className='flex flex-row items-center justify-center bg-gray-100 rounded-full p-1 text-gray-400'
+                      style={{fontFamily: "Quicksand"}}
+                      > <AiFillDelete />
+                  </button>
+                </form>
+              </div>
+            ) : null}
         </div>
         <div className=' mt-5'>
             <span className="text-gray-400">INTERESTS</span> <hr className="border-[1px] text-gray-400 w-full" />

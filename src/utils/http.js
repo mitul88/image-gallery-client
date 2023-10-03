@@ -431,3 +431,27 @@ export const deleteImage = async (imageData) => {
 
   return data;
 }
+
+export const deleteBio = async (bioData) => {
+  const token = bioData.token;
+  const userId = bioData.userId
+  console.log("heelo")
+
+  const response = await fetch(`http://localhost:4000/api/user/delete-bio/${userId}`, {
+    method: "DELETE",
+    headers: {
+      'authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    const error = new Error('An error occurred while deleting image');
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+
+  const { data } = await response.json();
+
+  return data;
+}

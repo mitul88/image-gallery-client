@@ -31,7 +31,7 @@ const ProfileHeader = ({data, authUser, showProfessionForm, setShowProfessionFor
             {data.profession && (
               data._id === authUser?._id ? (
                 <button onClick={()=>setShowProfessionForm(true)} className='rounded-full bg-gray-100 text-gray-400 hover:bg-gray-200 p-1 ml-1'>
-                <   AiOutlineEdit />
+                  <AiOutlineEdit />
                 </button>
               ) : null
             )}
