@@ -4,7 +4,7 @@ import ProfileHeader from '../components/profile/ProfileHeader';
 import ProfileTab from '../components/profile/ProfileTab';
 import ProfileAside from '../components/profile/ProfileAside';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { bioChange, deleteBio, editSingleInput, fetchCategories, fetchUser, postImage, postProfilePhoto, queryClient } from '../utils/http';
+import { bioChange, deleteBio, deleteInterest, editSingleInput, fetchCategories, fetchUser, postImage, postProfilePhoto, queryClient } from '../utils/http';
 import _ from 'lodash';
 
 import { BiArrowBack } from "react-icons/bi";
@@ -54,6 +54,11 @@ const ProfilePage = () => {
     }
   });
 
+  
+  const handleUploadImage = (formData) => {
+    uploadImageMutate({formData, token})
+  }
+
   const {mutate: mutateProfilePhoto, isLoading: isProfilePhotoPending, isError: isProfilePhotoError, error: profilePhotoError } = useMutation({
     mutationFn: postProfilePhoto,
     onSuccess: () => {
@@ -61,6 +66,12 @@ const ProfilePage = () => {
       setProfilePhotoUploadModal(false);
     }
   });
+
+  
+  const uploadProfilePhoto = (formData) => {
+    const userId = params.userId
+    mutateProfilePhoto({formData, userId, token});
+  }
 
   const {mutate: singleEditInput, isLoading: isSingleEditLoading, isError: isSingleEditError, error: singleEditError} = useMutation({
     mutationFn: editSingleInput,
@@ -72,31 +83,36 @@ const ProfilePage = () => {
     }
   })
 
+  const singleEdit = (formData) => {
+    const userId = params.userId
+    singleEditInput({formData, userId, token})
+  }
+
   const {mutate: mutateBio} = useMutation({
     mutationFn: deleteBio,
     onSuccess: () => {
       queryClient.invalidateQueries({queryKey: ['user']});
     }
   })
-
+ 
   const handleDeleteBio = () => {
     const userId = params.userId;
     mutateBio({token, userId})
   }
 
-  const handleUploadImage = (formData) => {
-    uploadImageMutate({formData, token})
+  const {mutate: mutateInterest, isLoading: isInterestLoading} = useMutation({
+    mutationFn: deleteInterest,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['user']});
+    }
+  })
+
+  const handleDeleteInterest = (interest) => {
+    const userId = params.userId;
+    mutateInterest({interest, token, userId})
   }
 
-  const singleEdit = (formData) => {
-    const userId = params.userId
-    singleEditInput({formData, userId, token})
-  }
 
-  const uploadProfilePhoto = (formData) => {
-    const userId = params.userId
-    mutateProfilePhoto({formData, userId, token});
-  }
   return (
     <section className='bg-slate-200 pt-5 min-h-screen px-0 md:px-5 lg:px-[250px]'>
       
@@ -140,6 +156,8 @@ const ProfilePage = () => {
             showInterestForm={showInterestForm}
             singleEdit={singleEdit}
             handleDeleteBio={handleDeleteBio}
+            handleDeleteInterest={handleDeleteInterest}
+            isInterestLoading={isInterestLoading}
           />
           {/* bottom right */}
           <div className='mx-auto w-full lg:ml-20'>

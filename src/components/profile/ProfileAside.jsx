@@ -1,12 +1,19 @@
 import React from 'react'
 import SingleInputForm from '../shared/SingleInputForm'
-import { AiOutlinePlus, AiOutlineEdit, AiFillDelete } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineEdit, AiFillDelete, AiOutlineClose } from "react-icons/ai";
+import { useState } from 'react';
 
-const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm, singleEdit, handleDeleteBio }) => {
+const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterestForm, showInterestForm, singleEdit, handleDeleteBio, handleDeleteInterest, isInterestLoading }) => {
+
+  const [interest, setInterest] = useState("")
 
   const submitDeleteBio = (e) => {
     e.preventDefault();
     handleDeleteBio();
+  }
+
+  const deleteInterest = (item) => {
+    handleDeleteInterest(item)    
   }
 
   return (
@@ -74,7 +81,17 @@ const ProfileAside = ({data, user, setShowBioForm , showBioForm, setShowInterest
               )}
 
               {data.interest && data.interest.map((item, index)=> (
-                  <h4 className="text-sm mx-auto md:mx-0  font-semibold text-gray-600 mb-1" key={index}>{item}</h4>
+                <div className="flex" key={index}>
+                  <h4 className="text-sm mx-auto md:mx-0 font-semibold text-gray-600 mb-1"> {item} </h4>
+                  {isInterestLoading && <p className='animate-pules'>Removing...</p>}
+                  {user?._id === data._id && (
+                    <button
+                        onClick={()=>deleteInterest(item)}
+                        className='flex flex-row items-center justify-center bg-gray-100 rounded-full p-1 text-gray-400 ml-5 text-sm'
+                    ><AiOutlineClose />
+                    </button>
+                  )}
+                </div>
               ))}
 
               <div>
