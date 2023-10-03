@@ -244,7 +244,7 @@ const ImageDetailsPage = () => {
           </div>
         </div>
       </div>
-      <h2 className='container mx-auto font-bold text-3xl text-center md:text-left my-5 pointer-events-none'>More photos like this</h2>
+      <h2 className='container mx-auto font-bold text-3xl text-center md:text-left mt-[100px] md:mt-5 mb-5 pointer-events-none'>More photos like this</h2>
       <div className='container mx-auto lg:mb-5'>
         <ImageSuggestions category={imageData.image.category} />
       </div>
