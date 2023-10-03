@@ -1,12 +1,18 @@
 import React from 'react';
 import { Form, Link, useRouteLoaderData } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
-import { BiLogInCircle, BiPowerOff } from "react-icons/bi";
+import { BiLogInCircle, BiPowerOff, BiMenu } from "react-icons/bi";
+import { AiOutlineClose } from "react-icons/ai";
+import { useState } from 'react';
 
 
 const MainNavigation = () => {
   
   const token = useRouteLoaderData('root');
+  const [showNavMenu, setShowNavMenu] = useState(false);
+  const toggleNavMenu = () => {
+    setShowNavMenu(!showNavMenu);
+  }
   
   let decoded;
   if (token){
@@ -25,6 +31,21 @@ const MainNavigation = () => {
           className='p-3 border-none rounded-full text-md tracking-wide md:flex flex-row justify-end items-center md:px-5 md:py-1 md:rounded-lg bg-sky-900 md:shadow-lg md:shadow-gray-900 border border-sky-900 ease-in duration-150 hover:bg-sky-900/75 hover:shadow-none md:tracking-widest md:text-lg'
         ><BiLogInCircle className='md:mr-2' /> <span className='hidden md:block'>Sign in</span>
         </Link>
+      )}
+      {token && (
+        showNavMenu ? (
+          <button
+            onClick={toggleNavMenu}  
+            className='p-3 border-none rounded-full text-md tracking-wide flex flex-row justify-end items-center md:hidden bg-sky-900 border border-sky-900'
+          ><BiMenu />
+          </button>
+        ) : (
+          <button
+            onClick={toggleNavMenu}  
+            className='p-3 border-none rounded-full text-md tracking-wide flex flex-row justify-end items-center md:hidden bg-sky-900 border border-sky-900'
+          ><AiOutlineClose />
+          </button>
+        )
       )}
       <nav className={`${token ? 'flex' : 'hidden'} flex-col gap-3 md:gap-0 md:flex-row flex justify-${token ? 'between' : 'end'} items-center min-w-[300px]`} style={{fontFamily: 'Quicksand'}}>
         {token && <Link to='/' className='font-bold tracking-widest'>Home</Link>}
