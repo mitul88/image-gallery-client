@@ -1,6 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const CategoryNavigation = ({categoryData}) => {
+  
+  const navigate = useNavigate()
+
+  const selectEvent = (e) => {
+    const value = e.target.value;
+    const innerText = e.target.innerText;
+    if(!value || !innerText) {
+      navigate(`/`)
+    }
+    navigate(`?category=${innerText.toLowerCase()}&id=${value}`)
+  }
+
   return (
     <>
     <div style={{fontFamily: "Quicksand"}} className='hidden md:block w-96 min-w-[700px] lg:min-w-[800px] md:flex flex-row justify-between mx-auto my-0 md:my-5 shadow shadow-md border border-gray-200 rounded-lg bg-white'>
@@ -13,9 +25,9 @@ const CategoryNavigation = ({categoryData}) => {
     <div className="block md:hidden">
       <label htmlFor="category" className='text-white bg-sky-900 px-5 py-2 rounded-l-md ml-5'>Filter Category:</label>
       <select name="category" id="category" className='mr-5 mt-5 bg-white text-gray-600 px-5 py-2 w-60 sm:w-96 rounded-r-md'>
-        <option value="">All</option>
+        <option onClick={selectEvent} value="">All</option>
       {categoryData.map(category => (
-        <option key={category._id} value={category._id} className='bg-white text-gray-600'>{category.name.toUpperCase()}</option>
+        <option key={category._id} value={category._id} className='bg-white text-gray-600' onClick={selectEvent}>{category.name.toUpperCase()}</option>
       ))}
       </select>
     </div>
